@@ -1,6 +1,7 @@
 {
   nixpkgs,
   nixpkgs-unstable,
+  home-manager-unstable,
   stateVersion,
   inputs,
   secrets,

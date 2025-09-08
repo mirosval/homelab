@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     secrets = {
       # This pattern is because the repo is private
       # it relies on git being configured with gh auth setup-git
@@ -23,6 +27,7 @@
     inputs@{
       nixpkgs,
       nixpkgs-unstable,
+      home-manager-unstable,
       agenix,
       secrets,
       nixidy,
@@ -36,6 +41,7 @@
         inherit
           nixpkgs
           nixpkgs-unstable
+          home-manager-unstable
           stateVersion
           inputs
           secrets
