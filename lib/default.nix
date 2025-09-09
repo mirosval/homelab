@@ -1,19 +1,13 @@
 {
   nixpkgs,
   nixpkgs-unstable,
-  home-manager-unstable,
+  home-manager,
   stateVersion,
   inputs,
   secrets,
   agenix,
   nixidy,
 }:
-let
-  homeManagerConfig = import ../home {
-    pkgs = nixpkgs;
-    inherit inputs;
-  };
-in
 {
   linuxSystem =
     {
@@ -23,7 +17,7 @@ in
       stateVersion,
       homeManagerConfig,
     }:
-    nixpkgs-unstable.lib.nixosSystem {
+    nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
         (
@@ -39,10 +33,10 @@ in
         {
           secrets.enable = true;
         }
-        home-manager-unstable.nixosModules.home-manager
+        home-manager.nixosModules.home-manager
         (
           let
-            pkgs = import nixpkgs-unstable { inherit system; };
+            pkgs = import nixpkgs { inherit system; };
           in
           {
             users.users."${user}".home = "/home/${user}";
