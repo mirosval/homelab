@@ -8,6 +8,19 @@ guard-%:
 
 print-%  : ; @echo $*=$($*)
 
+.PHONY: nixos-switch
+nixos-switch: guard-HOST
+	nixos-rebuild switch --show-trace --flake .#$(HOST)
+
+.PHONY: check
+check:
+	nix flake check
+
+.PHONY: lint
+lint:
+	nix run nixpkgs#statix check
+	nix run nixpkgs#deadnix
+
 .PHONY: k3s-build-manifests
 k3s-build-manifests:
 	nix run .#nixidy -- build .#homelab

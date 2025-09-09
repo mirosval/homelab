@@ -50,24 +50,23 @@
           ;
       };
     in
-    (flake-utils.lib.eachDefaultSystem (
+    {
+      nixosConfigurations = {
+        homelab-01 = lib.linuxSystem {
+          system = "x86_64-linux";
+          host = "homelab-01";
+          user = "miro";
+          stateVersion = "25.05";
+          homeManagerConfig = mirosval.lib.home;
+        };
+      };
+    }
+    // (flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = import nixpkgs { inherit system; };
       in
       {
-        nixosConfigurations = {
-          homelab-01 = lib.linuxSystem {
-            system = "x86_64-linux";
-            host = "homelab-01";
-            user = "miro";
-            stateVersion = "25.05";
-            homeManagerConfig = mirosval.lib.home {
-              inherit pkgs;
-              inherit inputs;
-            };
-          };
-        };
 
         nixidyEnvs = nixidy.lib.mkEnvs {
           inherit pkgs;

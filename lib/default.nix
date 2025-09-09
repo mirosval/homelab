@@ -21,6 +21,7 @@ in
       host,
       user,
       stateVersion,
+      homeManagerConfig,
     }:
     nixpkgs-unstable.lib.nixosSystem {
       inherit system;
@@ -39,14 +40,21 @@ in
           secrets.enable = true;
         }
         home-manager-unstable.nixosModules.home-manager
-        {
-          users.users."${user}".home = "/home/${user}";
-          home-manager.users."${user}" = homeManagerConfig;
-          home-manager.extraSpecialArgs = {
-            inherit inputs;
+        (
+          let
             pkgs = import nixpkgs-unstable { inherit system; };
-          };
-        }
+          in
+          {
+            users.users."${user}".home = "/home/${user}";
+            home-manager.users."${user}" = homeManagerConfig {
+              inherit pkgs;
+            };
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              inherit pkgs;
+            };
+          }
+        )
       ];
       specialArgs = { inherit inputs; };
     };
