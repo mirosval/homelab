@@ -53,10 +53,10 @@
     {
       nixosConfigurations = {
         homelab-01 = lib.linuxSystem {
+          inherit stateVersion;
           system = "x86_64-linux";
           host = "homelab-01";
           user = "miro";
-          stateVersion = "25.05";
           homeManagerConfig = mirosval.lib.home;
         };
       };
