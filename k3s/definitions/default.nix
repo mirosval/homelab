@@ -4,5 +4,6 @@
   nixidy.target.rootPath = "./k3s/generated_manifests";
   imports = [
     ./argocd.nix
+    ./metallb.nix
   ];
 }

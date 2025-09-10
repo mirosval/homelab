@@ -79,6 +79,10 @@
 
         devShells.default = pkgs.mkShell {
           buildInputs = [ nixidy.packages.${system}.default ];
+          packages = with pkgs; [
+            kubectl
+            k9s
+          ];
         };
       }
     ));

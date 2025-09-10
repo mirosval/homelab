@@ -26,7 +26,7 @@
     "agenix_2": {
       "inputs": {
         "darwin": "darwin_2",
-        "home-manager": "home-manager_2",
+        "home-manager": "home-manager_3",
         "nixpkgs": [
           "mirosval",
           "nixpkgs"
@@ -50,7 +50,7 @@
     "agenix_3": {
       "inputs": {
         "darwin": "darwin_4",
-        "home-manager": "home-manager_4",
+        "home-manager": "home-manager_5",
         "nixpkgs": [
           "mirosval",
           "secrets",
@@ -74,7 +74,7 @@
     "agenix_4": {
       "inputs": {
         "darwin": "darwin_5",
-        "home-manager": "home-manager_5",
+        "home-manager": "home-manager_6",
         "nixpkgs": [
           "secrets",
           "nixpkgs"
@@ -344,27 +344,6 @@
     "home-manager-unstable": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1757256385,
-        "narHash": "sha256-WK7tOhWwr15mipcckhDg2no/eSpM1nIh4C9le8HgHhk=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "f35703b412c67b48e97beb6e27a6ab96a084cd37",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "master",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "home-manager-unstable_2": {
-      "inputs": {
-        "nixpkgs": [
           "mirosval",
           "nixpkgs-unstable"
         ]
@@ -387,6 +366,27 @@
     "home-manager_2": {
       "inputs": {
         "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1756679287,
+        "narHash": "sha256-Xd1vOeY9ccDf5VtVK12yM0FS6qqvfUop8UQlxEB+gTQ=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "07fc025fe10487dd80f2ec694f1cd790e752d0e8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "release-25.05",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "home-manager_3": {
+      "inputs": {
+        "nixpkgs": [
           "mirosval",
           "agenix",
           "nixpkgs"
@@ -406,7 +406,7 @@
         "type": "github"
       }
     },
-    "home-manager_3": {
+    "home-manager_4": {
       "inputs": {
         "nixpkgs": [
           "mirosval",
@@ -428,7 +428,7 @@
         "type": "github"
       }
     },
-    "home-manager_4": {
+    "home-manager_5": {
       "inputs": {
         "nixpkgs": [
           "mirosval",
@@ -451,7 +451,7 @@
         "type": "github"
       }
     },
-    "home-manager_5": {
+    "home-manager_6": {
       "inputs": {
         "nixpkgs": [
           "secrets",
@@ -478,8 +478,8 @@
         "agenix": "agenix_2",
         "blocklist": "blocklist",
         "darwin": "darwin_3",
-        "home-manager": "home-manager_3",
-        "home-manager-unstable": "home-manager-unstable_2",
+        "home-manager": "home-manager_4",
+        "home-manager-unstable": "home-manager-unstable",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "secrets": "secrets"
@@ -617,7 +617,7 @@
       "inputs": {
         "agenix": "agenix",
         "flake-utils": "flake-utils",
-        "home-manager-unstable": "home-manager-unstable",
+        "home-manager": "home-manager_2",
         "mirosval": "mirosval",
         "nixidy": "nixidy",
         "nixpkgs": "nixpkgs_3",

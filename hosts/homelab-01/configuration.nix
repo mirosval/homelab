@@ -93,14 +93,14 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    neovim
-    git
+    bottom
     gh
+    git
     gnumake
     kubectl
     kubernetes
+    neovim
     nettools
-    bottom
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

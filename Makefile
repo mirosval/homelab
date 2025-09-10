@@ -21,10 +21,15 @@ lint:
 	nix run nixpkgs#statix check
 	nix run nixpkgs#deadnix
 
-.PHONY: k3s-build-manifests
-k3s-build-manifests:
+.PHONY: build-manifests
+build-manifests:
 	nix run .#nixidy -- build .#homelab
 
-.PHONY: k3s-generate-manifests
-k3s-generate-manifests:
+.PHONY: generate-manifests
+generate-manifests:
 	nix run .#nixidy -- switch .#homelab
+
+.PHONY: apply-manifests
+apply-manifests:
+	nix run .#nixidy -- apply .#homelab
+
