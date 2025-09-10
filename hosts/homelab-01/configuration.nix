@@ -101,6 +101,7 @@
     kubernetes
     neovim
     nettools
+    openiscsi # needed for longhorn
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
