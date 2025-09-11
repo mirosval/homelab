@@ -4,6 +4,7 @@
 
 {
   pkgs,
+  config,
   ...
 }:
 
@@ -68,6 +69,14 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
+  services.openiscsi = {
+    enable = true;
+    name = "${config.networking.hostName}-initiatorhost";
+  };
+  systemd.services.iscsid.serviceConfig = {
+    PrivateMounts = "yes";
+    BindPaths = "/run/current-system/sw/bin:/bin";
+  };
 
   systemd.tmpfiles.rules = [
     "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
