@@ -21,8 +21,8 @@ lint:
 	nix run nixpkgs#statix check
 	nix run nixpkgs#deadnix
 
-.PHONY: build-manifests
-build-manifests:
+.PHONY: check-manifests
+check-manifests:
 	nix run .#nixidy -- build .#homelab
 
 .PHONY: generate-manifests

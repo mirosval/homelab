@@ -69,6 +69,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
+  systemd.tmpfiles.rules = [
+    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+  ];
+
   security.sudo.wheelNeedsPassword = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
