@@ -69,6 +69,8 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
+
+  # These are for longhorn:
   services.openiscsi = {
     enable = true;
     name = "${config.networking.hostName}-initiatorhost";
@@ -77,10 +79,10 @@
     PrivateMounts = "yes";
     BindPaths = "/run/current-system/sw/bin:/bin";
   };
-
   systemd.tmpfiles.rules = [
     "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
   ];
+  # end special longhorn settings
 
   security.sudo.wheelNeedsPassword = false;
 

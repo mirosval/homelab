@@ -26,6 +26,10 @@
                   mountPath = "/config";
                   name = "home-assistant-config-volume";
                 }
+                {
+                  mountPath = "/run/dbus";
+                  name = "d-bus";
+                }
               ];
             };
             hostNetwork = true;
@@ -34,6 +38,10 @@
               {
                 name = "home-assistant-config-volume";
                 persistentVolumeClaim.claimName = "home-assistant-pvc";
+              }
+              {
+                name = "d-bus";
+                hostPath.path = "/run/dbus";
               }
             ];
           };
