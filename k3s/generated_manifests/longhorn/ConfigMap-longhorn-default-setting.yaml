@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
   default-setting.yaml: |-
+    default-data-path: /mnt/data/longhorn
     priority-class: longhorn-critical
     disable-revision-counter: true
 kind: ConfigMap

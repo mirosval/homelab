@@ -7,5 +7,6 @@
     ./homeassistant.nix
     ./longhorn.nix
     ./metallb.nix
+    ./sealedsecrets.nix
   ];
 }

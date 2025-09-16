@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-assistant
+  namespace: home-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-assistant
+  template:
+    metadata:
+      labels:
+        app: home-assistant
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Europe/Berlin
+          image: ghcr.io/home-assistant/home-assistant:stable
+          name: home-assistant
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /config
+              name: home-assistant-config-volume
+            - mountPath: /run/dbus
+              name: d-bus
+      hostNetwork: true
+      nodeSelector:
+        environment: zigbee
+      volumes:
+        - name: home-assistant-config-volume
+          persistentVolumeClaim:
+            claimName: home-assistant-pvc
+        - hostPath:
+            path: /run/dbus
+          name: d-bus
