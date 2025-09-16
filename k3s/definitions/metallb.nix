@@ -12,5 +12,13 @@
       };
       values = { };
     };
+
+    resources.ipAddressPools.pool.spec.addresses = [
+      "10.42.1.0/24"
+    ];
+
+    resources.l2Advertisements.pool.spec.ipAddressPools = [
+      "pool"
+    ];
   };
 }
