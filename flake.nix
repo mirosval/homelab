@@ -18,7 +18,7 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixidy.url = "github:arnarg/nixidy";
+    nixidy.url = "github:mirosval/nixidy";
     flake-utils.url = "github:numtide/flake-utils";
     mirosval.url = "github:mirosval/dotfiles";
   };
@@ -75,7 +75,21 @@
           };
         };
 
-        packages.nixidy = nixidy.packages.${system}.default;
+        packages = {
+          nixidy = nixidy.packages.${system}.default;
+          generators.metallb = nixidy.packages.${system}.generators.fromCRD {
+            name = "metallb";
+            src = pkgs.fetchFromGitHub {
+              owner = "metallb";
+              repo = "metallb";
+              rev = "v0.15";
+              hash = "sha256-7jptqytou6Rv4BTcHIzFh++o/O8ojL7Z9b1fHWwQl+U=";
+            };
+            crds = [
+              "config/manifests/metallb-native.yaml"
+            ];
+          };
+        };
 
         devShells.default = pkgs.mkShell {
           buildInputs = [ nixidy.packages.${system}.default ];

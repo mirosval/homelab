@@ -21,6 +21,11 @@ lint:
 	nix run nixpkgs#statix check
 	nix run nixpkgs#deadnix
 
+.PHONY: generate-nixidy-resources
+generate-nixidy-resources:
+	nix build .#generators.metallb
+	cp result lib/generated/k8s-metallb-gen.nix
+
 .PHONY: check-manifests
 check-manifests:
 	nix run .#nixidy -- build .#homelab
