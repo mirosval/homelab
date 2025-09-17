@@ -3,7 +3,8 @@
   nixidy.target.branch = "master";
   nixidy.target.rootPath = "./k3s/generated_manifests";
   nixidy.applicationImports = [
-    ../../lib/generated/k8s-metallb-gen.nix
+    ../../lib/generated/metallb.nix
+    ../../lib/generated/traefik.nix
   ];
   imports = [
     ./argocd.nix

@@ -77,6 +77,7 @@
 
         packages = {
           nixidy = nixidy.packages.${system}.default;
+
           generators.metallb = nixidy.packages.${system}.generators.fromCRD {
             name = "metallb";
             src = pkgs.fetchFromGitHub {
@@ -87,6 +88,19 @@
             };
             crds = [
               "config/manifests/metallb-native.yaml"
+            ];
+          };
+
+          generators.traefik = nixidy.packages.${system}.generators.fromCRD {
+            name = "traefik";
+            src = pkgs.fetchFromGitHub {
+              owner = "traefik";
+              repo = "traefik-helm-chart";
+              rev = "crds_v1.11.0";
+              hash = "sha256-hk68hR2sBnJUC3iwYoNs9hdvbHz40OHU9gtnrAyRMoE=";
+            };
+            crds = [
+              "traefik-crds/crds-files/traefik/traefik.io_ingressroutes.yaml"
             ];
           };
         };

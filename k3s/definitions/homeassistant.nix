@@ -66,6 +66,16 @@
         storageClassName = "longhorn";
       };
 
+      ingressRoutes.home-assistant.spec = {
+        entryPoints = [ "websecure" ];
+        routes = [
+          {
+            match = "Host(`home-assistant.doma.lol`)";
+            kind = "Rule";
+            services.home-assistant.port = 8123;
+          }
+        ];
+      };
     };
   };
 }
