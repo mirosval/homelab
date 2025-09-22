@@ -48,6 +48,9 @@ spec:
             - --providers.kubernetesingress
             - --providers.kubernetesingress.allowEmptyServices=true
             - --providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik
+            - --entryPoints.web.http.redirections.entryPoint.to=:443
+            - --entryPoints.web.http.redirections.entryPoint.scheme=https
+            - --entryPoints.web.http.redirections.entryPoint.permanent=true
             - --entryPoints.websecure.http.tls=true
             - --log.level=INFO
           env:
@@ -59,6 +62,16 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            - name: PORKBUN_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: PORKBUN_API_KEY
+                  name: lets-encrypt
+            - name: PORKBUN_SECRET_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: PORKBUN_SECRET_API_KEY
+                  name: lets-encrypt
           image: docker.io/traefik:v3.5.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -107,14 +120,27 @@ spec:
             - mountPath: /tmp
               name: tmp
       hostNetwork: false
+      initContainers:
+        - command:
+            - sh
+            - -c
+            - touch /data/acme.json; chmod -v 600 /data/acme.json
+          image: busybox:latest
+          name: volume-permissions
+          volumeMounts:
+            - mountPath: /data
+              name: data
       securityContext:
+        fsGroup: 65532
+        fsGroupChangePolicy: OnRootMismatch
         runAsGroup: 65532
         runAsNonRoot: true
         runAsUser: 65532
       serviceAccountName: traefik
       terminationGracePeriodSeconds: 60
       volumes:
-        - emptyDir: {}
-          name: data
+        - name: data
+          persistentVolumeClaim:
+            claimName: traefik
         - emptyDir: {}
           name: tmp
