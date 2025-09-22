@@ -12,3 +12,9 @@ spec:
       services:
         - name: home-assistant
           port: 8123
+  tls:
+    certResolver: letsencrypt
+    domains:
+      - main: doma.lol
+        sans:
+          - '*.doma.lol'

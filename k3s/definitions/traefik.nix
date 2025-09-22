@@ -17,7 +17,8 @@
           storageClass = "longhorn";
         };
         # configure acme resolver
-        certificateResolvers.letsencrypt.acme = {
+        certificatesResolvers.letsencrypt.acme = {
+          email = "admin@doma.lol";
           dnsChallenge = {
             provider = "porkbun";
             resolvers = [
@@ -72,6 +73,8 @@
           scheme = "https";
           permanent = true;
         };
+        # logging
+        logs.access.enabled = true;
       };
     };
   };

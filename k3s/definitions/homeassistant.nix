@@ -31,6 +31,7 @@
                   name = "d-bus";
                 }
               ];
+              ports = [ { containerPort = 8123; } ];
             };
             hostNetwork = true;
             nodeSelector.environment = "zigbee";
@@ -54,12 +55,6 @@
         type = "ClusterIP";
       };
 
-      # services.home-assistant-lb.spec = {
-      #   ports.home-assistant-web.port = 8123;
-      #   selector.app = "home-assistant";
-      #   type = "LoadBalancer";
-      # };
-
       persistentVolumeClaims.home-assistant-pvc.spec = {
         accessModes = [ "ReadWriteOnce" ];
         resources.requests.storage = "512Mi";
@@ -75,6 +70,15 @@
             services.home-assistant.port = 8123;
           }
         ];
+        tls = {
+          certResolver = "letsencrypt";
+          domains = [
+            {
+              main = "doma.lol";
+              sans = [ "*.doma.lol" ];
+            }
+          ];
+        };
       };
     };
   };
