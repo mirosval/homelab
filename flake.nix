@@ -18,7 +18,7 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixidy.url = "github:mirosval/nixidy";
+    nixidy.url = "github:arnarg/nixidy";
     flake-utils.url = "github:numtide/flake-utils";
     mirosval.url = "github:mirosval/dotfiles";
   };
