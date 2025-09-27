@@ -26,7 +26,7 @@ spec:
       annotations:
         checksum.config.adlists: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
         checksum.config.blacklist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
-        checksum.config.dnsmasqConfig: 31496ff464b397d41e8bd13fd56d8196ab2b97982356497b8210240f66381e9
+        checksum.config.dnsmasqConfig: 8737d16055a6a4232b53ce380520fcbd718c5f7e8e6e5409dd180f440ec4e51
         checksum.config.regex: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
         checksum.config.staticDhcpConfig: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
         checksum.config.whitelist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
@@ -51,7 +51,7 @@ spec:
             - name: FTLCONF_dns_listeningMode
               value: all
             - name: FTLCONF_dns_upstreams
-              value: 8.8.8.8;8.8.4.4
+              value: 10.42.0.1;8.8.4.4
           image: pihole/pihole:2025.08.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -108,8 +108,9 @@ spec:
       dnsPolicy: None
       hostNetwork: false
       volumes:
-        - emptyDir: {}
-          name: config
+        - name: config
+          persistentVolumeClaim:
+            claimName: pihole
         - configMap:
             defaultMode: 420
             name: pihole-custom-dnsmasq

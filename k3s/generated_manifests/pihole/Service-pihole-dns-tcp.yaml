@@ -1,6 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    metallb.universe.tf/address-pool: pool
+    metallb.universe.tf/allow-shared-ip: pihole-svc
   labels:
     app: pihole
     app.kubernetes.io/name: pihole
@@ -11,6 +14,7 @@ metadata:
   namespace: pihole
 spec:
   externalTrafficPolicy: Local
+  loadBalancerIP: 10.42.1.250
   ports:
     - name: dns
       port: 53
@@ -19,4 +23,4 @@ spec:
   selector:
     app: pihole
     release: pihole
-  type: NodePort
+  type: LoadBalancer

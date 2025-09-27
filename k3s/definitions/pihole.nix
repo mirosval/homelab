@@ -10,6 +10,37 @@
         version = "v2.34.0";
         chartHash = "sha256-nhvifpDdM8MoxF43cJAi6o+il2BbHX+udVAvvm1PukM=";
       };
+
+      values = {
+        replicaCount = 1;
+
+        DNS1 = "10.42.0.1";
+
+        persistentVolumeClaim = {
+          enabled = true;
+          storageClass = "longhorn";
+        };
+
+        serviceWeb = {
+          loadBalancerIP = "10.42.1.250";
+          annotations = {
+            "metallb.universe.tf/address-pool" = "pool";
+            "metallb.universe.tf/allow-shared-ip" = "pihole-svc";
+          };
+          type = "LoadBalancer";
+        };
+
+        serviceDns = {
+          loadBalancerIP = "10.42.1.250";
+          annotations = {
+            "metallb.universe.tf/address-pool" = "pool";
+            "metallb.universe.tf/allow-shared-ip" = "pihole-svc";
+          };
+          type = "LoadBalancer";
+        };
+
+        admin.existingSecret = "pihole-password";
+      };
     };
   };
 }
