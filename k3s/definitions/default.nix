@@ -11,6 +11,7 @@
     ./homeassistant.nix
     ./longhorn.nix
     ./metallb.nix
+    ./pihole.nix
     ./sealedsecrets.nix
     ./tailscale.nix
     ./traefik.nix
