@@ -22,12 +22,7 @@
         };
 
         serviceWeb = {
-          loadBalancerIP = "10.42.1.250";
-          annotations = {
-            "metallb.universe.tf/address-pool" = "pool";
-            "metallb.universe.tf/allow-shared-ip" = "pihole-svc";
-          };
-          type = "LoadBalancer";
+          type = "ClusterIP";
         };
 
         serviceDns = {
@@ -40,6 +35,37 @@
         };
 
         admin.existingSecret = "pihole-password";
+      };
+    };
+
+    resources = {
+      ingressRoutes.pihole.spec = {
+        entryPoints = [ "websecure" ];
+        routes = [
+          {
+            match = "Host(`pihole.doma.lol`)";
+            kind = "Rule";
+            services.pihole-web.port = 80;
+          }
+        ];
+        tls = {
+          certResolver = "letsencrypt";
+          domains = [
+            {
+              main = "doma.lol";
+              sans = [ "*.doma.lol" ];
+            }
+          ];
+        };
+      };
+
+      ingresses.pihole.spec = {
+        ingressClassName = "traefik";
+        rules = [
+          {
+            host = "pihole.doma.lol";
+          }
+        ];
       };
     };
   };
