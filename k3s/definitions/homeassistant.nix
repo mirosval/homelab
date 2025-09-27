@@ -80,6 +80,15 @@
           ];
         };
       };
+
+      ingresses.home-assistant.spec = {
+        ingressClassName = "traefik";
+        rules = [
+          {
+            host = "home-assistant.doma.lol";
+          }
+        ];
+      };
     };
   };
 }
