@@ -12,6 +12,7 @@
     ./longhorn.nix
     ./metallb.nix
     ./sealedsecrets.nix
+    ./tailscale.nix
     ./traefik.nix
   ];
 }
