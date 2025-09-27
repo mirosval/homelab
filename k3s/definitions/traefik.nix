@@ -77,5 +77,14 @@
         logs.access.enabled = true;
       };
     };
+
+    resources.ingresses.tailscale.spec = {
+      defaultBackend.service = {
+        name = "traefik";
+        port.name = "websecure";
+      };
+      ingressClassName = "tailscale";
+      tls = [ { hosts = [ "homelab" ]; } ];
+    };
   };
 }

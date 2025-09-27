@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tailscale
+  namespace: traefik
+spec:
+  defaultBackend:
+    service:
+      name: traefik
+      port:
+        name: websecure
+  ingressClassName: tailscale
+  tls:
+    - hosts:
+        - homelab
