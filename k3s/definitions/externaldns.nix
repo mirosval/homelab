@@ -12,6 +12,25 @@
       };
 
       values = {
+        provider = "pihole";
+        txtOwnerId = "homelab";
+        env = [
+          {
+            name = "EXTERNAL_DNS_PIHOLE_API_VERSION";
+            value = "6";
+          }
+          {
+            name = "EXTERNAL_DNS_PIHOLE_SERVER";
+            value = "http://pihole-web.pihole.svc.cluster.local";
+          }
+          {
+            name = "EXTERNAL_DNS_PIHOLE_PASSWORD";
+            valueFrom.secretKeyRef = {
+              name = "pihole-password";
+              key = "password";
+            };
+          }
+        ];
       };
     };
   };
