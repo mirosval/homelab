@@ -8,6 +8,7 @@
   ];
   imports = [
     ./argocd.nix
+    ./externaldns.nix
     ./homeassistant.nix
     ./longhorn.nix
     ./metallb.nix
