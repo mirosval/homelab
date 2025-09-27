@@ -5,9 +5,9 @@ metadata:
   namespace: pihole
 spec:
   entryPoints:
-    - https
+    - websecure
   routes:
-    - kind: Rult
+    - kind: Rule
       match: Host(`pihole.doma.lol`)
       services:
         - name: pihole-web

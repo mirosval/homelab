@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, util, ... }:
 {
   applications.pihole = {
     namespace = "pihole";
@@ -38,6 +38,11 @@
       };
     };
 
+    # resources = util.mkDomaIngress {
+    #   domain = "pihole";
+    #   serviceName = "pihole-web";
+    #   serviePort = 80;
+    # };
     resources = {
       ingressRoutes.pihole.spec = {
         entryPoints = [ "websecure" ];
