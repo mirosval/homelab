@@ -11,5 +11,5 @@ spec:
   source:
     path: ./k3s/generated_manifests/argocd
     repoURL: https://github.com/mirosval/homelab.git
-    targetRevision: master
+    targetRevision: main
   syncPolicy: {}
