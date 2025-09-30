@@ -8,6 +8,7 @@
   ];
   imports = [
     ./argocd.nix
+    ./csi-driver-smb.nix
     ./externaldns.nix
     ./homeassistant.nix
     ./longhorn.nix
