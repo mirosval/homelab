@@ -39,3 +39,7 @@ generate-nixidy-resources: lib/generated/metallb.nix lib/generated/traefik.nix
 lib/generated/%.nix:
 	nix build .#generators.$*
 	install --mode 644 --no-target-directory result $@
+
+.PHONY: generate-bootstrap
+generate-bootstrap:
+	nix run .#nixidy -- bootstrap .#homelab > k3s/generated_manifests/bootstrap.yaml
