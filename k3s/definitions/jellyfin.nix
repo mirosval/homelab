@@ -26,6 +26,37 @@
     };
 
     resources = {
+
+      persistentVolumes.pv-movies-ro = {
+        metadata.annotations = {
+          "pv.kubernetes.io/provisioned-by" = "smb.csi.k8s.io";
+        };
+        spec = {
+          capacity.storage = "10Gi";
+          accessModes = [ "ReadOnlyMany" ];
+          storageClassName = "smb";
+          mountOptions = [
+            "dir_mode=0777"
+            "file_mode=0444"
+          ];
+          csi = {
+            driver = "smb.csi.k8s.io";
+            volumeHandle = "10.42.0.3/smb_movies_ro";
+            volumeAttributes.source = "//10.42.0.3/smb_movies_ro";
+            nodeStageSecretRef = {
+              name = "smb-movies-ro";
+            };
+          };
+        };
+      };
+
+      persistentVolumeClaims.pvc-movies-ro.spec = {
+        accessModes = [ "ReadOnlyMany" ];
+        volumeName = "pv-movies-ro";
+        storageClassName = "smb";
+        resources.requests.storage = "10Gi";
+      };
+
       ingressRoutes.jellyfin.spec = {
         entryPoints = [ "websecure" ];
         routes = [
