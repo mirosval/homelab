@@ -13,6 +13,7 @@ spec:
     driver: smb.csi.k8s.io
     nodeStageSecretRef:
       name: smb-movies-ro
+      namespace: jellyfin
     volumeAttributes:
       source: //10.42.0.3/smb_movies_ro
     volumeHandle: 10.42.0.3/smb_movies_ro

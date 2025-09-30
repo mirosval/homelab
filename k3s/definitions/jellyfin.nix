@@ -45,6 +45,7 @@
             volumeAttributes.source = "//10.42.0.3/smb_movies_ro";
             nodeStageSecretRef = {
               name = "smb-movies-ro";
+              namespace = "jellyfin";
             };
           };
         };
