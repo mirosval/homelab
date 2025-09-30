@@ -11,6 +11,7 @@
     ./csi-driver-smb.nix
     ./externaldns.nix
     ./homeassistant.nix
+    ./jellyfin.nix
     ./longhorn.nix
     ./metallb.nix
     ./pihole.nix
