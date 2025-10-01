@@ -51,6 +51,32 @@
         };
       };
 
+      roles.csi-smb-secret-access.rules = [
+        {
+          apiGroups = [ "" ];
+          resources = [ "secrets" ];
+          verbs = [
+            "get"
+            "list"
+          ];
+        }
+      ];
+
+      roleBindings.csi-smb-secret-access-binding = {
+        subjects = [
+          {
+            kind = "ServiceAccount";
+            name = "csi-smb-node-sa";
+            namespace = "csi-driver-smb";
+          }
+        ];
+        roleRef = {
+          kind = "Role";
+          name = "csi-smb-secret-access";
+          apiGroup = "rbac.authorization.k8s.io";
+        };
+      };
+
       persistentVolumeClaims.pvc-movies-ro.spec = {
         accessModes = [ "ReadOnlyMany" ];
         volumeName = "pv-movies-ro";
