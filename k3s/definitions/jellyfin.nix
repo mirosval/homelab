@@ -42,7 +42,7 @@
           csi = {
             driver = "smb.csi.k8s.io";
             volumeHandle = "10.42.0.3/smb_movies_ro";
-            volumeAttributes.source = "//10.42.0.3/smb_movies_ro";
+            volumeAttributes.source = "//10.42.0.3/movies";
             nodeStageSecretRef = {
               name = "smb-movies-ro";
               namespace = "jellyfin";
