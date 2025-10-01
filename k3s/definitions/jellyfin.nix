@@ -104,11 +104,11 @@
         };
       };
 
-      ingresses.pihole.spec = {
+      ingresses.jellyfin.spec = {
         ingressClassName = "traefik";
         rules = [
           {
-            host = "pihole.doma.lol";
+            host = "jellyfin.doma.lol";
           }
         ];
       };
