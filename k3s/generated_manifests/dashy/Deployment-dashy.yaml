@@ -23,10 +23,9 @@ spec:
             - containerPort: 8080
               name: http
           volumeMounts:
-            - mountPath: /app/user-data/conf.yml
-              name: dashy-config
+            - mountPath: /app/user-data
+              name: config
               readOnly: true
-              subPath: conf.yml
       volumes:
         - configMap:
             name: dashy-config

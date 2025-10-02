@@ -18,14 +18,14 @@
               env = {
                 NODE_ENV.value = "production";
               };
-              volumeMounts = {
-                config = {
-                  name = "dashy-config";
-                  mountPath = "/app/user-data/conf.yml";
-                  subPath = "conf.yml";
+
+              volumeMounts = [
+                {
+                  name = "config";
+                  mountPath = "/app/user-data";
                   readOnly = true;
-                };
-              };
+                }
+              ];
             };
             volumes.config.configMap.name = "dashy-config";
           };
