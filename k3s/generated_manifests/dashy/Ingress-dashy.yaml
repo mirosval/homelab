@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashy
+  namespace: dashy
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: dashy.doma.lol

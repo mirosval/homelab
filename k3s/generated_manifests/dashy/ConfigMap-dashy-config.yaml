@@ -1,0 +1,26 @@
+apiVersion: v1
+data:
+  conf.yml: |
+    pageInfo:
+      title: Homelab Dashboard
+      description: Welcome to your homelab
+      logo: https://i.ibb.co/qWWpD0v/astro-dab-128.png
+
+    appConfig:
+      theme: dark
+      layout: auto
+      iconSize: medium
+      language: en
+
+    sections:
+      - name: Home
+        icon: fas fa-home
+        items:
+          - title: Example Service
+            description: Add your services here
+            icon: fas fa-server
+            url: https://example.com
+kind: ConfigMap
+metadata:
+  name: dashy-config
+  namespace: dashy

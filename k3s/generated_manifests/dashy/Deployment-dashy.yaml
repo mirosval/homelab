@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashy
+  namespace: dashy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashy
+  template:
+    metadata:
+      labels:
+        app: dashy
+    spec:
+      containers:
+        - env:
+            - name: NODE_ENV
+              value: production
+          image: lissy93/dashy@sha256:4942e50304530fb449176c3d45bd51b8b4e00bcedb6f8d369c9dda17611c6a81
+          name: dashy
+          ports:
+            - containerPort: 8080
+              name: http
+          volumeMounts:
+            - mountPath: /app/user-data/conf.yml
+              name: dashy-config
+              readOnly: true
+              subPath: conf.yml
+      volumes:
+        - configMap:
+            name: dashy-config
+          name: config

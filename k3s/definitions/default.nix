@@ -9,6 +9,7 @@
   imports = [
     ./argocd.nix
     ./csi-driver-smb.nix
+    ./dashy.nix
     ./externaldns.nix
     ./homeassistant.nix
     ./jellyfin.nix
