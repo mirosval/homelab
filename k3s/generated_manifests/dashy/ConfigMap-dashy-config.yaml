@@ -2,24 +2,82 @@ apiVersion: v1
 data:
   conf.yml: |
     pageInfo:
-      title: Homelab Dashboard
-      description: Welcome to your homelab
-      logo: https://i.ibb.co/qWWpD0v/astro-dab-128.png
+      title: doma.lol
 
     appConfig:
-      theme: dark
-      layout: auto
-      iconSize: medium
-      language: en
+      statusCheck: true
+      theme: crayola
+      preventWriteToDisk: true
+      disableConfiguration: true
+      hideComponents:
+        hideSettings: true
+        hideFooter: true
 
     sections:
-      - name: Home
-        icon: fas fa-home
+      - name: Apps
         items:
-          - title: Example Service
-            description: Add your services here
-            icon: fas fa-server
-            url: https://example.com
+          - title: Immich
+            description: View and manage photos
+            url: https://immich.doma.lol
+            icon: hl-immich
+          - title: Linkding
+            description: Link Aggregator
+            url: https://linkding.doma.lol
+            icon: hl-linkding
+          - title: Mealie
+            description: Meal Planner
+            url: https://mealie.doma.lol
+            icon: hl-mealie
+          - title: Jellyfin
+            description: Watch Movies and TV Shows
+            url: https://jellyfin.doma.lol
+            icon: hl-jellyfin
+          - title: Paperless
+            description: Documents management
+            url: https://paperless.doma.lol
+            icon: hl-paperless-ngx
+          - title: Home Assistant
+            description: Automation
+            url: https://home-assistant.doma.lol
+            icon: hl-home-assistant
+      - name: Network
+        items:
+          - title: ISP
+            description: Router Settings
+            url: http://192.168.0.1
+            icon: hl-router
+          - title: UniFi
+            description: Network setup
+            url: http://10.42.0.1
+            icon: hl-unifi
+          - title: Traefik
+            description: Reverse Proxy
+            url: http://butters.doma.lol:8080
+            icon: hl-traefik
+          - title: Pihole
+            description: DNS Blocking
+            url: https://pihole.doma.lol
+            icon: hl-pihole
+      - name: Homelab
+        items:
+          - title: Longhorn
+            description: Volume Management
+            url: http://longhorn.doma.lol
+            icon: hl-longhorn
+          - title: Argo
+            description: GitOps
+            url: http://argo.doma.lol
+            icon: hl-argo
+          - title: Forgejo
+            description: Git Hosting
+            url: http://forgejo.doma.lol
+            icon: hl-forgejo
+      - name: Monitoring
+        items:
+          - title: Grafana
+            description: Fancy Graphs
+            url: http://grafana.doma.lol
+            icon: hl-grafana
 kind: ConfigMap
 metadata:
   name: dashy-config
