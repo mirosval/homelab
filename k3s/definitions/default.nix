@@ -8,6 +8,7 @@
   ];
   imports = [
     ./argocd.nix
+    ./cloudnativepg.nix
     ./csi-driver-smb.nix
     ./dashy.nix
     ./externaldns.nix
