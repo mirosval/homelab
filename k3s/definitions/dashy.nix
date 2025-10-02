@@ -110,7 +110,7 @@
                 - title: Argo
                   description: GitOps
                   url: http://argo.doma.lol
-                  icon: hl-argo
+                  icon: hl-argocd
                 - title: Forgejo
                   description: Git Hosting
                   url: http://forgejo.doma.lol

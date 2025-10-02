@@ -112,6 +112,7 @@
             k9s
             kubectl
             popeye
+            renovate
           ];
         };
       }
