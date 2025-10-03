@@ -33,6 +33,10 @@ generate-manifests:
 apply-manifests:
 	nix run .#nixidy -- apply .#homelab
 
+.PHONY: clean-nixidy-resources
+clean-nixidy-resources:
+	rm -f lib/generated/*.nix
+
 .PHONY: generate-nixidy-resources
 generate-nixidy-resources: lib/generated/metallb.nix lib/generated/traefik.nix lib/generated/cnpg.nix
 

@@ -109,11 +109,11 @@
             src = pkgs.fetchFromGitHub {
               owner = "cloudnative-pg";
               repo = "cloudnative-pg";
-              rev = "v1.26.1";
-              hash = "sha256-CRQrHW8mJ6yzWCLfU/4G10w1h/Hp1+7UqlZ9ziQqjNs=";
+              rev = "v1.27.0";
+              hash = "sha256-GDPVrGWawzuOjTCtXIDFH2XUQ6Ot3i+w4x61QK3TyIE=";
             };
             crds = [
-              "releases/cnpg-1.26.1.yaml"
+              "releases/cnpg-1.27.0.yaml"
             ];
           };
 

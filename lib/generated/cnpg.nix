@@ -5135,6 +5135,16 @@ let
           description = "If this parameter is true, the user will be able to invoke `ALTER SYSTEM`\non this CloudNativePG Cluster.\nThis should only be used for debugging and troubleshooting.\nDefaults to false.";
           type = (types.nullOr types.bool);
         };
+        "extensions" = mkOption {
+          description = "The configuration of the extensions to be added";
+          type = (
+            types.nullOr (
+              coerceAttrsOfSubmodulesToListByKey "postgresql.cnpg.io.v1.ClusterSpecPostgresqlExtensions" "name"
+                [ ]
+            )
+          );
+          apply = attrsToList;
+        };
         "ldap" = mkOption {
           description = "Options to specify LDAP configuration";
           type = (types.nullOr (submoduleOf "postgresql.cnpg.io.v1.ClusterSpecPostgresqlLdap"));
@@ -5175,6 +5185,7 @@ let
 
       config = {
         "enableAlterSystem" = mkOverride 1002 null;
+        "extensions" = mkOverride 1002 null;
         "ldap" = mkOverride 1002 null;
         "parameters" = mkOverride 1002 null;
         "pg_hba" = mkOverride 1002 null;
@@ -5183,6 +5194,57 @@ let
         "shared_preload_libraries" = mkOverride 1002 null;
         "syncReplicaElectionConstraint" = mkOverride 1002 null;
         "synchronous" = mkOverride 1002 null;
+      };
+
+    };
+    "postgresql.cnpg.io.v1.ClusterSpecPostgresqlExtensions" = {
+
+      options = {
+        "dynamic_library_path" = mkOption {
+          description = "The list of directories inside the image which should be added to dynamic_library_path.\nIf not defined, defaults to \"/lib\".";
+          type = (types.nullOr (types.listOf types.str));
+        };
+        "extension_control_path" = mkOption {
+          description = "The list of directories inside the image which should be added to extension_control_path.\nIf not defined, defaults to \"/share\".";
+          type = (types.nullOr (types.listOf types.str));
+        };
+        "image" = mkOption {
+          description = "The image containing the extension, required";
+          type = (submoduleOf "postgresql.cnpg.io.v1.ClusterSpecPostgresqlExtensionsImage");
+        };
+        "ld_library_path" = mkOption {
+          description = "The list of directories inside the image which should be added to ld_library_path.";
+          type = (types.nullOr (types.listOf types.str));
+        };
+        "name" = mkOption {
+          description = "The name of the extension, required";
+          type = types.str;
+        };
+      };
+
+      config = {
+        "dynamic_library_path" = mkOverride 1002 null;
+        "extension_control_path" = mkOverride 1002 null;
+        "ld_library_path" = mkOverride 1002 null;
+      };
+
+    };
+    "postgresql.cnpg.io.v1.ClusterSpecPostgresqlExtensionsImage" = {
+
+      options = {
+        "pullPolicy" = mkOption {
+          description = "Policy for pulling OCI objects. Possible values are:\nAlways: the kubelet always attempts to pull the reference. Container creation will fail If the pull fails.\nNever: the kubelet never pulls the reference and only uses a local image or artifact. Container creation will fail if the reference isn't present.\nIfNotPresent: the kubelet pulls if the reference isn't already present on disk. Container creation will fail if the reference isn't present and the pull fails.\nDefaults to Always if :latest tag is specified, or IfNotPresent otherwise.";
+          type = (types.nullOr types.str);
+        };
+        "reference" = mkOption {
+          description = "Required: Image or artifact reference to be used.\nBehaves in the same way as pod.spec.containers[*].image.\nPull secrets will be assembled in the same way as for the container image by looking up node credentials, SA image pull secrets, and pod spec image pull secrets.\nMore info: https://kubernetes.io/docs/concepts/containers/images\nThis field is optional to allow higher level config management to default or override\ncontainer images in workload controllers like Deployments and StatefulSets.";
+          type = (types.nullOr types.str);
+        };
+      };
+
+      config = {
+        "pullPolicy" = mkOverride 1002 null;
+        "reference" = mkOverride 1002 null;
       };
 
     };
@@ -5395,6 +5457,10 @@ let
           description = "Number of seconds after the container has started before liveness probes are initiated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes";
           type = (types.nullOr types.int);
         };
+        "isolationCheck" = mkOption {
+          description = "Configure the feature that extends the liveness probe for a primary\ninstance. In addition to the basic checks, this verifies whether the\nprimary is isolated from the Kubernetes API server and from its\nreplicas, ensuring that it can be safely shut down if network\npartition or API unavailability is detected. Enabled by default.";
+          type = (types.nullOr (submoduleOf "postgresql.cnpg.io.v1.ClusterSpecProbesLivenessIsolationCheck"));
+        };
         "periodSeconds" = mkOption {
           description = "How often (in seconds) to perform the probe.\nDefault to 10 seconds. Minimum value is 1.";
           type = (types.nullOr types.int);
@@ -5416,10 +5482,35 @@ let
       config = {
         "failureThreshold" = mkOverride 1002 null;
         "initialDelaySeconds" = mkOverride 1002 null;
+        "isolationCheck" = mkOverride 1002 null;
         "periodSeconds" = mkOverride 1002 null;
         "successThreshold" = mkOverride 1002 null;
         "terminationGracePeriodSeconds" = mkOverride 1002 null;
         "timeoutSeconds" = mkOverride 1002 null;
+      };
+
+    };
+    "postgresql.cnpg.io.v1.ClusterSpecProbesLivenessIsolationCheck" = {
+
+      options = {
+        "connectionTimeout" = mkOption {
+          description = "Timeout in milliseconds for connections during the primary isolation check";
+          type = (types.nullOr types.int);
+        };
+        "enabled" = mkOption {
+          description = "Whether primary isolation checking is enabled for the liveness probe";
+          type = (types.nullOr types.bool);
+        };
+        "requestTimeout" = mkOption {
+          description = "Timeout in milliseconds for requests during the primary isolation check";
+          type = (types.nullOr types.int);
+        };
+      };
+
+      config = {
+        "connectionTimeout" = mkOverride 1002 null;
+        "enabled" = mkOverride 1002 null;
+        "requestTimeout" = mkOverride 1002 null;
       };
 
     };
@@ -5983,11 +6074,16 @@ let
           description = "Prefix for replication slots managed by the operator for HA.\nIt may only contain lower case letters, numbers, and the underscore character.\nThis can only be set at creation time. By default set to `_cnpg_`.";
           type = (types.nullOr types.str);
         };
+        "synchronizeLogicalDecoding" = mkOption {
+          description = "When enabled, the operator automatically manages synchronization of logical\ndecoding (replication) slots across high-availability clusters.\n\nRequires one of the following conditions:\n- PostgreSQL version 17 or later\n- PostgreSQL version < 17 with pg_failover_slots extension enabled";
+          type = (types.nullOr types.bool);
+        };
       };
 
       config = {
         "enabled" = mkOverride 1002 null;
         "slotPrefix" = mkOverride 1002 null;
+        "synchronizeLogicalDecoding" = mkOverride 1002 null;
       };
 
     };
@@ -7790,6 +7886,63 @@ let
 
       config = {
         "message" = mkOverride 1002 null;
+      };
+
+    };
+    "postgresql.cnpg.io.v1.FailoverQuorum" = {
+
+      options = {
+        "apiVersion" = mkOption {
+          description = "APIVersion defines the versioned schema of this representation of an object.\nServers should convert recognized schemas to the latest internal value, and\nmay reject unrecognized values.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources";
+          type = (types.nullOr types.str);
+        };
+        "kind" = mkOption {
+          description = "Kind is a string value representing the REST resource this object represents.\nServers may infer this from the endpoint the client submits requests to.\nCannot be updated.\nIn CamelCase.\nMore info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds";
+          type = (types.nullOr types.str);
+        };
+        "metadata" = mkOption {
+          description = "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata";
+          type = (globalSubmoduleOf "io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta");
+        };
+        "status" = mkOption {
+          description = "Most recently observed status of the failover quorum.";
+          type = (types.nullOr (submoduleOf "postgresql.cnpg.io.v1.FailoverQuorumStatus"));
+        };
+      };
+
+      config = {
+        "apiVersion" = mkOverride 1002 null;
+        "kind" = mkOverride 1002 null;
+        "status" = mkOverride 1002 null;
+      };
+
+    };
+    "postgresql.cnpg.io.v1.FailoverQuorumStatus" = {
+
+      options = {
+        "method" = mkOption {
+          description = "Contains the latest reported Method value.";
+          type = (types.nullOr types.str);
+        };
+        "primary" = mkOption {
+          description = "Primary is the name of the primary instance that updated\nthis object the latest time.";
+          type = (types.nullOr types.str);
+        };
+        "standbyNames" = mkOption {
+          description = "StandbyNames is the list of potentially synchronous\ninstance names.";
+          type = (types.nullOr (types.listOf types.str));
+        };
+        "standbyNumber" = mkOption {
+          description = "StandbyNumber is the number of synchronous standbys that transactions\nneed to wait for replies from.";
+          type = (types.nullOr types.int);
+        };
+      };
+
+      config = {
+        "method" = mkOverride 1002 null;
+        "primary" = mkOverride 1002 null;
+        "standbyNames" = mkOverride 1002 null;
+        "standbyNumber" = mkOverride 1002 null;
       };
 
     };
@@ -17597,6 +17750,17 @@ in
         );
         default = { };
       };
+      "postgresql.cnpg.io"."v1"."FailoverQuorum" = mkOption {
+        description = "FailoverQuorum contains the information about the current failover\nquorum status of a PG cluster. It is updated by the instance manager\nof the primary node and reset to zero by the operator to trigger\nan update.";
+        type = (
+          types.attrsOf (
+            submoduleForDefinition "postgresql.cnpg.io.v1.FailoverQuorum" "failoverquorums" "FailoverQuorum"
+              "postgresql.cnpg.io"
+              "v1"
+          )
+        );
+        default = { };
+      };
       "postgresql.cnpg.io"."v1"."ImageCatalog" = mkOption {
         description = "ImageCatalog is the Schema for the imagecatalogs API";
         type = (
@@ -17694,6 +17858,17 @@ in
         );
         default = { };
       };
+      "failoverQuorums" = mkOption {
+        description = "FailoverQuorum contains the information about the current failover\nquorum status of a PG cluster. It is updated by the instance manager\nof the primary node and reset to zero by the operator to trigger\nan update.";
+        type = (
+          types.attrsOf (
+            submoduleForDefinition "postgresql.cnpg.io.v1.FailoverQuorum" "failoverquorums" "FailoverQuorum"
+              "postgresql.cnpg.io"
+              "v1"
+          )
+        );
+        default = { };
+      };
       "imageCatalogs" = mkOption {
         description = "ImageCatalog is the Schema for the imagecatalogs API";
         type = (
@@ -17786,6 +17961,13 @@ in
         attrName = "databases";
       }
       {
+        name = "failoverquorums";
+        group = "postgresql.cnpg.io";
+        version = "v1";
+        kind = "FailoverQuorum";
+        attrName = "failoverQuorums";
+      }
+      {
         name = "imagecatalogs";
         group = "postgresql.cnpg.io";
         version = "v1";
@@ -17829,6 +18011,7 @@ in
         mkAliasDefinitions
           options.resources."clusterImageCatalogs";
       "postgresql.cnpg.io"."v1"."Database" = mkAliasDefinitions options.resources."databases";
+      "postgresql.cnpg.io"."v1"."FailoverQuorum" = mkAliasDefinitions options.resources."failoverQuorums";
       "postgresql.cnpg.io"."v1"."ImageCatalog" = mkAliasDefinitions options.resources."imageCatalogs";
       "postgresql.cnpg.io"."v1"."Pooler" = mkAliasDefinitions options.resources."poolers";
       "postgresql.cnpg.io"."v1"."Publication" = mkAliasDefinitions options.resources."publications";
@@ -17858,6 +18041,12 @@ in
         group = "postgresql.cnpg.io";
         version = "v1";
         kind = "Database";
+        default.metadata.namespace = lib.mkDefault config.namespace;
+      }
+      {
+        group = "postgresql.cnpg.io";
+        version = "v1";
+        kind = "FailoverQuorum";
         default.metadata.namespace = lib.mkDefault config.namespace;
       }
       {
