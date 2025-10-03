@@ -34,7 +34,7 @@ apply-manifests:
 	nix run .#nixidy -- apply .#homelab
 
 .PHONY: generate-nixidy-resources
-generate-nixidy-resources: lib/generated/metallb.nix lib/generated/traefik.nix
+generate-nixidy-resources: lib/generated/metallb.nix lib/generated/traefik.nix lib/generated/cnpg.nix
 
 lib/generated/%.nix:
 	nix build .#generators.$*

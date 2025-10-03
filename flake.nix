@@ -104,6 +104,19 @@
             ];
           };
 
+          generators.cnpg = nixidy.packages.${system}.generators.fromCRD {
+            name = "cloudnative-pg";
+            src = pkgs.fetchFromGitHub {
+              owner = "cloudnative-pg";
+              repo = "cloudnative-pg";
+              rev = "v1.26.1";
+              hash = "sha256-CRQrHW8mJ6yzWCLfU/4G10w1h/Hp1+7UqlZ9ziQqjNs=";
+            };
+            crds = [
+              "releases/cnpg-1.26.1.yaml"
+            ];
+          };
+
         };
 
         devShells.default = pkgs.mkShell {
