@@ -5,6 +5,7 @@
   nixidy.applicationImports = [
     ../../lib/generated/metallb.nix
     ../../lib/generated/traefik.nix
+    ../../lib/generated/cnpg.nix
   ];
   imports = [
     ./argocd.nix
@@ -13,6 +14,7 @@
     ./dashy.nix
     ./externaldns.nix
     ./homeassistant.nix
+    ./immich.nix
     ./jellyfin.nix
     ./longhorn.nix
     ./metallb.nix
