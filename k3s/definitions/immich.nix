@@ -179,7 +179,7 @@
           {
             match = "Host(`immich.doma.lol`)";
             kind = "Rule";
-            services.http.port = 80;
+            services.immich-server.port = 2283;
           }
         ];
         tls = {

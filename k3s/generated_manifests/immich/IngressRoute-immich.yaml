@@ -10,8 +10,8 @@ spec:
     - kind: Rule
       match: Host(`immich.doma.lol`)
       services:
-        - name: http
-          port: 80
+        - name: immich-server
+          port: 2283
   tls:
     certResolver: letsencrypt
     domains:
