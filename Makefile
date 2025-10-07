@@ -47,3 +47,4 @@ lib/generated/%.nix:
 .PHONY: generate-bootstrap
 generate-bootstrap:
 	nix run .#nixidy -- bootstrap .#homelab > k3s/generated_manifests/bootstrap.yaml
+
