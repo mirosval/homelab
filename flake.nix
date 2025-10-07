@@ -125,6 +125,7 @@
             k9s
             kubectl
             popeye
+            postgresql_17
             renovate
           ];
         };

@@ -18,6 +18,7 @@
           "create extension vchord cascade;"
           "create extension earthdistance cascade;"
         ];
+        enableSuperuserAccess = true;
       };
 
       persistentVolumes.pv-photos-ro = {
