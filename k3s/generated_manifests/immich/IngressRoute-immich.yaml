@@ -1,0 +1,20 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: immich
+  namespace: immich
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`immich.doma.lol`)
+      services:
+        - name: http
+          port: 80
+  tls:
+    certResolver: letsencrypt
+    domains:
+      - main: doma.lol
+        sans:
+          - '*.doma.lol'
