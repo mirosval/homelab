@@ -17,13 +17,16 @@
         immich = {
           persistence.library.existingClaim = "pvc-immich-rw";
         };
-        valkey = {
-          enabled = true;
-          persistence.data = {
-            type = "pvc";
-            storageClass = "longhorn";
-          };
-        };
+        redis.enabled = true;
+        # This is on current master, but not yet released in 0.9.3
+        # TODO: Replace redis with this
+        # valkey = {
+        #   enabled = true;
+        #   persistence.data = {
+        #     type = "pvc";
+        #     storageClass = "longhorn";
+        #   };
+        # };
         machine-learning = {
           persistence.cache = {
             type = "pvc";
