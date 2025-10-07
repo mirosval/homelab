@@ -53,7 +53,14 @@
       # Patch generated resources
       deployments.immich-server.spec.template.spec = {
         containers.immich-server = {
-          env.DB_URL_FILE.value = "/etc/secret/fqdn-uri";
+          env = lib.mkForce {
+            DB_HOSTNAME_FILE.value = "/etc/secret/host";
+            DB_DATABASE_NAME.value = "postgres";
+            DB_USERNAME_FILE.value = "/etc/secret/user";
+            DB_PASSWORD_FILE.value = "/etc/secret/password";
+            IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
+            REDIS_HOSTNAME.value = "immich-redis-master";
+          };
           volumeMounts = [
             {
               name = "photos";
