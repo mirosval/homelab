@@ -81,6 +81,10 @@
         volumes.dburl.secret.secretName = "immich-database-superuser";
       };
 
+      # fix the old redit immage
+      statefulSets.immich-redis-master.spec.template.spec.containers.redis.image =
+        lib.mkForce "docker.io/bitnamilegacy/redis:7.4.3-debian-12-r0";
+
       roles.csi-smb-secret-access.rules = [
         {
           apiGroups = [ "" ];
