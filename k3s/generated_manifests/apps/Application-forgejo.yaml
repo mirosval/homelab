@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: forgejo
+  namespace: argocd
+spec:
+  destination:
+    namespace: forgejo
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k3s/generated_manifests/forgejo
+    repoURL: https://github.com/mirosval/homelab.git
+    targetRevision: main
+  syncPolicy: {}

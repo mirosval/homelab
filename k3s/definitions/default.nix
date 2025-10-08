@@ -13,6 +13,7 @@
     ./csi-driver-smb.nix
     ./dashy.nix
     ./externaldns.nix
+    ./forgejo.nix
     ./homeassistant.nix
     ./immich.nix
     ./jellyfin.nix
