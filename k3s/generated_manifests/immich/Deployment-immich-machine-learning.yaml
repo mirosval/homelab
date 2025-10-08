@@ -28,19 +28,17 @@ spec:
       containers:
         - env:
             - name: DB_DATABASE_NAME
-              value: immich
-            - name: DB_HOSTNAME
-              value: immich-postgresql
-            - name: DB_PASSWORD
-              value: immich
-            - name: DB_USERNAME
-              value: immich
+              value: postgres
+            - name: DB_HOSTNAME_FILE
+              value: /etc/secret/host
+            - name: DB_PASSWORD_FILE
+              value: /etc/secret/password
+            - name: DB_USERNAME_FILE
+              value: /etc/secret/user
             - name: IMMICH_MACHINE_LEARNING_URL
               value: http://immich-machine-learning:3003
             - name: REDIS_HOSTNAME
               value: immich-redis-master
-            - name: TRANSFORMERS_CACHE
-              value: /cache
           image: ghcr.io/immich-app/immich-machine-learning:v1.139.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -75,6 +73,9 @@ spec:
           volumeMounts:
             - mountPath: /cache
               name: cache
+            - mountPath: /etc/secret
+              name: dburl
+              readOnly: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       serviceAccountName: default
@@ -82,3 +83,6 @@ spec:
         - name: cache
           persistentVolumeClaim:
             claimName: immich-machine-learning-cache
+        - name: dburl
+          secret:
+            secretName: immich-database-superuser

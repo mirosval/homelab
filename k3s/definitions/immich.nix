@@ -31,6 +31,7 @@
           persistence.cache = {
             type = "pvc";
             storageClass = "longhorn";
+            accessMode = "ReadWriteOnce";
           };
         };
       };
@@ -52,33 +53,55 @@
         ];
         enableSuperuserAccess = true;
       };
-
       # Patch generated resources
-      deployments.immich-server.spec.template.spec = {
-        containers.immich-server = {
-          env = lib.mkForce {
-            DB_HOSTNAME_FILE.value = "/etc/secret/host";
-            DB_DATABASE_NAME.value = "postgres";
-            DB_USERNAME_FILE.value = "/etc/secret/user";
-            DB_PASSWORD_FILE.value = "/etc/secret/password";
-            IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
-            REDIS_HOSTNAME.value = "immich-redis-master";
+      deployments = {
+
+        immich-server.spec.template.spec = {
+          containers.immich-server = {
+            env = lib.mkForce {
+              DB_HOSTNAME_FILE.value = "/etc/secret/host";
+              DB_DATABASE_NAME.value = "postgres";
+              DB_USERNAME_FILE.value = "/etc/secret/user";
+              DB_PASSWORD_FILE.value = "/etc/secret/password";
+              IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
+              REDIS_HOSTNAME.value = "immich-redis-master";
+            };
+            volumeMounts = [
+              {
+                name = "photos";
+                readOnly = true;
+                mountPath = "/mnt/media/rodina";
+              }
+              {
+                name = "dburl";
+                readOnly = true;
+                mountPath = "/etc/secret";
+              }
+            ];
           };
-          volumeMounts = [
-            {
-              name = "photos";
-              readOnly = true;
-              mountPath = "/mnt/media/rodina";
-            }
-            {
-              name = "dburl";
-              readOnly = true;
-              mountPath = "/etc/secret";
-            }
-          ];
+          volumes.photos.persistentVolumeClaim.claimName = "pvc-photos-ro";
+          volumes.dburl.secret.secretName = "immich-database-superuser";
         };
-        volumes.photos.persistentVolumeClaim.claimName = "pvc-photos-ro";
-        volumes.dburl.secret.secretName = "immich-database-superuser";
+        immich-machine-learning.spec.template.spec = {
+          containers.immich-machine-learning = {
+            env = lib.mkForce {
+              DB_HOSTNAME_FILE.value = "/etc/secret/host";
+              DB_DATABASE_NAME.value = "postgres";
+              DB_USERNAME_FILE.value = "/etc/secret/user";
+              DB_PASSWORD_FILE.value = "/etc/secret/password";
+              IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
+              REDIS_HOSTNAME.value = "immich-redis-master";
+            };
+            volumeMounts = [
+              {
+                name = "dburl";
+                readOnly = true;
+                mountPath = "/etc/secret";
+              }
+            ];
+          };
+          volumes.dburl.secret.secretName = "immich-database-superuser";
+        };
       };
 
       # fix the old redit immage
