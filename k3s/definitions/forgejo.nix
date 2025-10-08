@@ -72,7 +72,7 @@
                   }
                   {
                     name = "FORGEJO_INSTANCE_URL";
-                    value = "http://forgejo-http.svc.cluster.local:3000";
+                    value = "http://forgejo-http.forgejo.svc.cluster.local:3000";
                   }
                 ];
                 volumeMounts = [
