@@ -87,7 +87,7 @@ spec:
                   key: token
                   name: forgejo-runner
             - name: FORGEJO_INSTANCE_URL
-              value: http://forgejo-http.svc.cluster.local:3000
+              value: http://forgejo-http.forgejo.svc.cluster.local:3000
           image: code.forgejo.org/forgejo/runner:6.4.0
           name: runner-register
           securityContext:
