@@ -16,7 +16,13 @@
           storageClass = "longhorn";
           hostnames = [ "forgejo.doma.lol" ];
         };
-        gitea.admin.existingSecret = "forgejo";
+        gitea = {
+          admin.existingSecret = "forgejo";
+          config.server = {
+            DOMAIN = "forgejo.doma.lol";
+            ROOT_URL = "https://forgejo.doma.lol";
+          };
+        };
       };
     };
 

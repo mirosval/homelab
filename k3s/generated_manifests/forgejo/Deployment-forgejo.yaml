@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 0b597f6743a1ba2cad75108522c36101609d772245e51e2e2816d72f63b73447
+        checksum/config: c46790543e49816a1c9408c5c88a514da9f7d3c0e669649dedd23b0161b74e85
       labels:
         app: forgejo
         app.kubernetes.io/instance: forgejo
