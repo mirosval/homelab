@@ -6,7 +6,6 @@
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true; # Easiest to use and most distros use this by default.
     nameservers = [ "127.0.0.1" ];
-    services.resolved.enable = false;
 
     firewall.enable = true;
     firewall.allowedTCPPorts = [
