@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: otel-collector
+    app.kubernetes.io/instance: hyperdx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: hdx-oss-v2
+    app.kubernetes.io/version: 2.6.0
+    helm.sh/chart: hdx-oss-v2-0.7.3
+  name: hyperdx-hdx-oss-v2-otel-collector
+  namespace: hyperdx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+      app.kubernetes.io/instance: hyperdx
+      app.kubernetes.io/name: hdx-oss-v2
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+        app.kubernetes.io/instance: hyperdx
+        app.kubernetes.io/name: hdx-oss-v2
+    spec:
+      containers:
+        - env:
+            - name: CLICKHOUSE_ENDPOINT
+              value: tcp://hyperdx-hdx-oss-v2-clickhouse:9000?dial_timeout=10s
+            - name: CLICKHOUSE_SERVER_ENDPOINT
+              value: hyperdx-hdx-oss-v2-clickhouse:9000
+            - name: CLICKHOUSE_PROMETHEUS_METRICS_ENDPOINT
+              value: hyperdx-hdx-oss-v2-clickhouse:9363
+            - name: OPAMP_SERVER_URL
+              value: http://hyperdx-hdx-oss-v2-app:4320
+            - name: HYPERDX_LOG_LEVEL
+              value: info
+            - name: HYPERDX_OTEL_EXPORTER_CLICKHOUSE_DATABASE
+              value: default
+            - name: HYPERDX_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: api-key
+                  name: hyperdx-hdx-oss-v2-app-secrets
+            - name: CLICKHOUSE_USER
+              value: otelcollector
+            - name: CLICKHOUSE_PASSWORD
+              value: otelcollectorpass
+          image: docker.hyperdx.io/hyperdx/hyperdx-otel-collector:2.6.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 13133
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+          name: otel-collector
+          ports:
+            - containerPort: 13133
+            - containerPort: 24225
+            - containerPort: 4317
+            - containerPort: 4318
+            - containerPort: 8888
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 13133
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5

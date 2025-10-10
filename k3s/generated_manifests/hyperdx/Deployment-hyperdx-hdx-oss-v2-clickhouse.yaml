@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: clickhouse
+    app.kubernetes.io/instance: hyperdx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: hdx-oss-v2
+    app.kubernetes.io/version: 2.6.0
+    helm.sh/chart: hdx-oss-v2-0.7.3
+  name: hyperdx-hdx-oss-v2-clickhouse
+  namespace: hyperdx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clickhouse
+      app.kubernetes.io/instance: hyperdx
+      app.kubernetes.io/name: hdx-oss-v2
+  template:
+    metadata:
+      labels:
+        app: clickhouse
+        app.kubernetes.io/instance: hyperdx
+        app.kubernetes.io/name: hdx-oss-v2
+    spec:
+      containers:
+        - env:
+            - name: CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT
+              value: "1"
+          image: clickhouse/clickhouse-server:24-alpine
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 8123
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+          name: clickhouse
+          ports:
+            - containerPort: 8123
+            - containerPort: 9000
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 8123
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            timeoutSeconds: 5
+          volumeMounts:
+            - mountPath: /etc/clickhouse-server/config.xml
+              name: config
+              subPath: config.xml
+            - mountPath: /etc/clickhouse-server/users.xml
+              name: users
+              subPath: users.xml
+            - mountPath: /var/lib/clickhouse
+              name: data
+            - mountPath: /var/log/clickhouse-server
+              name: logs
+      volumes:
+        - configMap:
+            name: hyperdx-hdx-oss-v2-clickhouse-config
+          name: config
+        - configMap:
+            name: hyperdx-hdx-oss-v2-clickhouse-users
+          name: users
+        - name: data
+          persistentVolumeClaim:
+            claimName: hyperdx-hdx-oss-v2-clickhouse-data
+        - name: logs
+          persistentVolumeClaim:
+            claimName: hyperdx-hdx-oss-v2-clickhouse-logs

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: hyperdx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: hdx-oss-v2
+    app.kubernetes.io/version: 2.6.0
+    helm.sh/chart: hdx-oss-v2-0.7.3
+  name: hyperdx-hdx-oss-v2-otel-collector
+  namespace: hyperdx
+spec:
+  ports:
+    - name: health
+      port: 13133
+      targetPort: 13133
+    - name: fluentd
+      port: 24225
+      targetPort: 24225
+    - name: otlp-grpc
+      port: 4317
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+    - name: metrics
+      port: 8888
+      targetPort: 8888
+  selector:
+    app: otel-collector
+    app.kubernetes.io/instance: hyperdx
+    app.kubernetes.io/name: hdx-oss-v2

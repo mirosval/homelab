@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hyperdx
+  namespace: argocd
+spec:
+  destination:
+    namespace: hyperdx
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k3s/generated_manifests/hyperdx
+    repoURL: https://github.com/mirosval/homelab.git
+    targetRevision: main
+  syncPolicy: {}

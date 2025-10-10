@@ -16,6 +16,7 @@
     ./externaldns.nix
     ./forgejo.nix
     ./homeassistant.nix
+    ./hyperdx.nix
     ./immich.nix
     ./jellyfin.nix
     ./longhorn.nix
