@@ -10,7 +10,7 @@
       "doma.lol.server" = ''
         doma.lol:53 {
           log
-          rewrite name regex (.*)\\.doma\\.lol traefik.traefik.svc.cluster.local
+          rewrite name regex (.*)\.doma\.lol traefik.traefik.svc.cluster.local
           forward . 127.0.0.1
         } 
       '';
