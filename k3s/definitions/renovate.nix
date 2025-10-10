@@ -46,6 +46,7 @@
             "miro/dazzle"
             "miro/homelab"
           ];
+          gitAuthor = "Renovate Bot <renovate@doma.lol>";
         };
       };
     };
