@@ -1,0 +1,20 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dazzle
+  namespace: dazzle
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`dazzle.doma.lol`)
+      services:
+        - name: dazzle-web
+          port: 80
+  tls:
+    certResolver: letsencrypt
+    domains:
+      - main: doma.lol
+        sans:
+          - '*.doma.lol'

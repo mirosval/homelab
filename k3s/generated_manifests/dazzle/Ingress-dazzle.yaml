@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dazzle
+  namespace: dazzle
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: dazzle.doma.lol

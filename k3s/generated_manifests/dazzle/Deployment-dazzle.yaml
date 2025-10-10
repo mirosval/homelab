@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dazzle
+  namespace: dazzle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dazzle
+  template:
+    metadata:
+      labels:
+        app: dazzle
+    spec:
+      containers:
+        - image: forgejo.doma.lol/miro/dazzle:latest
+          name: dashy
+          ports:
+            - containerPort: 3000
+              name: http

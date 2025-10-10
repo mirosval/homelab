@@ -13,6 +13,7 @@
     ./coredns-config.nix
     ./csi-driver-smb.nix
     ./dashy.nix
+    ./dazzle.nix
     ./externaldns.nix
     ./forgejo.nix
     ./homeassistant.nix
