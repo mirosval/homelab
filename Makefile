@@ -48,3 +48,5 @@ lib/generated/%.nix:
 generate-bootstrap:
 	nix run .#nixidy -- bootstrap .#homelab > k3s/generated_manifests/bootstrap.yaml
 
+debug-k8s:
+	kubectl run debug -i --rm --tty --image=alpine --restart=Never
