@@ -10,7 +10,7 @@ spec:
     - kind: Rule
       match: Host(`dazzle.doma.lol`)
       services:
-        - name: dazzle-web
+        - name: dazzle
           port: 80
   tls:
     certResolver: letsencrypt

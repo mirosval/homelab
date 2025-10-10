@@ -33,7 +33,7 @@
           {
             match = "Host(`dazzle.doma.lol`)";
             kind = "Rule";
-            services.dazzle-web.port = 80;
+            services.dazzle.port = 80;
           }
         ];
         tls = {
