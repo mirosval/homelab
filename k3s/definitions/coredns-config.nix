@@ -8,11 +8,11 @@
     resources.configMaps.coredns-custom.data = {
       "log.override" = "log";
       "doma.lol.server" = ''
-           doma.lol:53 {
+        doma.lol:53 {
           log
           rewrite name regex (.*)\\.doma\\.lol traefik.traefik.svc.cluster.local
           forward . 127.0.0.1
-        }   
+        } 
       '';
     };
   };
