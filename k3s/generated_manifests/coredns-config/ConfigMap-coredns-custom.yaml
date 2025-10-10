@@ -1,6 +1,6 @@
 apiVersion: v1
 data:
-  doma.lol.server: "doma.lol:53 {\n  log\n  rewrite name regex (.*)\\.doma\\.lol traefik.traefik.svc.cluster.local\n  forward . 127.0.0.1\n} \n"
+  doma.lol.server: "doma.lol:53 {\n  log\n  rewrite continue {\n    name regex (.*)\\.doma\\.lol traefik.traefik.svc.cluster.local\n    answer auto\n  }\n  forward . 127.0.0.1\n} \n"
   log.override: log
 kind: ConfigMap
 metadata:
