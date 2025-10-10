@@ -41,6 +41,7 @@
       configMaps.renovate-config.data = {
         "config.json" = builtins.toJSON {
           platform = "forgejo";
+          endpoint = "https://forgejo.doma.lol";
           repositories = [
             "miro/dazzle"
             "miro/homelab"
