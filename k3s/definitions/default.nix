@@ -21,6 +21,7 @@
     ./longhorn.nix
     ./metallb.nix
     ./pihole.nix
+    ./renovate.nix
     ./sealedsecrets.nix
     ./tailscale.nix
     ./traefik.nix

@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  config.json: '{"platform":"forgejo","repositories":["miro/dazzle","miro/homelab"]}'
+kind: ConfigMap
+metadata:
+  name: renovate-config
+  namespace: renovate
