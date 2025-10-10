@@ -83,6 +83,10 @@
                   description: Automation
                   url: https://home-assistant.doma.lol
                   icon: hl-home-assistant
+                - title: Dazzle
+                  description: Weather Display
+                  url: https://dazzle.doma.lol/dashboard
+                  icon: fa-umbrella
             - name: Network
               items:
                 - title: ISP
