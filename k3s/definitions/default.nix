@@ -10,6 +10,7 @@
   imports = [
     ./argocd.nix
     ./cloudnativepg.nix
+    ./coredns-config.nix
     ./csi-driver-smb.nix
     ./dashy.nix
     ./externaldns.nix

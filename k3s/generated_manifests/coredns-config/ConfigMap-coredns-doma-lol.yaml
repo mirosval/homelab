@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  rewritedomalol.override: rewrite name suffix .doma.lol traefik.traefik.svc.cluster.local.
+kind: ConfigMap
+metadata:
+  name: coredns-doma-lol
+  namespace: kube-system
