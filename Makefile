@@ -48,5 +48,7 @@ lib/generated/%.nix:
 generate-bootstrap:
 	nix run .#nixidy -- bootstrap .#homelab > k3s/generated_manifests/bootstrap.yaml
 
+# apk --update add bind-tools
+.PHONY: debug-k8s
 debug-k8s:
 	kubectl run debug -i --rm --tty --image=alpine --restart=Never
