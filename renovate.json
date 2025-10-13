@@ -3,9 +3,6 @@
   "nix": {
     "enabled": true
   },
-  "kubernetes": {
-    "managerFilePatterns": ["/k3s/generated_manifests/.+\\.yaml$/"]
-  },
   "customManagers": [
     {
       "customType": "regex",
@@ -14,6 +11,15 @@
         "chart = lib\\.helm\\.downloadHelmChart \\{\\s*repo = \"(?<registryUrl>https?://[^\"]+)\";\\s*chart = \"(?<depName>[^\"]+)\";\\s*version = \"(?<currentValue>[^\"]+)\";(?:\\s*chartHash = \"[^\"]*\";)?"
       ],
       "datasourceTemplate": "helm"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.nix$"],
+      "matchStrings": [
+        "image = \"(?<depName>[^:@\\s\"]+)(?::(?<currentValue>[^@\\s\"]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"",
+        "image\\s*=\\s*lib\\.mkForce \"(?<depName>[^:@\\s\"]+)(?::(?<currentValue>[^@\\s\"]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\""
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }
