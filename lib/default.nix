@@ -9,13 +9,15 @@
   nixidy,
 }:
 {
-  linuxSystem =
+  homelabHost =
     {
       system,
-      host,
+      hostName,
       user,
       stateVersion,
       homeManagerConfig,
+      nodeRole ? "server",
+      zigbeeNode ? false,
     }:
     nixpkgs.lib.nixosSystem {
       inherit system;
@@ -26,8 +28,7 @@
             config.system.stateVersion = stateVersion;
           }
         )
-        (../hosts + "/${host}/configuration.nix")
-        (../hosts + "/${host}/services")
+        (import ./homelab-host.nix { inherit hostName nodeRole zigbeeNode; })
         agenix.nixosModules.default
         secrets.nixosModules.secrets
         {

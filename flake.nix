@@ -49,16 +49,30 @@
           nixidy
           ;
       };
-    in
-    {
-      nixosConfigurations = {
-        homelab-01 = lib.linuxSystem {
-          inherit stateVersion;
+
+      mkHomelabHost =
+        hostName:
+        {
+          nodeRole ? "server",
+          zigbeeNode ? false,
+        }:
+        lib.homelabHost {
+          inherit
+            stateVersion
+            hostName
+            nodeRole
+            zigbeeNode
+            ;
           system = "x86_64-linux";
-          host = "homelab-01";
           user = "miro";
           homeManagerConfig = mirosval.lib.home;
         };
+    in
+    {
+      nixosConfigurations = {
+        homelab-01 = mkHomelabHost "homelab-01" { zigbeeNode = true; };
+        homelab-02 = mkHomelabHost "homelab-02" { };
+        homelab-03 = mkHomelabHost "homelab-03" { };
       };
     }
     // (flake-utils.lib.eachDefaultSystem (
