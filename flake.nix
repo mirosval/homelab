@@ -65,6 +65,7 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
+        unstable = import nixpkgs-unstable { inherit system; };
       in
       {
 
@@ -126,7 +127,7 @@
             kubectl
             popeye
             postgresql_17
-            renovate
+            unstable.renovate
           ];
         };
       }

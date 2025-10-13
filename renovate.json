@@ -2,5 +2,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "nix": {
     "enabled": true
-  }
+  },
+  "kubernetes": {
+    "managerFilePatterns": ["/k3s/generated_manifests/.+\\.yaml$/"]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.nix$"],
+      "matchStrings": [
+        "chart = lib\\.helm\\.downloadHelmChart \\{\\s*repo = \"(?<registryUrl>https?://[^\"]+)\";\\s*chart = \"(?<depName>[^\"]+)\";\\s*version = \"(?<currentValue>[^\"]+)\";(?:\\s*chartHash = \"[^\"]*\";)?"
+      ],
+      "datasourceTemplate": "helm"
+    }
+  ]
 }
