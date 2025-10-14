@@ -2,6 +2,7 @@
   hostName,
   nodeRole ? "server",
   zigbeeNode ? false,
+  k3s_init ? false,
 }:
 {
   lib,
@@ -15,16 +16,19 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/minimal.nix")
     ../${hostName}/disk-config.nix
-    # ../${hostName}/hardware-configuration.nix
-    (import ./services { 
-      inherit nodeRole zigbeeNode ;
-      k3s_token = config.secrets.homelab.k3s_token;
+    ../${hostName}/hardware-configuration.nix
+    (import ./services {
+      inherit nodeRole zigbeeNode k3s_init;
     })
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_instances" = 1024;
+    "fs.inotify.max_user_watches" = 524288;
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -78,6 +82,8 @@
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     bottom
+    dig
+    etcd
     kubectl
     neovim
     nettools
@@ -99,7 +105,12 @@
       22
       80
       443
+      2379 # k3s: etcd
+      2380 # k3s: etcd
       6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
+      10250 # k3s: Kubelet metrics
     ];
   };
+
+  system.stateVersion = "25.05";
 }

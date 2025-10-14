@@ -1,5 +1,11 @@
 ENSURE_FLAKES = --extra-experimental-features "nix-command flakes"
 
+HOMELAB_USER = miro
+HOMELAB_KEY = ~/.ssh/homelab-01_id_ed25519
+HOMELAB_01_IP = 10.42.0.4
+HOMELAB_02_IP = 10.42.0.5
+HOMELAB_03_IP = 10.42.0.6
+
 guard-%:
 	@ if [ "${${*}}" = "" ]; then \
                 echo "Environment variable $* not set"; \
@@ -12,6 +18,36 @@ print-%  : ; @echo $*=$($*)
 nixos-switch: guard-HOST
 	nixos-rebuild switch --show-trace --flake .#$(HOST)
 
+.PHONY: nixos-switch-homelab-01
+nixos-switch-homelab-01:
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+	--flake .#homelab-01 \
+	--fast \
+	--use-remote-sudo \
+	--build-host $(HOMELAB_USER)@$(HOMELAB_01_IP) \
+	--target-host $(HOMELAB_USER)@$(HOMELAB_01_IP) \
+	switch
+
+.PHONY: nixos-switch-homelab-02
+nixos-switch-homelab-02:
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+	--flake .#homelab-02 \
+	--fast \
+	--use-remote-sudo \
+	--build-host $(HOMELAB_USER)@$(HOMELAB_02_IP) \
+	--target-host $(HOMELAB_USER)@$(HOMELAB_02_IP) \
+	switch
+
+.PHONY: nixos-switch-homelab-03
+nixos-switch-homelab-03:
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+	--flake .#homelab-03 \
+	--fast \
+	--use-remote-sudo \
+	--build-host $(HOMELAB_USER)@$(HOMELAB_03_IP) \
+	--target-host $(HOMELAB_USER)@$(HOMELAB_03_IP) \
+	switch
+
 .PHONY: check
 check:
 	nix flake check
@@ -20,6 +56,10 @@ check:
 lint:
 	nix run nixpkgs#statix check
 	nix run nixpkgs#deadnix
+
+.PHONY: update-secrets
+update-secrets:
+	nix flake lock --update-input secrets
 
 .PHONY: check-manifests
 check-manifests:
@@ -47,6 +87,15 @@ lib/generated/%.nix:
 .PHONY: generate-bootstrap
 generate-bootstrap:
 	nix run .#nixidy -- bootstrap .#homelab > k3s/generated_manifests/bootstrap.yaml
+
+.PHONY: remote-nixos-switch
+remote-nixos-switch: guard-HOST
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild --flake .#$(HOST) --fast --use-remote-sudo --build-host $(HOMELAB_USER)@$(HOST) --target-host $(HOMELAB_USER)@$(HOST) switch
+
+.PHONY: remote-nixos-switch
+refresh-kube-config:
+	scp -i $(HOMELAB_KEY) $(HOMELAB_USER)@$(HOMELAB_01_IP):/etc/rancher/k3s/k3s.yaml ~/.kube/config
+	sed -i 's/127.0.0.1/$(HOMELAB_01_IP)/g' ~/.kube/config
 
 # apk --update add bind-tools curl
 .PHONY: debug-k8s

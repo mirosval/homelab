@@ -13,81 +13,25 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot = {
-
-    initrd.availableKernelModules = [
-      "ahci"
-      "dm-crypt"
-      "nvme"
-      "sd_mod"
-      "usb_storage"
-      "usbhid"
-      "xhci_pci"
-    ];
-    initrd.kernelModules = [ ];
-    kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
-    kernel.sysctl = {
-      "fs.inotify.max_user_instances" = 1024;
-      "fs.inotify.max_user_watches" = 524288;
-    };
-  };
-
-  fileSystems = {
-
-    "/" = {
-      device = "/dev/disk/by-uuid/d754959b-0e77-44b2-bf6f-1b5d2d56a7d5";
-      fsType = "ext4";
-    };
-
-    "/boot" = {
-      device = "/dev/disk/by-uuid/8D6D-3615";
-      fsType = "vfat";
-      options = [
-        "fmask=0077"
-        "dmask=0077"
-      ];
-    };
-
-    "/mnt/data" = {
-      device = "/dev/disk/by-uuid/e11d82d0-d91d-4dc9-89f7-69a4c9d4d0aa";
-      fsType = "ext4";
-    };
-  };
-
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/39674eeb-573e-4d79-8cae-899b54822dba"; }
+  boot.initrd.availableKernelModules = [
+    "ahci"
+    "dm-crypt"
+    "nvme"
+    "sd_mod"
+    "usb_storage"
+    "usbhid"
+    "xhci_pci"
   ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = true;
-    settings = {
-      General = {
-        # Shows battery charge of connected devices on supported
-        # Bluetooth adapters. Defaults to 'false'.
-        Experimental = true;
-        # When enabled other devices can connect faster to us, however
-        # the tradeoff is increased power consumption. Defaults to
-        # 'false'.
-        FastConnectable = true;
-      };
-      Policy = {
-        # Enable all controllers when they are found. This includes
-        # adapters present on start as well as adapters that are plugged
-        # in later on. Defaults to 'true'.
-        AutoEnable = true;
-      };
-    };
-  };
 }

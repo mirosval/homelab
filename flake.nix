@@ -41,43 +41,17 @@
       ...
     }:
     let
-      stateVersion = "25.05";
-      lib = import ./lib {
-        inherit
-          nixpkgs
-          nixpkgs-unstable
-          home-manager
-          stateVersion
-          inputs
-          secrets
-          agenix
-          nixidy
-          ;
-      };
+      system = "x86_64-linux";
+      hosts = [
+        "homelab-01"
+        "homelab-02"
+        # "homelab-03"
+      ];
+      mkHomelabNode =
+        hostName:
 
-      # mkHomelabHost =
-      #   hostName:
-      #   {
-      #     nodeRole ? "server",
-      #     zigbeeNode ? false,
-      #   }:
-      #   lib.homelabHost {
-      #     inherit
-      #       stateVersion
-      #       hostName
-      #       nodeRole
-      #       zigbeeNode
-      #       ;
-      #     system = "x86_64-linux";
-      #     user = "miro";
-      #     homeManagerConfig = mirosval.lib.home;
-      #   };
-    in
-    {
-      nixosConfigurations = {
-        # homelab-01 = mkHomelabHost "homelab-01" { zigbeeNode = true; };
-        homelab-02 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
+        nixpkgs.lib.nixosSystem {
+          inherit system;
           modules = [
             disko.nixosModules.disko
             agenix.nixosModules.default
@@ -86,14 +60,16 @@
               secrets.enable = true;
             }
             (import ./hosts/homelab/configuration.nix {
-              hostName = "homelab-02";
+              inherit hostName;
               nodeRole = "server";
-              zigbeeNode = false;
+              zigbeeNode = hostName == (builtins.elemAt hosts 0);
+              k3s_init = hostName == (builtins.elemAt hosts 0);
             })
           ];
         };
-        # homelab-03 = mkHomelabHost "homelab-03" { };
-      };
+    in
+    {
+      nixosConfigurations = nixpkgs.lib.genAttrs hosts mkHomelabNode;
     }
     // (flake-utils.lib.eachDefaultSystem (
       system:
@@ -162,6 +138,8 @@
             popeye
             postgresql_17
             unstable.renovate
+            unstable.nixos-anywhere
+            unstable.nixos-rebuild
           ];
         };
       }
