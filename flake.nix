@@ -21,6 +21,10 @@
     nixidy.url = "github:arnarg/nixidy";
     flake-utils.url = "github:numtide/flake-utils";
     mirosval.url = "github:mirosval/dotfiles";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -33,6 +37,7 @@
       nixidy,
       flake-utils,
       mirosval,
+      disko,
       ...
     }:
     let
@@ -50,29 +55,44 @@
           ;
       };
 
-      mkHomelabHost =
-        hostName:
-        {
-          nodeRole ? "server",
-          zigbeeNode ? false,
-        }:
-        lib.homelabHost {
-          inherit
-            stateVersion
-            hostName
-            nodeRole
-            zigbeeNode
-            ;
-          system = "x86_64-linux";
-          user = "miro";
-          homeManagerConfig = mirosval.lib.home;
-        };
+      # mkHomelabHost =
+      #   hostName:
+      #   {
+      #     nodeRole ? "server",
+      #     zigbeeNode ? false,
+      #   }:
+      #   lib.homelabHost {
+      #     inherit
+      #       stateVersion
+      #       hostName
+      #       nodeRole
+      #       zigbeeNode
+      #       ;
+      #     system = "x86_64-linux";
+      #     user = "miro";
+      #     homeManagerConfig = mirosval.lib.home;
+      #   };
     in
     {
       nixosConfigurations = {
-        homelab-01 = mkHomelabHost "homelab-01" { zigbeeNode = true; };
-        homelab-02 = mkHomelabHost "homelab-02" { };
-        homelab-03 = mkHomelabHost "homelab-03" { };
+        # homelab-01 = mkHomelabHost "homelab-01" { zigbeeNode = true; };
+        homelab-02 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            disko.nixosModules.disko
+            agenix.nixosModules.default
+            secrets.nixosModules.secrets
+            {
+              secrets.enable = true;
+            }
+            (import ./hosts/homelab/configuration.nix {
+              hostName = "homelab-02";
+              nodeRole = "server";
+              zigbeeNode = false;
+            })
+          ];
+        };
+        # homelab-03 = mkHomelabHost "homelab-03" { };
       };
     }
     // (flake-utils.lib.eachDefaultSystem (
