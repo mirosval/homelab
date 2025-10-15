@@ -2,6 +2,7 @@
   nodeRole,
   zigbeeNode,
   k3s_init,
+  hostName,
 }:
 
 { lib, config, ... }:
@@ -19,10 +20,38 @@
         "--write-kubeconfig-mode=644"
         "--cluster-cidr=10.44.0.0/16"
         "--service-cidr=10.45.0.0/16"
-        "--flannel-iface=enp1s0"
-        "--disable=traefik" # we'll manage our own
-        "--disable=servicelb"
+        "--flannel-backend=none"
+        # "--flannel-backend=wireguard-native"
+        # "--flannel-iface=wg0"
+        "--disable traefik" # we'll manage our own
+        "--disable servicelb"
+        "--disable-kube-proxy"
+        "--disable-network-policy"
+        "--debug"
       ]
+      ++ (
+        let
+          wg_ips = {
+            homelab-01 = {
+              # wg = "10.100.0.1";
+              external = "10.42.0.4";
+            };
+            homelab-02 = {
+              # wg = "10.100.0.2";
+              external = "10.42.0.5";
+            };
+            homelab-03 = {
+              # wg = "10.100.0.3";
+              external = "10.42.0.6";
+            };
+          };
+          external_ip = wg_ips.${hostName}.external;
+        in
+        [
+          "--node-ip=${external_ip}"
+          "--advertise-address=${external_ip}"
+        ]
+      )
       ++ lib.optionals zigbeeNode [
         "--node-label environment=zigbee" # this node has the zigbee USB attached
       ]
@@ -38,4 +67,3 @@
     );
   };
 }
-

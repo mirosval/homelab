@@ -2,6 +2,7 @@
   nodeRole,
   zigbeeNode,
   k3s_init,
+  hostName,
 }:
 
 { ... }:
@@ -12,9 +13,9 @@
         nodeRole
         zigbeeNode
         k3s_init
+        hostName
         ;
     })
     ./dnsmasq
   ];
 }
-

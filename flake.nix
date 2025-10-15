@@ -133,13 +133,15 @@
         devShells.default = pkgs.mkShell {
           buildInputs = [ nixidy.packages.${system}.default ];
           packages = with pkgs; [
+            argocd
             k9s
             kubectl
             popeye
             postgresql_17
-            unstable.renovate
             unstable.nixos-anywhere
             unstable.nixos-rebuild
+            unstable.renovate
+            wireguard-tools
           ];
         };
       }

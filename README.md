@@ -1,6 +1,6 @@
 # Homelab
 
-## Process for setting up new machines
+## Setting up new machines
 
 ### Installer 
 
@@ -48,4 +48,34 @@ make nixos-switch-homelab-XX
 make refresh-kube-config
 ```
 
+## Bootstrapping The Cluster
 
+### Install argo
+
+```shell
+# In case manifests are out of date
+make generate-manifests
+
+kubectl apply -f k3s/generated_manifests/argocd/Namespace-argocd.yaml
+# Remove this, because at this point there is no traefik crd
+rm k3s/generated_manifests/argocd/IngressRoute-argocd.yaml
+kubectl apply -f k3s/generated_manifests/argocd
+
+# There is probably going to be a failure applying some resources, 
+# e.g. the IngressRoute, this can be ignored at this point. 
+# Check install with:
+kubectl get po -n argocd
+```
+
+### Bootstrap Argo
+
+```shell
+make generate-bootstrap
+kubectl apply -f k3s/generated_manifests/bootstrap.yaml
+```
+
+Look at argo
+```shell
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+open http://localhost:8080
+```
