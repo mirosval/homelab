@@ -12,6 +12,18 @@
       };
 
       values = {
+        ipv4.enabled = true;
+        ipv6.enabled = false;
+        kubeProxyReplacement = true;
+        k8sServiceHost = "10.42.0.4";
+        k8sServicePort = "6443";
+        ipam.mode = "cluster-pool";
+        ipam.operator.clusterPoolIPv4PodCIDRList = [ "10.44.0.0/16" ];
+        ipam.operator.clusterPoolIPv4MaskSize = 24;
+        encryption = {
+          enabled = true;
+          type = "wireguard";
+        };
       };
     };
   };

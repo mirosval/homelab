@@ -21,7 +21,7 @@ data:
   cilium-endpoint-gc-interval: 5m0s
   cluster-id: "0"
   cluster-name: default
-  cluster-pool-ipv4-cidr: 10.0.0.0/8
+  cluster-pool-ipv4-cidr: 10.44.0.0/16
   cluster-pool-ipv4-mask-size: "24"
   clustermesh-enable-endpoint-sync: "false"
   clustermesh-enable-mcs-api: "false"
@@ -68,6 +68,7 @@ data:
   enable-tcx: "true"
   enable-vtep: "false"
   enable-well-known-identities: "false"
+  enable-wireguard: "true"
   enable-xt-socket-fallback: "true"
   envoy-access-log-buffer-size: "4096"
   envoy-base-id: "0"
@@ -143,6 +144,7 @@ data:
   vtep-endpoint: ""
   vtep-mac: ""
   vtep-mask: ""
+  wireguard-persistent-keepalive: 0s
   write-cni-conf-when-ready: /host/etc/cni/net.d/05-cilium.conflist
 kind: ConfigMap
 metadata:
