@@ -75,19 +75,6 @@ spec:
           volumeMounts:
             - mountPath: /opt/cni/bin
               name: cni-plugin
-        - args:
-            - -f
-            - /etc/kube-flannel/cni-conf.json
-            - /etc/cni/net.d/10-flannel.conflist
-          command:
-            - cp
-          image: ghcr.io/flannel-io/flannel:v0.27.4
-          name: install-cni
-          volumeMounts:
-            - mountPath: /etc/cni/net.d
-              name: cni
-            - mountPath: /etc/kube-flannel/
-              name: flannel-cfg
       priorityClassName: system-node-critical
       serviceAccountName: flannel
       tolerations:
@@ -100,7 +87,7 @@ spec:
             path: /run/flannel
           name: run
         - hostPath:
-            path: /opt/cni/bin
+            path: /run/current-system/sw/bin
           name: cni-plugin
         - hostPath:
             path: /etc/cni/net.d

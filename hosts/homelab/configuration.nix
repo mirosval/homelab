@@ -89,9 +89,12 @@
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     bottom
-    cilium-cli
+    cni
+    cni-plugin-flannel
+    cni-plugins
     dig
     etcd
+    flannel
     kubectl
     neovim
     nettools
@@ -103,6 +106,15 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  services.flannel = {
+    enable = true;
+    backend.Type = "wireguard";
+    kubeconfig = "/etc/rancher/k3s/k3s.yaml";
+    network = "10.44.0.0/16";
+    nodeName = hostName;
+    storageBackend = "kubernetes";
+  };
 
   networking = {
     hostName = hostName;
@@ -121,7 +133,7 @@
     ];
 
     firewall.allowedUDPPorts = [
-      51820 # Wireguard
+      51820 # Wireguard for Flannel K3s
     ];
 
     # nat = {

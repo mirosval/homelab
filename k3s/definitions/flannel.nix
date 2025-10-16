@@ -12,7 +12,12 @@
       };
 
       values = {
-        flannel.backend = "wireguard";
+        podCidr = "10.44.0.0/16";
+        flannel = {
+          backend = "wireguard";
+          cniBinDir = "/run/current-system/sw/bin";
+          skipCNIConfigInstallation = true;
+        };
       };
     };
   };
