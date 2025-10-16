@@ -130,49 +130,49 @@
     #   internalInterfaces = [ "wg0" ];
     # };
 
-    wireguard = {
-      enable = true;
-      interfaces.wg0 = {
-        ips = [
-          (
-            let
-              ips = {
-                homelab-01 = "10.100.0.1";
-                homelab-02 = "10.100.0.2";
-                homelab-03 = "10.100.0.3";
-              };
-              ip = ips.${hostName};
-            in
-            "${ip}/16"
-          )
-        ];
-        listenPort = 51820;
-        # # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
-        # # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
-        # postSetup = ''
-        #   ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
-        # '';
-        #
-        # # This undoes the above command
-        # postShutdown = ''
-        #   ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
-        # '';
-        privateKeyFile = config.secrets."${hostName}".wg_key;
-
-        peers = [
-          {
-            publicKey = "u4Nw2k1bQLoTACNNjxsAoKt5kd4j2c2zU6fnAKV+mgk=";
-            allowedIPs = [ "10.100.0.1/32" ];
-            endpoint = "10.42.0.4:51820";
-          }
-          {
-            publicKey = "J/V0mXV62ZfEyX/5IiqyHspbuRRO3BZrPXmdY6JJ4R4=";
-            allowedIPs = [ "10.100.0.2/32" ];
-            endpoint = "10.42.0.5:51820";
-          }
-        ];
-      };
-    };
+    # wireguard = {
+    #   enable = true;
+    #   interfaces.wg0 = {
+    #     ips = [
+    #       (
+    #         let
+    #           ips = {
+    #             homelab-01 = "10.100.0.1";
+    #             homelab-02 = "10.100.0.2";
+    #             homelab-03 = "10.100.0.3";
+    #           };
+    #           ip = ips.${hostName};
+    #         in
+    #         "${ip}/16"
+    #       )
+    #     ];
+    #     listenPort = 51820;
+    #     # # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
+    #     # # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
+    #     # postSetup = ''
+    #     #   ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+    #     # '';
+    #     #
+    #     # # This undoes the above command
+    #     # postShutdown = ''
+    #     #   ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.100.0.0/24 -o eth0 -j MASQUERADE
+    #     # '';
+    #     privateKeyFile = config.secrets."${hostName}".wg_key;
+    #
+    #     peers = [
+    #       {
+    #         publicKey = "u4Nw2k1bQLoTACNNjxsAoKt5kd4j2c2zU6fnAKV+mgk=";
+    #         allowedIPs = [ "10.100.0.1/32" ];
+    #         endpoint = "10.42.0.4:51820";
+    #       }
+    #       {
+    #         publicKey = "J/V0mXV62ZfEyX/5IiqyHspbuRRO3BZrPXmdY6JJ4R4=";
+    #         allowedIPs = [ "10.100.0.2/32" ];
+    #         endpoint = "10.42.0.5:51820";
+    #       }
+    #     ];
+    #   };
+    # };
   };
 
   system.stateVersion = "25.05";

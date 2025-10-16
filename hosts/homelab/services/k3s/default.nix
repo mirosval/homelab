@@ -25,8 +25,8 @@
         # "--flannel-iface=wg0"
         "--disable traefik" # we'll manage our own
         "--disable servicelb"
-        "--disable-kube-proxy"
-        "--disable-network-policy"
+        # "--disable-kube-proxy"
+        # "--disable-network-policy"
         "--debug"
       ]
       ++ (

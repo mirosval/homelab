@@ -9,13 +9,13 @@
   ];
   imports = [
     ./argocd.nix
-    ./cilium.nix
     ./cloudnativepg.nix
     ./coredns-config.nix
     ./csi-driver-smb.nix
     ./dashy.nix
     ./dazzle.nix
     ./externaldns.nix
+    ./flannel.nix
     ./forgejo.nix
     ./homeassistant.nix
     ./hyperdx.nix

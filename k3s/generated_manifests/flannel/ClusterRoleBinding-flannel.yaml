@@ -1,14 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  labels:
-    app.kubernetes.io/part-of: cilium
-  name: cilium-operator
+  name: flannel
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: cilium-operator
+  name: flannel
 subjects:
   - kind: ServiceAccount
-    name: cilium-operator
-    namespace: kube-system
+    name: flannel
+    namespace: kube-flannel

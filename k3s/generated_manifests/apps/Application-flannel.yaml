@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cilium
+  name: flannel
   namespace: argocd
 spec:
   destination:
-    namespace: kube-system
+    namespace: kube-flannel
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./k3s/generated_manifests/cilium
+    path: ./k3s/generated_manifests/flannel
     repoURL: https://github.com/mirosval/homelab.git
     targetRevision: main
   syncPolicy: {}
