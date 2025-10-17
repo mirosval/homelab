@@ -78,7 +78,9 @@
   users.users.miro = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
-    # packages = with pkgs; [ ];
+    packages = with pkgs; [
+      btop
+    ];
     shell = pkgs.zsh;
     openssh = {
       authorizedKeys.keys = [
@@ -89,13 +91,11 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    bottom
     cni
     cni-plugin-flannel
     cni-plugins
     dig
     etcd
-    flannel
     kubectl
     neovim
     nettools
