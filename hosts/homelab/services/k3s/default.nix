@@ -23,7 +23,6 @@
         "--flannel-backend=wireguard-native"
         "--disable traefik" # we'll manage our own
         "--disable servicelb"
-        "--debug"
       ]
       ++ (
         let

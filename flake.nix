@@ -45,7 +45,7 @@
       hosts = [
         "homelab-01"
         "homelab-02"
-        # "homelab-03"
+        "homelab-03"
       ];
       mkHomelabNode =
         hostName:

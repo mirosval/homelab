@@ -132,6 +132,24 @@ nixos-anywhere-reset-homelab-02:
 		--generate-hardware-config nixos-generate-config ./hosts/homelab-02/hardware-configuration.nix \
 		--disko-mode format
 
+nixos-anywhere-reset-homelab-03:
+	nixos-anywhere \
+		-i ~/.ssh/homelab-01_id_ed25519 \
+		--copy-host-keys \
+		--target-host nixos@$(HOMELAB_03_IP) \
+		--flake .#homelab-03 \
+		--generate-hardware-config nixos-generate-config ./hosts/homelab-02/hardware-configuration.nix \
+		--disko-mode disko
+
+# WARNING: This formats the disk, make sure params are correct
+nixos-anywhere-init: guard-SSHPASS guard-IP guard-FLAKE
+	SSHPASS=$(SSHPASS) nixos-anywhere \
+		--env-password \
+		-i ~/.ssh/homelab-01_id_ed25519 \
+		--target-host nixos@$(IP) \
+		--flake .#$(FLAKE) \
+		--generate-hardware-config nixos-generate-config ./hosts/$(FLAKE)/hardware-configuration.nix
+
 
 .PHONY: remote-nixos-switch
 refresh-kube-config:
