@@ -15,7 +15,6 @@
     ./dashy.nix
     ./dazzle.nix
     ./externaldns.nix
-    ./flannel.nix
     ./forgejo.nix
     ./homeassistant.nix
     ./hyperdx.nix

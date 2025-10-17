@@ -20,13 +20,9 @@
         "--write-kubeconfig-mode=644"
         "--cluster-cidr=10.44.0.0/16"
         "--service-cidr=10.45.0.0/16"
-        "--flannel-backend=none"
-        # "--flannel-backend=wireguard-native"
-        # "--flannel-iface=wg0"
+        "--flannel-backend=wireguard-native"
         "--disable traefik" # we'll manage our own
         "--disable servicelb"
-        # "--disable-kube-proxy"
-        # "--disable-network-policy"
         "--debug"
       ]
       ++ (

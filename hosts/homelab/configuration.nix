@@ -33,6 +33,7 @@
 
   # Fix for immich
   boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
     "fs.inotify.max_user_instances" = 1024;
     "fs.inotify.max_user_watches" = 524288;
   };
@@ -107,14 +108,14 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.flannel = {
-    enable = true;
-    backend.Type = "wireguard";
-    kubeconfig = "/etc/rancher/k3s/k3s.yaml";
-    network = "10.44.0.0/16";
-    nodeName = hostName;
-    storageBackend = "kubernetes";
-  };
+  # services.flannel = {
+  #   enable = true;
+  #   backend.Type = "wireguard";
+  #   kubeconfig = "/etc/rancher/k3s/k3s.yaml";
+  #   network = "10.44.0.0/16";
+  #   nodeName = hostName;
+  #   storageBackend = "kubernetes";
+  # };
 
   networking = {
     hostName = hostName;
