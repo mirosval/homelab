@@ -2,7 +2,7 @@ apiVersion: v1
 data:
   API_PORT: "8000"
   APP_PORT: "3000"
-  FRONTEND_URL: http://localhost:3000
+  FRONTEND_URL: https://hyperdx.doma.lol
   HYPERDX_API_PORT: "8000"
   HYPERDX_APP_PORT: "3000"
   HYPERDX_LOG_LEVEL: info

@@ -10,7 +10,9 @@
         version = "0.7.3";
         chartHash = "sha256-TqKX+VIy8aS9euK1gE72pqmXikdnmIuGKngUclzXehE";
       };
-      values = { };
+      values = {
+        hyperdx.frontendUrl = "https://hyperdx.doma.lol";
+      };
     };
 
     resources = {
