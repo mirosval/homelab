@@ -77,10 +77,12 @@
         ports.web.transport.respondingTimeouts = {
           readTimeout = 0;
           writeTimeout = 0;
+          idleTimeout = 0;
         };
         ports.websecure.transport.respondingTimeouts = {
           readTimeout = 0;
           writeTimeout = 0;
+          idleTimeout = 0;
         };
         # logging
         logs.access.enabled = true;
