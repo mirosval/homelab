@@ -12,5 +12,36 @@
       };
       values = { };
     };
+
+    resources = {
+      ingressRoutes.hyperdx.spec = {
+        entryPoints = [ "websecure" ];
+        routes = [
+          {
+            match = "Host(`hyperdx.doma.lol`)";
+            kind = "Rule";
+            services.hyperdx-hdx-oss-v2-app.port = 3000;
+          }
+        ];
+        tls = {
+          certResolver = "letsencrypt";
+          domains = [
+            {
+              main = "doma.lol";
+              sans = [ "*.doma.lol" ];
+            }
+          ];
+        };
+      };
+
+      ingresses.hyperdx.spec = {
+        ingressClassName = "traefik";
+        rules = [
+          {
+            host = "hyperdx.doma.lol";
+          }
+        ];
+      };
+    };
   };
 }

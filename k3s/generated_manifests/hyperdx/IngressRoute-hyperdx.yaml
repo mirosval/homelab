@@ -1,0 +1,20 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hyperdx
+  namespace: hyperdx
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`hyperdx.doma.lol`)
+      services:
+        - name: hyperdx-hdx-oss-v2-app
+          port: 3000
+  tls:
+    certResolver: letsencrypt
+    domains:
+      - main: doma.lol
+        sans:
+          - '*.doma.lol'
