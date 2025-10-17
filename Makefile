@@ -6,6 +6,10 @@ HOMELAB_01_IP = 10.42.0.4
 HOMELAB_02_IP = 10.42.0.5
 HOMELAB_03_IP = 10.42.0.6
 
+define flake_lookup
+$(if $(FLAKE_$1),$(FLAKE_$1),default)
+endef
+
 guard-%:
 	@ if [ "${${*}}" = "" ]; then \
                 echo "Environment variable $* not set"; \
@@ -90,7 +94,32 @@ generate-bootstrap:
 
 .PHONY: remote-nixos-switch
 remote-nixos-switch: guard-HOST
-	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild --flake .#$(HOST) --fast --use-remote-sudo --build-host $(HOMELAB_USER)@$(HOST) --target-host $(HOMELAB_USER)@$(HOST) switch
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+		    --flake .#$(HOST) \
+		    --fast \
+		    --use-remote-sudo \
+		    --build-host $(HOMELAB_USER)@$(HOST) \
+		    --target-host $(HOMELAB_USER)@$(HOST) \
+		    switch
+
+nixos-anywhere-reset-homelab-01:
+	nixos-anywhere \
+		-i ~/.ssh/homelab-01_id_ed25519 \
+		--copy-host-keys \
+		--target-host nixos@$(HOMELAB_01_IP) \
+		--flake .#homelab-01 \
+		--generate-hardware-config nixos-generate-config ./hosts/homelab-01/hardware-configuration.nix \
+		--disko-mode format
+
+nixos-anywhere-reset-homelab-02:
+	nixos-anywhere \
+		-i ~/.ssh/homelab-01_id_ed25519 \
+		--copy-host-keys \
+		--target-host nixos@$(HOMELAB_02_IP) \
+		--flake .#homelab-02 \
+		--generate-hardware-config nixos-generate-config ./hosts/homelab-02/hardware-configuration.nix \
+		--disko-mode format
+
 
 .PHONY: remote-nixos-switch
 refresh-kube-config:
