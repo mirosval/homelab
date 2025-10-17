@@ -1,15 +1,19 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: flannel
+  name: apps
   namespace: argocd
 spec:
   destination:
-    namespace: kube-flannel
+    namespace: argocd
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./k3s/generated_manifests/flannel
+    path: ./k3s/generated_manifests/apps
     repoURL: https://github.com/mirosval/homelab.git
     targetRevision: main
-  syncPolicy: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

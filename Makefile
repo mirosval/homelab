@@ -92,6 +92,18 @@ lib/generated/%.nix:
 generate-bootstrap:
 	nix run .#nixidy -- bootstrap .#homelab > k3s/generated_manifests/bootstrap.yaml
 
+.PHONY: configure-kubectl
+configure-kubectl:
+	scp -i $(HOMELAB_KEY) $(HOMELAB_USER)@$(HOMELAB_01_IP):/etc/rancher/k3s/k3s.yaml ~/.kube/config
+	sed -i 's/127.0.0.1/$(HOMELAB_01_IP)/g' ~/.kube/config
+
+# Run this 2x and on the second time it fails with IngressRoute no matches for kind, this is ok
+.PHONY: seed-argo
+seed-argo: generate-manifests
+	kubectl apply -f k3s/generated_manifests/argocd || true
+	nix run .#nixidy -- bootstrap .#homelab > k3s/generated_manifests/bootstrap.yaml
+	kubectl apply -f k3s/generated_manifests/bootstrap.yaml
+
 .PHONY: remote-nixos-switch
 remote-nixos-switch: guard-HOST
 	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
