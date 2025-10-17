@@ -73,6 +73,15 @@
           scheme = "https";
           permanent = true;
         };
+        # Allow bigger payloads
+        ports.web.transport.respondingTimeouts = {
+          readTimeout = 0;
+          writeTimeout = 0;
+        };
+        ports.websecure.transport.respondingTimeouts = {
+          readTimeout = 0;
+          writeTimeout = 0;
+        };
         # logging
         logs.access.enabled = true;
       };

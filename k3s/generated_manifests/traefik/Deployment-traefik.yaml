@@ -51,7 +51,11 @@ spec:
             - --entryPoints.web.http.redirections.entryPoint.to=:443
             - --entryPoints.web.http.redirections.entryPoint.scheme=https
             - --entryPoints.web.http.redirections.entryPoint.permanent=true
+            - --entryPoints.web.transport.respondingTimeouts.readTimeout=0
+            - --entryPoints.web.transport.respondingTimeouts.writeTimeout=0
             - --entryPoints.websecure.http.tls=true
+            - --entryPoints.websecure.transport.respondingTimeouts.readTimeout=0
+            - --entryPoints.websecure.transport.respondingTimeouts.writeTimeout=0
             - --log.level=INFO
             - --accesslog=true
             - --accesslog.fields.defaultmode=keep
