@@ -10,11 +10,14 @@
   services.k3s = {
     enable = true;
     role = nodeRole;
-    clusterInit = k3s_init;
+    # This is used only on the first bootstrap of the cluster
+    # clusterInit = k3s_init;
+    clusterInit = false;
     # This can not be changed, otherwise the whole cluster is fucked
     tokenFile = config.secrets.homelab.k3s_token;
     # This may be changed if the address is not reachable or whatever
-    serverAddr = if k3s_init then "" else "https://10.42.0.4:6443";
+    # serverAddr = if k3s_init then "" else "https://10.42.0.4:6443";
+    serverAddr = "https://10.42.0.5:6443";
     extraFlags = lib.mkAfter (
       [
         "--write-kubeconfig-mode=644"
