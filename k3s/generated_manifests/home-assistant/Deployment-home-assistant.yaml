@@ -28,7 +28,8 @@ spec:
               name: home-assistant-config-volume
             - mountPath: /run/dbus
               name: d-bus
-      hostNetwork: true
+            - mountPath: /dev/ttyUSB0
+              name: zigbee
       nodeSelector:
         environment: zigbee
       volumes:
@@ -38,3 +39,6 @@ spec:
         - hostPath:
             path: /run/dbus
           name: d-bus
+        - hostPath:
+            path: /dev/ttyUSB0
+          name: zigbee

@@ -30,10 +30,14 @@
                   mountPath = "/run/dbus";
                   name = "d-bus";
                 }
+                {
+                  mountPath = "/dev/ttyUSB0";
+                  name = "zigbee";
+                }
               ];
               ports = [ { containerPort = 8123; } ];
             };
-            hostNetwork = true;
+            # hostNetwork = true;
             nodeSelector.environment = "zigbee";
             volumes = [
               {
@@ -44,12 +48,21 @@
                 name = "d-bus";
                 hostPath.path = "/run/dbus";
               }
+              {
+                name = "zigbee";
+                hostPath.path = "/dev/ttyUSB0";
+              }
             ];
           };
         };
       };
 
-      services.home-assistant.spec = {
+      services.home-assistant-lb.spec = {
+        selector.app = "home-assistant";
+        type = "LoadBalancer";
+      };
+
+      services.home-assistant-web.spec = {
         ports.home-assistant-web.port = 8123;
         selector.app = "home-assistant";
         type = "ClusterIP";
