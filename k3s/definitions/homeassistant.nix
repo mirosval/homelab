@@ -14,7 +14,13 @@
             containers.home-assistant = {
               name = "home-assistant";
               image = "ghcr.io/home-assistant/home-assistant:stable";
-              securityContext.privileged = true;
+              securityContext = {
+                privileged = true;
+                capabilities.add = [
+                  "NET_ADMIN"
+                  "NET_RAW"
+                ];
+              };
               env = [
                 {
                   name = "TZ";
