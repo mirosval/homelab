@@ -11,6 +11,11 @@
         template = {
           metadata.labels.app = "home-assistant";
           spec = {
+            securityContext = {
+              supplementalGroups = [
+                27 # dialout
+              ];
+            };
             containers.home-assistant = {
               name = "home-assistant";
               image = "ghcr.io/home-assistant/home-assistant:stable";

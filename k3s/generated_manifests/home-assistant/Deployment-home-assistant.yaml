@@ -36,6 +36,9 @@ spec:
               name: zigbee
       nodeSelector:
         environment: zigbee
+      securityContext:
+        supplementalGroups:
+          - 27
       volumes:
         - name: home-assistant-config-volume
           persistentVolumeClaim:
