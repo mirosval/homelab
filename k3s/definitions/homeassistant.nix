@@ -11,11 +11,6 @@
         template = {
           metadata.labels.app = "home-assistant";
           spec = {
-            securityContext = {
-              supplementalGroups = [
-                27 # dialout
-              ];
-            };
             containers.home-assistant = {
               name = "home-assistant";
               image = "ghcr.io/home-assistant/home-assistant:stable";
@@ -42,7 +37,7 @@
                   name = "d-bus";
                 }
                 {
-                  mountPath = "/dev/ttyUSB0";
+                  mountPath = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_cc5121307674ef11af55c48c8fcc3fa0-if00-port0";
                   name = "zigbee";
                 }
               ];
@@ -62,6 +57,10 @@
               {
                 name = "zigbee";
                 hostPath.path = "/dev/ttyUSB0";
+              }
+              {
+                name = "zigbee";
+                hostPath.path = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_cc5121307674ef11af55c48c8fcc3fa0-if00-port0";
               }
             ];
           };

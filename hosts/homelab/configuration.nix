@@ -95,6 +95,7 @@
     # cni-plugin-flannel
     # cni-plugins
     dig
+    lsof
     # etcd
     kubectl
     neovim

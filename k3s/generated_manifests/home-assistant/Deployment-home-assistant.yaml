@@ -32,13 +32,10 @@ spec:
               name: home-assistant-config-volume
             - mountPath: /run/dbus
               name: d-bus
-            - mountPath: /dev/ttyUSB0
+            - mountPath: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_cc5121307674ef11af55c48c8fcc3fa0-if00-port0
               name: zigbee
       nodeSelector:
         environment: zigbee
-      securityContext:
-        supplementalGroups:
-          - 27
       volumes:
         - name: home-assistant-config-volume
           persistentVolumeClaim:
