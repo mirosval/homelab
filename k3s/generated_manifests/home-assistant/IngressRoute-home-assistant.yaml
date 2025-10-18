@@ -10,7 +10,7 @@ spec:
     - kind: Rule
       match: Host(`home-assistant.doma.lol`)
       services:
-        - name: home-assistant
+        - name: home-assistant-web
           port: 8123
   tls:
     certResolver: letsencrypt

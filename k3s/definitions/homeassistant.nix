@@ -60,6 +60,12 @@
       services.home-assistant-lb.spec = {
         selector.app = "home-assistant";
         type = "LoadBalancer";
+        ports = [
+          {
+            port = 8123;
+            targetPort = 8123;
+          }
+        ];
       };
 
       services.home-assistant-web.spec = {
@@ -80,7 +86,7 @@
           {
             match = "Host(`home-assistant.doma.lol`)";
             kind = "Rule";
-            services.home-assistant.port = 8123;
+            services.home-assistant-web.port = 8123;
           }
         ];
         tls = {
