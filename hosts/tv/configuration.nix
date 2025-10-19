@@ -48,10 +48,6 @@
     enable = true;
   };
 
-  services.pulseaudio = {
-    enable = true;
-  };
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -76,13 +72,8 @@
       extraGroups = [
         "multimedia"
         "audio"
-      ];
-      packages = with pkgs; [
-        (pkgs.kodi-wayland.withPackages (
-          kodiPkgs: with kodiPkgs; [
-            jellyfin
-          ]
-        ))
+        "video"
+        "input"
       ];
     };
     groups.multimedia = { };
@@ -101,10 +92,28 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.cage = {
+  services.xserver = {
     enable = true;
-    user = "kodi";
-    program = "${pkgs.kodi-wayland}/bin/kodi-standalone";
+    displayManager = {
+      autoLogin.user = "kodi";
+      lightdm.greeter.enable = false;
+    };
+    desktopManager.kodi = {
+      enable = true;
+      package = pkgs.kodi-gbm.withPackages (
+        p: with p; [
+          inputstreamhelper
+          inputstream-adaptive
+          inputstream-ffmpegdirect
+          inputstream-rtmp
+          invidious
+          jellyfin
+          netflix
+          visualization-matrix
+          youtube
+        ]
+      );
+    };
   };
 
   networking = {
