@@ -5,6 +5,7 @@ HOMELAB_KEY = ~/.ssh/homelab-01_id_ed25519
 HOMELAB_01_IP = 10.42.0.4
 HOMELAB_02_IP = 10.42.0.5
 HOMELAB_03_IP = 10.42.0.6
+TV_IP = 192.168.1.90
 
 define flake_lookup
 $(if $(FLAKE_$1),$(FLAKE_$1),default)
@@ -150,6 +151,24 @@ nixos-anywhere-init: guard-SSHPASS guard-IP guard-FLAKE
 		--flake .#$(FLAKE) \
 		--generate-hardware-config nixos-generate-config ./hosts/$(FLAKE)/hardware-configuration.nix
 
+# WARNING: This formats the disk, make sure params are correct
+nixos-anywhere-init-tv: guard-SSHPASS guard-IP
+	SSHPASS=$(SSHPASS) nixos-anywhere \
+		--env-password \
+		-i ~/.ssh/homelab-01_id_ed25519 \
+		--target-host nixos@$(IP) \
+		--flake .#tv \
+		--generate-hardware-config nixos-generate-config ./hosts/tv/hardware-configuration.nix
+
+.PHONY: remote-nixos-switch-tv
+remote-nixos-switch-tv:
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+		    --flake .#tv \
+		    --fast \
+		    --use-remote-sudo \
+		    --build-host $(HOMELAB_USER)@$(TV_IP) \
+		    --target-host $(HOMELAB_USER)@$(TV_IP) \
+		    switch
 
 .PHONY: remote-nixos-switch
 refresh-kube-config:

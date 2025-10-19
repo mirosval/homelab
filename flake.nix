@@ -69,7 +69,15 @@
         };
     in
     {
-      nixosConfigurations = nixpkgs.lib.genAttrs hosts mkHomelabNode;
+      nixosConfigurations = (nixpkgs.lib.genAttrs hosts mkHomelabNode) // {
+        tv = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            disko.nixosModules.disko
+            ./hosts/tv/configuration.nix
+          ];
+        };
+      };
     }
     // (flake-utils.lib.eachDefaultSystem (
       system:
