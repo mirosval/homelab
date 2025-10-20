@@ -24,6 +24,15 @@
     "fs.inotify.max_user_watches" = 524288;
   };
 
+  # Fix audio
+  boot.extraModprobeConfig = ''
+    options snd-intel-dspcfg dsp_driver=1
+  '';
+
+  boot.kernelModules = [
+    # "snd_sof_pci_intel_tgl"
+  ];
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
@@ -46,7 +55,34 @@
 
   hardware.graphics = {
     enable = true;
+    extraPackages = with pkgs; [
+      vpl-gpu-rt
+    ];
   };
+
+  security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
+  services.pulseaudio.package = pkgs.pulseaudioFull;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    wireplumber.enable = true;
+    # Uncomment the following line if you want to use JACK applications
+    # jack.enable = true;
+  };
+
+  #
+  # Bluetooth
+  #
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
+
+  hardware.enableAllFirmware = true;
+  hardware.enableAllHardware = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -67,59 +103,108 @@
         ];
       };
     };
-    extraUsers.kodi = {
+    extraUsers.cage = {
       isNormalUser = true;
       extraGroups = [
-        "multimedia"
         "audio"
         "video"
         "input"
       ];
     };
-    groups.multimedia = { };
   };
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
+    alsa-utils
     dig
     lsof
     neovim
     nettools
+    pciutils
+    sof-firmware
   ];
 
   programs.zsh.enable = true;
 
+  programs.firefox = {
+    enable = true;
+    policies = {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      EnableTrackingProtection = {
+        Value = true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+      DisablePocket = true;
+      DisableFirefoxAccounts = true;
+      DisableAccounts = true;
+      DisableFirefoxScreenshots = true;
+      OverrideFirstRunPage = "";
+      OverridePostUpdatePage = "";
+      DontCheckDefaultBrowser = true;
+      DisplayBookmarksToolbar = "never"; # alternatives: "always" or "newtab"
+      DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
+      SearchBar = "unified"; # alternative: "separate"
+      ExtensionSettings = {
+
+        "*".installation_mode = "blocked"; # blocks all addons except the ones specified below
+        # uBlock Origin:
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "force_installed";
+        };
+      };
+    };
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.xserver = {
+  services.cage = {
     enable = true;
-    displayManager = {
-      autoLogin.user = "kodi";
-      lightdm.greeter.enable = false;
-    };
-    desktopManager.kodi = {
-      enable = true;
-      package = pkgs.kodi-gbm.withPackages (
-        p: with p; [
-          inputstreamhelper
-          inputstream-adaptive
-          inputstream-ffmpegdirect
-          inputstream-rtmp
-          invidious
-          jellyfin
-          netflix
-          visualization-matrix
-          youtube
-        ]
-      );
-    };
+    user = "cage";
+    program = "${pkgs.firefox}/bin/firefox -kiosk https://jellyfin.doma.lol";
   };
+
+  # wait for network and DNS
+  systemd.services."cage-tty1".after = [
+    "network-online.target"
+    "systemd-resolved.service"
+  ];
+
+  # services.xserver = {
+  #   enable = true;
+  #   displayManager = {
+  #     autoLogin.user = "kodi";
+  #     lightdm.greeter.enable = false;
+  #   };
+  #   desktopManager.kodi = {
+  #     enable = true;
+  #     package = pkgs.kodi-gbm.withPackages (
+  #       p: with p; [
+  #         inputstreamhelper
+  #         inputstream-adaptive
+  #         inputstream-ffmpegdirect
+  #         inputstream-rtmp
+  #         invidious
+  #         jellyfin
+  #         netflix
+  #         visualization-matrix
+  #         youtube
+  #       ]
+  #     );
+  #   };
+  # };
 
   networking = {
     hostName = "tv";
     networkmanager = {
       enable = true;
+      insertNameservers = [
+        "10.42.1.250"
+      ];
       ensureProfiles.profiles = {
         "Wired connection 1" = {
           connection = {
@@ -142,7 +227,6 @@
     };
     nameservers = [
       "10.42.1.250"
-      "1.1.1.1"
     ];
 
     firewall.enable = true;
