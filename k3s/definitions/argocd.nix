@@ -7,8 +7,8 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://argoproj.github.io/argo-helm/";
         chart = "argo-cd";
-        version = "8.3.5";
-        chartHash = "sha256-lBNSmaxhT0/zoT/9rF6lDuTO0eM8RWZMpbDzxG4O2SA=";
+        version = "9.0.3";
+        chartHash = "sha256-OU2HtHMoY8yjerFzY2r9ODvZJZwx5ZrTvvRmEJi7cME=";
       };
       values = {
         configs.params."server.insecure" = true; # TLS terminated at traefik
