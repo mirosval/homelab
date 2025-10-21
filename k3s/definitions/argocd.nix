@@ -27,7 +27,7 @@
             priority = 10;
           }
           {
-            match = "Host(`argo.doma.lol`) && Header(`Content-Type`, `application/grpc`)";
+            match = "Host(`argo.doma.lol`) && Headers(`Content-Type`, `application/grpc`)";
             kind = "Rule";
             services.argocd-server = {
               port = 80;
