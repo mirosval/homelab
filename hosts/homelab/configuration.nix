@@ -11,6 +11,14 @@
   modulesPath,
   ...
 }:
+let
+  host_map = {
+    homelab-01.ip = "10.42.0.4";
+    homelab-02.ip = "10.42.0.5";
+    homelab-03.ip = "10.42.0.6";
+  };
+  current_host = host_map.${hostName};
+in
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -33,7 +41,6 @@
 
   # Fix for immich
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1;
     "fs.inotify.max_user_instances" = 1024;
     "fs.inotify.max_user_watches" = 524288;
   };
@@ -111,7 +118,46 @@
 
   networking = {
     hostName = hostName;
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      ensureProfiles = {
+        profiles = {
+          enp1s0 = {
+            connection = {
+              id = "enp1s0";
+              type = "ethernet";
+              uuid = "16864a5c-b065-38f7-9b70-263c0410fc25";
+              autoconnect = true;
+            };
+            ipv4 = {
+              method = "manual";
+              addresses = "${current_host.ip}/24";
+              gateway = "10.42.0.1";
+              dns = "127.0.0.1";
+            };
+          };
+          wifi = {
+            connection = {
+              id = "wifi";
+              type = "wifi";
+              uuid = "07b10837-7efd-3edd-959c-2d40bc971679";
+              autoconnect = true;
+            };
+            ipv4.method = "auto";
+            wifi = {
+              mode = "infrastructure";
+              ssid = "$WIFI_NAME";
+            };
+            wifi-security = {
+              key-mgmt = "wpa-psk";
+              psk = "$WIFI_PSK";
+            };
+          };
+        };
+        environmentFiles = [ config.secrets.homelab.wifi ];
+      };
+
+    };
     nameservers = [ "127.0.0.1" ];
 
     firewall.enable = true;
@@ -122,10 +168,12 @@
       2379 # k3s: etcd
       2380 # k3s: etcd
       6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
+      7946 # MetalLB
       10250 # k3s: Kubelet metrics
     ];
 
     firewall.allowedUDPPorts = [
+      7946 # MetalLB
       51820 # Wireguard for Flannel K3s
     ];
   };
