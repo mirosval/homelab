@@ -11,6 +11,7 @@
         chartHash = "sha256-TqKX+VIy8aS9euK1gE72pqmXikdnmIuGKngUclzXehE";
       };
       values = {
+        global.storageClassName = "longhorn";
         hyperdx.frontendUrl = "https://hyperdx.doma.lol";
       };
     };
