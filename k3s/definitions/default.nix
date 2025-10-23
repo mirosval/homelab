@@ -22,6 +22,7 @@
     ./jellyfin.nix
     ./longhorn.nix
     ./metallb.nix
+    ./otel.nix
     ./pihole.nix
     ./renovate.nix
     ./sealedsecrets.nix

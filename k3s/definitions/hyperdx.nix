@@ -17,6 +17,7 @@
     };
 
     resources = {
+      configMaps.otel-config-vars = { };
       ingressRoutes.hyperdx.spec = {
         entryPoints = [ "websecure" ];
         routes = [
