@@ -133,10 +133,10 @@
         config = {
           exporters = {
             otlphttp = {
-              endpoint = ''${"env:YOUR_OTEL_COLLECTOR_ENDPOINT"}'';
+              endpoint = "http://hyperdx-hdx-oss-v2-otel-collector.hyperdx.svc.cluster.local:4318";
               compression = "gzip";
               headers = {
-                authorization = ''${"env:HYPERDX_API_KEY"}'';
+                authorization = "\${env:HYPERDX_API_KEY}";
               };
             };
           };
