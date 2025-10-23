@@ -5,9 +5,9 @@ data:
       debug: {}
       otlphttp:
         compression: gzip
-        endpoint: env:YOUR_OTEL_COLLECTOR_ENDPOINT
+        endpoint: http://hyperdx-hdx-oss-v2-otel-collector.hyperdx.svc.cluster.local:4318
         headers:
-          authorization: env:HYPERDX_API_KEY
+          authorization: ${env:HYPERDX_API_KEY}
     extensions:
       health_check:
         endpoint: ${env:MY_POD_IP}:13133

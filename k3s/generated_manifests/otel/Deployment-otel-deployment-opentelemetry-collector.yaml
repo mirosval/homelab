@@ -24,7 +24,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: a0118c07ce532f61dc52feb76c9ed7f320a8e7b4d7b2bc46304b8b2c12cea35d
+        checksum/config: 02a0574cd724958810b4355f80cfafc956f0187866aef605d93b61983c88b1ae
       labels:
         app.kubernetes.io/instance: otel-deployment
         app.kubernetes.io/name: opentelemetry-collector
