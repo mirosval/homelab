@@ -3,6 +3,11 @@ data:
   relay: |
     exporters:
       debug: {}
+      otlphttp:
+        compression: gzip
+        endpoint: http://hyperdx-hdx-oss-v2-otel-collector.hyperdx.svc.cluster.local:4318
+        headers:
+          authorization: ${env:HYPERDX_API_KEY}
     extensions:
       health_check:
         endpoint: ${env:MY_POD_IP}:13133
@@ -119,7 +124,34 @@ data:
         collection_interval: 20s
         endpoint: ${env:K8S_NODE_NAME}:10250
         insecure_skip_verify: true
-        metrics: {}
+        metrics:
+          container:
+            uptime:
+              enabled: true
+          k8s:
+            container:
+              cpu_limit_utilization:
+                enabled: true
+              cpu_request_utilization:
+                enabled: true
+              memory_limit_utilization:
+                enabled: true
+              memory_request_utilization:
+                enabled: true
+            node:
+              uptime:
+                enabled: true
+            pod:
+              cpu_limit_utilization:
+                enabled: true
+              cpu_request_utilization:
+                enabled: true
+              memory_limit_utilization:
+                enabled: true
+              memory_request_utilization:
+                enabled: true
+              uptime:
+                enabled: true
       otlp:
         protocols:
           grpc:
@@ -142,7 +174,7 @@ data:
       pipelines:
         logs:
           exporters:
-          - debug
+          - otlphttp
           processors:
           - k8sattributes
           - memory_limiter
@@ -152,7 +184,7 @@ data:
           - filelog
         metrics:
           exporters:
-          - debug
+          - otlphttp
           processors:
           - k8sattributes
           - memory_limiter
