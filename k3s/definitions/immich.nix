@@ -25,7 +25,13 @@
           };
         };
         immich = {
-          persistence.library.existingClaim = "pvc-immich-rw";
+          persistence = {
+            library = {
+              type = "persistentVolumeClaim";
+              existingClaim = "pvc-immich-rw";
+              accessMode = "ReadWriteOnce";
+            };
+          };
         };
         valkey = {
           enabled = true;
@@ -64,7 +70,7 @@
             cache = {
               type = "persistentVolumeClaim";
               storageClass = "longhorn";
-              accessMode = "ReadWriteOnce";
+              accessMode = "ReadWriteMany";
             };
             dburl = {
               type = "secret";
