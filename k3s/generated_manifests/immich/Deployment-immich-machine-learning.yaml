@@ -88,9 +88,8 @@ spec:
       hostPID: false
       serviceAccountName: default
       volumes:
-        - name: cache
-          persistentVolumeClaim:
-            claimName: immich-machine-learning
+        - emptyDir: {}
+          name: cache
         - name: dburl
           secret:
             secretName: immich-database-superuser

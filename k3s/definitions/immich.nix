@@ -68,8 +68,7 @@
           controllers.main.replicas = 3;
           persistence = {
             cache = {
-              type = "persistentVolumeClaim";
-              storageClass = "longhorn";
+              type = "emptyDir";
               accessMode = "ReadWriteMany";
             };
             dburl = {
