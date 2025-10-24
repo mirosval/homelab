@@ -66,17 +66,17 @@
               endpoint = "\${env:K8S_NODE_NAME}:10250";
               insecure_skip_verify = true;
               metrics = {
-                k8s.pod.cpu_limit_utilization.enabled = true;
-                k8s.pod.cpu_request_utilization.enabled = true;
-                k8s.pod.memory_limit_utilization.enabled = true;
-                k8s.pod.memory_request_utilization.enabled = true;
-                k8s.pod.uptime.enabled = true;
-                k8s.node.uptime.enabled = true;
-                k8s.container.cpu_limit_utilization.enabled = true;
-                k8s.container.cpu_request_utilization.enabled = true;
-                k8s.container.memory_limit_utilization.enabled = true;
-                k8s.container.memory_request_utilization.enabled = true;
-                container.uptime.enabled = true;
+                "k8s.pod.cpu_limit_utilization".enabled = true;
+                "k8s.pod.cpu_request_utilization".enabled = true;
+                "k8s.pod.memory_limit_utilization".enabled = true;
+                "k8s.pod.memory_request_utilization".enabled = true;
+                "k8s.pod.uptime".enabled = true;
+                "k8s.node.uptime".enabled = true;
+                "k8s.container.cpu_limit_utilization".enabled = true;
+                "k8s.container.cpu_request_utilization".enabled = true;
+                "k8s.container.memory_limit_utilization".enabled = true;
+                "k8s.container.memory_request_utilization".enabled = true;
+                "container.uptime".enabled = true;
               };
             };
           };
