@@ -30,6 +30,14 @@ spec:
       automountServiceAccountToken: true
       containers:
         - env:
+            - name: DB_DATABASE_NAME
+              value: postgres
+            - name: DB_HOSTNAME_FILE
+              value: /etc/secret/host
+            - name: DB_PASSWORD_FILE
+              value: /etc/secret/password
+            - name: DB_USERNAME_FILE
+              value: /etc/secret/user
             - name: IMMICH_MACHINE_LEARNING_URL
               value: http://immich-machine-learning:3003
             - name: REDIS_HOSTNAME

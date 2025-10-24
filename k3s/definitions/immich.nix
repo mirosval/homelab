@@ -13,7 +13,17 @@
       };
 
       values = {
-        controllers.main.containers.main.image.tag = "v2.1.0";
+        controllers.main.containers.main = {
+          image.tag = "v2.1.0";
+          env = {
+            DB_HOSTNAME_FILE.value = "/etc/secret/host";
+            DB_DATABASE_NAME.value = "postgres";
+            DB_USERNAME_FILE.value = "/etc/secret/user";
+            DB_PASSWORD_FILE.value = "/etc/secret/password";
+            IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
+            REDIS_HOSTNAME.value = "immich-valkey";
+          };
+        };
         immich = {
           persistence.library.existingClaim = "pvc-immich-rw";
         };
@@ -25,6 +35,7 @@
           };
         };
         machine-learning = {
+          controllers.main.replicas = 3;
           persistence.cache = {
             type = "persistentVolumeClaim";
             storageClass = "longhorn";
@@ -55,14 +66,6 @@
 
         immich-server.spec.template.spec = {
           containers.immich-server = {
-            env = lib.mkForce {
-              DB_HOSTNAME_FILE.value = "/etc/secret/host";
-              DB_DATABASE_NAME.value = "postgres";
-              DB_USERNAME_FILE.value = "/etc/secret/user";
-              DB_PASSWORD_FILE.value = "/etc/secret/password";
-              IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
-              REDIS_HOSTNAME.value = "immich-valkey";
-            };
             volumeMounts = [
               {
                 name = "photos";
@@ -79,25 +82,19 @@
           volumes.photos.persistentVolumeClaim.claimName = "pvc-photos-ro";
           volumes.dburl.secret.secretName = "immich-database-superuser";
         };
-        immich-machine-learning.spec.template.spec = {
-          containers.immich-machine-learning = {
-            env = lib.mkForce {
-              DB_HOSTNAME_FILE.value = "/etc/secret/host";
-              DB_DATABASE_NAME.value = "postgres";
-              DB_USERNAME_FILE.value = "/etc/secret/user";
-              DB_PASSWORD_FILE.value = "/etc/secret/password";
-              IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
-              REDIS_HOSTNAME.value = "immich-valkey";
+        immich-machine-learning.spec = {
+          template.spec = {
+            containers.immich-machine-learning = {
+              volumeMounts = [
+                {
+                  name = "dburl";
+                  readOnly = true;
+                  mountPath = "/etc/secret";
+                }
+              ];
             };
-            volumeMounts = [
-              {
-                name = "dburl";
-                readOnly = true;
-                mountPath = "/etc/secret";
-              }
-            ];
+            volumes.dburl.secret.secretName = "immich-database-superuser";
           };
-          volumes.dburl.secret.secretName = "immich-database-superuser";
         };
       };
 
