@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-dash
+  namespace: traefik
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: traefik.doma.lol

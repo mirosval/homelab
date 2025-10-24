@@ -86,16 +86,47 @@
         };
         # logging
         logs.access.enabled = true;
+        ingressRoute.dashboard = {
+          # dashboard
+          enabled = true;
+          entryPoints = [ "websecure" ];
+          matchRule = "Host(`traefik.doma.lol`)";
+          middlewares = [
+            { name = "traefik-auth"; }
+          ];
+          tls = {
+            certResolver = "letsencrypt";
+            domains = [
+              {
+                main = "doma.lol";
+                sans = [ "*.doma.lol" ];
+              }
+            ];
+          };
+        };
       };
     };
 
-    resources.ingresses.tailscale.spec = {
-      defaultBackend.service = {
-        name = "traefik";
-        port.name = "websecure";
+    resources = {
+      ingresses.tailscale.spec = {
+        defaultBackend.service = {
+          name = "traefik";
+          port.name = "websecure";
+        };
+        ingressClassName = "tailscale";
+        tls = [ { hosts = [ "homelab" ]; } ];
       };
-      ingressClassName = "tailscale";
-      tls = [ { hosts = [ "homelab" ]; } ];
+
+      middlewares.traefik-auth.spec.basicAuth.secret = "traefik-auth";
+
+      ingresses.traefik-dash.spec = {
+        ingressClassName = "traefik";
+        rules = [
+          {
+            host = "traefik.doma.lol";
+          }
+        ];
+      };
     };
   };
 }

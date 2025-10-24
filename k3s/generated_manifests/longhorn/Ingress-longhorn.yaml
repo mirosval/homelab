@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: longhorn
+  namespace: longhorn
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: longhorn.doma.lol

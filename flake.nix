@@ -120,6 +120,7 @@
             };
             crds = [
               "traefik-crds/crds-files/traefik/traefik.io_ingressroutes.yaml"
+              "traefik-crds/crds-files/traefik/traefik.io_middlewares.yaml"
             ];
           };
 

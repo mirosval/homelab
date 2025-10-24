@@ -18,5 +18,40 @@
         };
       };
     };
+
+    resources = {
+      middlewares.longhorn-auth.spec.basicAuth.secret = "longhorn-auth";
+
+      ingressRoutes.longhorn.spec = {
+        entryPoints = [ "websecure" ];
+        routes = [
+          {
+            match = "Host(`longhorn.doma.lol`)";
+            kind = "Rule";
+            middlewares = [ { name = "longhorn-auth"; } ];
+            services.longhorn-frontend.port = 80;
+          }
+        ];
+        tls = {
+          certResolver = "letsencrypt";
+          domains = [
+            {
+              main = "doma.lol";
+              sans = [ "*.doma.lol" ];
+            }
+          ];
+        };
+      };
+
+      ingresses.longhorn.spec = {
+        ingressClassName = "traefik";
+        rules = [
+          {
+            host = "longhorn.doma.lol";
+          }
+        ];
+      };
+    };
+
   };
 }
