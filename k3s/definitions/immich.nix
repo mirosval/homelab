@@ -13,7 +13,7 @@
       };
 
       values = {
-        image.tag = "v2.1.0";
+        controllers.main.containers.main.image.tag = "v2.1.0";
         immich = {
           persistence.library.existingClaim = "pvc-immich-rw";
         };
