@@ -17,4 +17,7 @@ uri=$(kubectl get secret -n immich immich-database-superuser -o jsonpath='{.data
 # https://docs.immich.app/administration/backup-and-restore/
 gunzip --stdout "immich-latest.sql.gz" \
 | sed "s/SELECT pg_catalog.set_config('search_path', '', false);/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true);/g" \
-| psql $uri # Restore Backup
+| psql $uri --echo-all # Restore Backup
+
+# Note: Last time I've tried this, I had to run this sequence from one of the nodes using nix shell nixpkgs#postgresql_16
+# because otherwise the restore from localhost would always get stuck

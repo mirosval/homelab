@@ -8,28 +8,25 @@
       chart = lib.helm.downloadHelmChart {
         repo = "oci://ghcr.io/immich-app/immich-charts";
         chart = "immich";
-        version = "0.9.3";
-        chartHash = "sha256-UHuuu6u+UjHPgdLONZim6j+nyCINtClcAZRRJlHuaaw=";
+        version = "0.10.1";
+        chartHash = "sha256-OtwfVn76iz2P7Mu95GaPLChkjT4OKiNBKllJx2QVTwo=";
       };
 
       values = {
-        image.tag = "v1.139.3";
+        image.tag = "v2.1.0";
         immich = {
           persistence.library.existingClaim = "pvc-immich-rw";
         };
-        redis.enabled = true;
-        # This is on current master, but not yet released in 0.9.3
-        # TODO: Replace redis with this
-        # valkey = {
-        #   enabled = true;
-        #   persistence.data = {
-        #     type = "pvc";
-        #     storageClass = "longhorn";
-        #   };
-        # };
+        valkey = {
+          enabled = true;
+          persistence.data = {
+            type = "persistentVolumeClaim";
+            storageClass = "longhorn";
+          };
+        };
         machine-learning = {
           persistence.cache = {
-            type = "pvc";
+            type = "persistentVolumeClaim";
             storageClass = "longhorn";
             accessMode = "ReadWriteOnce";
           };
@@ -64,7 +61,7 @@
               DB_USERNAME_FILE.value = "/etc/secret/user";
               DB_PASSWORD_FILE.value = "/etc/secret/password";
               IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
-              REDIS_HOSTNAME.value = "immich-redis-master";
+              REDIS_HOSTNAME.value = "immich-valkey";
             };
             volumeMounts = [
               {
@@ -90,7 +87,7 @@
               DB_USERNAME_FILE.value = "/etc/secret/user";
               DB_PASSWORD_FILE.value = "/etc/secret/password";
               IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
-              REDIS_HOSTNAME.value = "immich-redis-master";
+              REDIS_HOSTNAME.value = "immich-valkey";
             };
             volumeMounts = [
               {
@@ -103,10 +100,6 @@
           volumes.dburl.secret.secretName = "immich-database-superuser";
         };
       };
-
-      # fix the old redit immage
-      statefulSets.immich-redis-master.spec.template.spec.containers.redis.image =
-        lib.mkForce "docker.io/bitnamilegacy/redis:7.4.3-debian-12-r0";
 
       roles.csi-smb-secret-access.rules = [
         {

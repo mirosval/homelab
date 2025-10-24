@@ -4,20 +4,20 @@ metadata:
   labels:
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: server
-    app.kubernetes.io/service: immich-server
+    app.kubernetes.io/name: valkey
+    app.kubernetes.io/service: immich-valkey
     app.kubernetes.io/version: v2.0.0
     helm.sh/chart: immich-0.10.1
-  name: immich-server
+  name: immich-valkey
   namespace: immich
 spec:
   ports:
-    - name: http
-      port: 2283
+    - name: redis
+      port: 6379
       protocol: TCP
-      targetPort: http
+      targetPort: redis
   selector:
     app.kubernetes.io/controller: main
     app.kubernetes.io/instance: immich
-    app.kubernetes.io/name: server
+    app.kubernetes.io/name: valkey
   type: ClusterIP

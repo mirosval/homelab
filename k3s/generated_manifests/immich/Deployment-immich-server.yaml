@@ -2,11 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app.kubernetes.io/controller: main
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: server
-    app.kubernetes.io/version: v1.119.0
-    helm.sh/chart: immich-0.9.3
+    app.kubernetes.io/version: v2.0.0
+    helm.sh/chart: immich-0.10.1
   name: immich-server
   namespace: immich
 spec:
@@ -14,6 +15,7 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
+      app.kubernetes.io/controller: main
       app.kubernetes.io/instance: immich
       app.kubernetes.io/name: server
   strategy:
@@ -21,6 +23,7 @@ spec:
   template:
     metadata:
       labels:
+        app.kubernetes.io/controller: main
         app.kubernetes.io/instance: immich
         app.kubernetes.io/name: server
     spec:
@@ -38,8 +41,21 @@ spec:
             - name: IMMICH_MACHINE_LEARNING_URL
               value: http://immich-machine-learning:3003
             - name: REDIS_HOSTNAME
-              value: immich-redis-master
-          image: ghcr.io/immich-app/immich-server:v1.139.3
+              value: immich-valkey
+          name: immich-server
+          volumeMounts:
+            - mountPath: /mnt/media/rodina
+              name: photos
+              readOnly: true
+            - mountPath: /etc/secret
+              name: dburl
+              readOnly: true
+        - env:
+            - name: IMMICH_MACHINE_LEARNING_URL
+              value: http://immich-machine-learning:3003
+            - name: REDIS_HOSTNAME
+              value: immich-valkey
+          image: ghcr.io/immich-app/immich-server:v2.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -49,7 +65,7 @@ spec:
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
-          name: immich-server
+          name: main
           ports:
             - containerPort: 2283
               name: http
@@ -71,24 +87,21 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 1
           volumeMounts:
-            - mountPath: /mnt/media/rodina
-              name: photos
-              readOnly: true
-            - mountPath: /usr/src/app/upload
-              name: library
-            - mountPath: /etc/secret
-              name: dburl
-              readOnly: true
+            - mountPath: /data
+              name: data
       dnsPolicy: ClusterFirst
-      enableServiceLinks: true
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
       serviceAccountName: default
       volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-immich-rw
         - name: dburl
           secret:
             secretName: immich-database-superuser
-        - name: library
-          persistentVolumeClaim:
-            claimName: pvc-immich-rw
         - name: photos
           persistentVolumeClaim:
             claimName: pvc-photos-ro

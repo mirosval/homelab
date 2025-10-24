@@ -2,11 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app.kubernetes.io/controller: main
     app.kubernetes.io/instance: immich
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: machine-learning
-    app.kubernetes.io/version: v1.119.0
-    helm.sh/chart: immich-0.9.3
+    app.kubernetes.io/version: v2.0.0
+    helm.sh/chart: immich-0.10.1
   name: immich-machine-learning
   namespace: immich
 spec:
@@ -14,6 +15,7 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
+      app.kubernetes.io/controller: main
       app.kubernetes.io/instance: immich
       app.kubernetes.io/name: machine-learning
   strategy:
@@ -21,6 +23,7 @@ spec:
   template:
     metadata:
       labels:
+        app.kubernetes.io/controller: main
         app.kubernetes.io/instance: immich
         app.kubernetes.io/name: machine-learning
     spec:
@@ -38,8 +41,20 @@ spec:
             - name: IMMICH_MACHINE_LEARNING_URL
               value: http://immich-machine-learning:3003
             - name: REDIS_HOSTNAME
-              value: immich-redis-master
-          image: ghcr.io/immich-app/immich-machine-learning:v1.139.3
+              value: immich-valkey
+          name: immich-machine-learning
+          volumeMounts:
+            - mountPath: /etc/secret
+              name: dburl
+              readOnly: true
+        - env:
+            - name: IMMICH_MACHINE_LEARNING_URL
+              value: http://immich-machine-learning:3003
+            - name: REDIS_HOSTNAME
+              value: immich-valkey
+            - name: TRANSFORMERS_CACHE
+              value: /cache
+          image: ghcr.io/immich-app/immich-machine-learning:v2.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -49,7 +64,7 @@ spec:
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
-          name: immich-machine-learning
+          name: main
           ports:
             - containerPort: 3003
               name: http
@@ -73,16 +88,16 @@ spec:
           volumeMounts:
             - mountPath: /cache
               name: cache
-            - mountPath: /etc/secret
-              name: dburl
-              readOnly: true
       dnsPolicy: ClusterFirst
-      enableServiceLinks: true
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
       serviceAccountName: default
       volumes:
         - name: cache
           persistentVolumeClaim:
-            claimName: immich-machine-learning-cache
+            claimName: immich-machine-learning
         - name: dburl
           secret:
             secretName: immich-database-superuser

@@ -6,8 +6,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: machine-learning
     app.kubernetes.io/service: immich-machine-learning
-    app.kubernetes.io/version: v1.119.0
-    helm.sh/chart: immich-0.9.3
+    app.kubernetes.io/version: v2.0.0
+    helm.sh/chart: immich-0.10.1
   name: immich-machine-learning
   namespace: immich
 spec:
@@ -17,6 +17,7 @@ spec:
       protocol: TCP
       targetPort: http
   selector:
+    app.kubernetes.io/controller: main
     app.kubernetes.io/instance: immich
     app.kubernetes.io/name: machine-learning
   type: ClusterIP
