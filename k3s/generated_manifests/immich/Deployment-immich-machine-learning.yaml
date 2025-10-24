@@ -29,11 +29,6 @@ spec:
     spec:
       automountServiceAccountToken: true
       containers:
-        - name: immich-machine-learning
-          volumeMounts:
-            - mountPath: /etc/secret
-              name: dburl
-              readOnly: true
         - env:
             - name: DB_DATABASE_NAME
               value: postgres
@@ -83,6 +78,9 @@ spec:
           volumeMounts:
             - mountPath: /cache
               name: cache
+            - mountPath: /etc/secret
+              name: dburl
+              readOnly: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false

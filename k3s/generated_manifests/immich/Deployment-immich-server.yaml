@@ -29,14 +29,6 @@ spec:
     spec:
       automountServiceAccountToken: true
       containers:
-        - name: immich-server
-          volumeMounts:
-            - mountPath: /mnt/media/rodina
-              name: photos
-              readOnly: true
-            - mountPath: /etc/secret
-              name: dburl
-              readOnly: true
         - env:
             - name: DB_DATABASE_NAME
               value: postgres
@@ -84,6 +76,12 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
+            - mountPath: /etc/secret
+              name: dburl
+              readOnly: true
+            - mountPath: /mnt/media/rodina
+              name: photos
+              readOnly: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false

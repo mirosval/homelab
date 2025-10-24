@@ -16,12 +16,12 @@
         controllers.main.containers.main = {
           image.tag = "v2.1.0";
           env = {
-            DB_HOSTNAME_FILE.value = "/etc/secret/host";
-            DB_DATABASE_NAME.value = "postgres";
-            DB_USERNAME_FILE.value = "/etc/secret/user";
-            DB_PASSWORD_FILE.value = "/etc/secret/password";
-            IMMICH_MACHINE_LEARNING_URL.value = "http://immich-machine-learning:3003";
-            REDIS_HOSTNAME.value = "immich-valkey";
+            DB_HOSTNAME_FILE = "/etc/secret/host";
+            DB_DATABASE_NAME = "postgres";
+            DB_USERNAME_FILE = "/etc/secret/user";
+            DB_PASSWORD_FILE = "/etc/secret/password";
+            IMMICH_MACHINE_LEARNING_URL = "http://immich-machine-learning:3003";
+            REDIS_HOSTNAME = "immich-valkey";
           };
         };
         immich = {
@@ -34,12 +34,47 @@
             storageClass = "longhorn";
           };
         };
+        server = {
+          persistence = {
+            photos = {
+              type = "persistentVolumeClaim";
+              accessMode = "ReadOnly";
+              existingClaim = "pvc-photos-ro";
+              advancedMounts.main.main = [
+                {
+                  readOnly = true;
+                  path = "/mnt/media/rodina";
+                }
+              ];
+            };
+            dburl = {
+              type = "secret";
+              advancedMounts.main.main = [
+                {
+                  readOnly = true;
+                  path = "/etc/secret";
+                }
+              ];
+            };
+          };
+        };
         machine-learning = {
           controllers.main.replicas = 3;
-          persistence.cache = {
-            type = "persistentVolumeClaim";
-            storageClass = "longhorn";
-            accessMode = "ReadWriteOnce";
+          persistence = {
+            cache = {
+              type = "persistentVolumeClaim";
+              storageClass = "longhorn";
+              accessMode = "ReadWriteOnce";
+            };
+            dburl = {
+              type = "secret";
+              advancedMounts.main.main = [
+                {
+                  readOnly = true;
+                  path = "/etc/secret";
+                }
+              ];
+            };
           };
         };
       };
@@ -65,35 +100,35 @@
       deployments = {
 
         immich-server.spec.template.spec = {
-          containers.immich-server = {
-            volumeMounts = [
-              {
-                name = "photos";
-                readOnly = true;
-                mountPath = "/mnt/media/rodina";
-              }
-              {
-                name = "dburl";
-                readOnly = true;
-                mountPath = "/etc/secret";
-              }
-            ];
-          };
-          volumes.photos.persistentVolumeClaim.claimName = "pvc-photos-ro";
-          volumes.dburl.secret.secretName = "immich-database-superuser";
+          # containers.immich-server = {
+          #   volumeMounts = [
+          #     {
+          #       name = "photos";
+          #       readOnly = true;
+          #       mountPath = "/mnt/media/rodina";
+          #     }
+          #     {
+          #       name = "dburl";
+          #       readOnly = true;
+          #       mountPath = "/etc/secret";
+          #     }
+          #   ];
+          # };
+          # volumes.photos.persistentVolumeClaim.claimName = "pvc-photos-ro";
+          volumes.dburl.secret.secretName = lib.mkForce "immich-database-superuser";
         };
         immich-machine-learning.spec = {
           template.spec = {
-            containers.immich-machine-learning = {
-              volumeMounts = [
-                {
-                  name = "dburl";
-                  readOnly = true;
-                  mountPath = "/etc/secret";
-                }
-              ];
-            };
-            volumes.dburl.secret.secretName = "immich-database-superuser";
+            # containers.immich-machine-learning = {
+            #   volumeMounts = [
+            #     {
+            #       name = "dburl";
+            #       readOnly = true;
+            #       mountPath = "/etc/secret";
+            #     }
+            #   ];
+            # };
+            volumes.dburl.secret.secretName = lib.mkForce "immich-database-superuser";
           };
         };
       };
