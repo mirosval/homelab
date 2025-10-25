@@ -19,6 +19,7 @@
     ./homeassistant.nix
     ./hyperdx.nix
     ./immich.nix
+    ./intel-device-plugins-operator.nix
     ./jellyfin.nix
     ./longhorn.nix
     ./metallb.nix
