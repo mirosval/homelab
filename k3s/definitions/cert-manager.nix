@@ -14,9 +14,5 @@
       values = {
       };
     };
-
-    resources = {
-      issuers
-    };
   };
 }

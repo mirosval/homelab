@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: TLSStore
+metadata:
+  labels:
+    app.kubernetes.io/instance: traefik-traefik
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: traefik
+    helm.sh/chart: traefik-37.1.1
+  name: default
+  namespace: traefik
+spec:
+  defaultCertificate:
+    secretName: wildcard-doma-lol-tls

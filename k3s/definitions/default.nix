@@ -6,6 +6,7 @@
     ../../lib/generated/metallb.nix
     ../../lib/generated/traefik.nix
     ../../lib/generated/cnpg.nix
+    ../../lib/generated/cert-manager.nix
   ];
   imports = [
     ./argocd.nix

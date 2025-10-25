@@ -11,62 +11,62 @@
         chartHash = "sha256-h7jpw/wS9+XU7mIFn7T/sgZQPvH+XK4wHOFzy3TdFYg=";
       };
       values = {
-        # volume for acme.json
-        persistence = {
-          enabled = true;
-          storageClass = "longhorn";
-        };
-        # configure acme resolver
-        certificatesResolvers.letsencrypt.acme = {
-          email = "admin@doma.lol";
-          dnsChallenge = {
-            provider = "porkbun";
-            resolvers = [
-              "1.1.1.1"
-            ];
-          };
-          storage = "/data/acme.json";
-        };
-        # bind secrets for the acme resolver
-        env = [
-          {
-            name = "PORKBUN_API_KEY";
-            valueFrom.secretKeyRef = {
-              name = "lets-encrypt";
-              key = "PORKBUN_API_KEY";
-            };
-          }
-          {
-            name = "PORKBUN_SECRET_API_KEY";
-            valueFrom.secretKeyRef = {
-              name = "lets-encrypt";
-              key = "PORKBUN_SECRET_API_KEY";
-            };
-          }
-        ];
-        # ensure acme.json is 600
-        deployment.initContainers = [
-          {
-            name = "volume-permissions";
-            image = "busybox:latest";
-            command = [
-              "sh"
-              "-c"
-              "touch /data/acme.json; chmod -v 600 /data/acme.json"
-            ];
-            volumeMounts = [
-              {
-                mountPath = "/data";
-                name = "data";
-              }
-            ];
-          }
-        ];
-        # ensure k8s doesn't chmod the file after
-        podSecurityContext = {
-          fsGroup = 65532;
-          fsGroupChangePolicy = "OnRootMismatch";
-        };
+        # # volume for acme.json
+        # persistence = {
+        #   enabled = true;
+        #   storageClass = "longhorn";
+        # };
+        # # configure acme resolver
+        # certificatesResolvers.letsencrypt.acme = {
+        #   email = "admin@doma.lol";
+        #   dnsChallenge = {
+        #     provider = "porkbun";
+        #     resolvers = [
+        #       "1.1.1.1"
+        #     ];
+        #   };
+        #   storage = "/data/acme.json";
+        # };
+        # # bind secrets for the acme resolver
+        # env = [
+        #   {
+        #     name = "PORKBUN_API_KEY";
+        #     valueFrom.secretKeyRef = {
+        #       name = "lets-encrypt";
+        #       key = "PORKBUN_API_KEY";
+        #     };
+        #   }
+        #   {
+        #     name = "PORKBUN_SECRET_API_KEY";
+        #     valueFrom.secretKeyRef = {
+        #       name = "lets-encrypt";
+        #       key = "PORKBUN_SECRET_API_KEY";
+        #     };
+        #   }
+        # ];
+        # # ensure acme.json is 600
+        # deployment.initContainers = [
+        #   {
+        #     name = "volume-permissions";
+        #     image = "busybox:latest";
+        #     command = [
+        #       "sh"
+        #       "-c"
+        #       "touch /data/acme.json; chmod -v 600 /data/acme.json"
+        #     ];
+        #     volumeMounts = [
+        #       {
+        #         mountPath = "/data";
+        #         name = "data";
+        #       }
+        #     ];
+        #   }
+        # ];
+        # # ensure k8s doesn't chmod the file after
+        # podSecurityContext = {
+        #   fsGroup = 65532;
+        #   fsGroupChangePolicy = "OnRootMismatch";
+        # };
         # redirect http -> https
         ports.web.redirections.entryPoint = {
           to = "websecure";
@@ -86,6 +86,8 @@
         };
         # logging
         logs.access.enabled = true;
+        # tls
+        tlsStore.default.defaultCertificate.secretName = "wildcard-doma-lol-tls";
         ingressRoute.dashboard = {
           # dashboard
           enabled = true;
@@ -94,20 +96,48 @@
           middlewares = [
             { name = "traefik-auth"; }
           ];
-          tls = {
-            certResolver = "letsencrypt";
-            domains = [
-              {
-                main = "doma.lol";
-                sans = [ "*.doma.lol" ];
-              }
-            ];
-          };
+          # tls = {
+          #   certResolver = "letsencrypt";
+          #   domains = [
+          #     {
+          #       main = "doma.lol";
+          #       sans = [ "*.doma.lol" ];
+          #     }
+          #   ];
+          # };
         };
       };
     };
 
     resources = {
+
+      # cert-manager
+      issuers.cloudflare-issuer.spec.acme = {
+        server = "https://acme-v02.api.letsencrypt.org/directory";
+        email = "admin@doma.lol";
+        privateKeySecretRef.name = "letsencrypt-key";
+        solvers = [
+          {
+            dns01.cloudflare.apiTokenSecretRef = {
+              name = "cloudflare-token";
+              key = "api-key";
+            };
+          }
+        ];
+      };
+
+      certificates.wildcard-doma-lol.spec = {
+        secretName = "wildcard-doma-lol-tls";
+        dnsNames = [
+          "doma.lol"
+          "*.doma.lol"
+        ];
+        issuerRef = {
+          name = "cloudflare-issuer";
+          kind = "Issuer";
+        };
+      };
+
       ingresses.tailscale.spec = {
         defaultBackend.service = {
           name = "traefik";
