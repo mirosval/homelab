@@ -93,15 +93,6 @@
             services.jellyfin.port = 8096;
           }
         ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
       };
 
       ingresses.jellyfin.spec = {

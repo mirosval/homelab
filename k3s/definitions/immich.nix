@@ -226,6 +226,9 @@
         resources.requests.storage = "2Ti";
       };
 
+      middlewares.immich-limit.spec.buffering = {
+        maxRequestBodyBytes = 10000000000; # 10GB
+      };
       ingressRoutes.immich.spec = {
         entryPoints = [ "websecure" ];
         routes = [
@@ -235,15 +238,6 @@
             services.immich-server.port = 2283;
           }
         ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
       };
 
       ingresses.immich.spec = {

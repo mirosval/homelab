@@ -12,9 +12,3 @@ spec:
       services:
         - name: forgejo-http
           port: 3000
-  tls:
-    certResolver: letsencrypt
-    domains:
-      - main: doma.lol
-        sans:
-          - '*.doma.lol'

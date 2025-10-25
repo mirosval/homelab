@@ -14,9 +14,3 @@ spec:
       services:
         - name: longhorn-frontend
           port: 80
-  tls:
-    certResolver: letsencrypt
-    domains:
-      - main: doma.lol
-        sans:
-          - '*.doma.lol'

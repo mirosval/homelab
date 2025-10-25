@@ -197,15 +197,6 @@
             services.forgejo-http.port = 3000;
           }
         ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
       };
 
       ingresses.forgejo.spec = {

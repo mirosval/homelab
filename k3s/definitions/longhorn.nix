@@ -32,15 +32,6 @@
             services.longhorn-frontend.port = 80;
           }
         ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
       };
 
       ingresses.longhorn.spec = {

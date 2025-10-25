@@ -37,15 +37,6 @@
           }
 
         ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
       };
 
       ingresses.argocd.spec = {

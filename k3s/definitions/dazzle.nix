@@ -36,15 +36,6 @@
             services.dazzle.port = 80;
           }
         ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
       };
 
       ingresses.dazzle.spec = {

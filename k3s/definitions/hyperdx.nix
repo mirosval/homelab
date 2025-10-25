@@ -27,15 +27,6 @@
             services.hyperdx-hdx-oss-v2-app.port = 3000;
           }
         ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
       };
 
       ingresses.hyperdx.spec = {
