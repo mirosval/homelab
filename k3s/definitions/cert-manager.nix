@@ -13,6 +13,8 @@
 
       values = {
         crds.enabled = true;
+        dns01RecursiveNameservers = "1.1.1.1";
+        dns01RecursiveNameserversOnly = true;
       };
     };
   };
