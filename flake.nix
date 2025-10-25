@@ -137,6 +137,22 @@
             ];
           };
 
+          generators.cert-manager = nixidy.packages.${system}.generators.fromCRD {
+            name = "cert-manager";
+            src = pkgs.fetchFromGitHub {
+              owner = "cert-manager";
+              repo = "cert-manager";
+              rev = "v1.19.0";
+              hash = "";
+            };
+            crds = [
+              "deploy/crds/cert-manager.io_certificaterequests.yaml"
+              "deploy/crds/cert-manager.io_certificates.yaml"
+              "deploy/crds/cert-manager.io_clusterissuers.yaml"
+              "deploy/crds/cert-manager.io_issuers.yaml"
+            ];
+          };
+
         };
 
         devShells.default = pkgs.mkShell {
