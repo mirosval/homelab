@@ -12,6 +12,7 @@
       };
 
       values = {
+        crds.enabled = true;
       };
     };
   };
