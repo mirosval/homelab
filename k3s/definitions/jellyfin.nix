@@ -12,7 +12,6 @@
       };
 
       values = {
-
         persistence = {
           config = {
             storageClass = "longhorn";
@@ -22,6 +21,7 @@
             existingClaim = "pvc-movies-ro";
           };
         };
+        resources.limits."gpu.intel.com/i915" = "1000m";
       };
     };
 

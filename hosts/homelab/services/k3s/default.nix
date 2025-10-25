@@ -26,6 +26,9 @@
         "--flannel-backend=wireguard-native"
         "--disable traefik" # we'll manage our own
         "--disable servicelb"
+        # TODO: This can only be changed at node registration time
+        # Otherwise: kubectl label nodes homelab-01 intel.feature.node.kubernetes.io/gpu='true'
+        # "--node-label intel.feature.node.kubernetes.io/gpu='true'" # this node has an intel gpu
       ]
       ++ (
         let

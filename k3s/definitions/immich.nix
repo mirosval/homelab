@@ -65,7 +65,10 @@
           };
         };
         machine-learning = {
-          controllers.main.replicas = 3;
+          controllers.main = {
+            replicas = 3;
+            containers.main.resources.limits."gpu.intel.com/i915" = "1000m";
+          };
           persistence = {
             cache = {
               type = "emptyDir";
@@ -103,36 +106,11 @@
       };
       # Patch generated resources
       deployments = {
-
         immich-server.spec.template.spec = {
-          # containers.immich-server = {
-          #   volumeMounts = [
-          #     {
-          #       name = "photos";
-          #       readOnly = true;
-          #       mountPath = "/mnt/media/rodina";
-          #     }
-          #     {
-          #       name = "dburl";
-          #       readOnly = true;
-          #       mountPath = "/etc/secret";
-          #     }
-          #   ];
-          # };
-          # volumes.photos.persistentVolumeClaim.claimName = "pvc-photos-ro";
           volumes.dburl.secret.secretName = lib.mkForce "immich-database-superuser";
         };
         immich-machine-learning.spec = {
           template.spec = {
-            # containers.immich-machine-learning = {
-            #   volumeMounts = [
-            #     {
-            #       name = "dburl";
-            #       readOnly = true;
-            #       mountPath = "/etc/secret";
-            #     }
-            #   ];
-            # };
             volumes.dburl.secret.secretName = lib.mkForce "immich-database-superuser";
           };
         };

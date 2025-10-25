@@ -42,7 +42,9 @@ spec:
             initialDelaySeconds: 10
             tcpSocket:
               port: http
-          resources: {}
+          resources:
+            limits:
+              gpu.intel.com/i915: 1000m
           securityContext: {}
           volumeMounts:
             - mountPath: /config
