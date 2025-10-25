@@ -39,10 +39,29 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.kernelParams = [ "i915.force_probe=46d1,i915.enable_guc=3" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Fix for immich
   boot.kernel.sysctl = {
     "fs.inotify.max_user_instances" = 1024;
     "fs.inotify.max_user_watches" = 524288;
+  };
+
+  hardware = {
+    enableAllFirmware = true;
+    intel-gpu-tools.enable = true;
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-media-driver
+        vaapiVdpau
+        intel-compute-runtime
+        intel-ocl
+        vpl-gpu-rt
+      ];
+    };
+    cpu.intel.updateMicrocode = true;
   };
 
   # Set your time zone.
@@ -62,6 +81,8 @@ in
       auto-optimise-store = true;
     };
   };
+
+  nixpkgs.config.allowUnfree = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -110,6 +131,8 @@ in
     openiscsi # needed for longhorn
     wireguard-tools # K3s Flannel
   ];
+
+  environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
   programs.zsh.enable = true;
 
