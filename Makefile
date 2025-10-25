@@ -83,7 +83,7 @@ clean-nixidy-resources:
 	rm -f lib/generated/*.nix
 
 .PHONY: generate-nixidy-resources
-generate-nixidy-resources: lib/generated/metallb.nix lib/generated/traefik.nix lib/generated/cnpg.nix
+generate-nixidy-resources: lib/generated/metallb.nix lib/generated/traefik.nix lib/generated/cnpg.nix lib/generated/cert-manager.nix
 
 lib/generated/%.nix:
 	nix build .#generators.$*

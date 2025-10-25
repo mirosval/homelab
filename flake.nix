@@ -143,7 +143,7 @@
               owner = "cert-manager";
               repo = "cert-manager";
               rev = "v1.19.0";
-              hash = "";
+              hash = "sha256-At0+/uMtNfEkscUyYZY+Tppgm7UmmQboyno95HbOB0Q=";
             };
             crds = [
               "deploy/crds/cert-manager.io_certificaterequests.yaml"
