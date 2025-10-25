@@ -20,6 +20,7 @@
     ./hyperdx.nix
     ./immich.nix
     ./intel-device-plugins-operator.nix
+    ./intel-gpu-device-plugin.nix
     ./jellyfin.nix
     ./longhorn.nix
     ./metallb.nix

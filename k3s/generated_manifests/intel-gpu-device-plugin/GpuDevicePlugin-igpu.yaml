@@ -1,0 +1,16 @@
+apiVersion: deviceplugin.intel.com/v1
+kind: GpuDevicePlugin
+metadata:
+  annotations: null
+  name: igpu
+spec:
+  allowIDs: ""
+  denyIDs: ""
+  enableMonitoring: true
+  image: intel/intel-gpu-plugin:0.34.0
+  logLevel: 2
+  nodeSelector:
+    intel.feature.node.kubernetes.io/gpu: "true"
+  preferredAllocationPolicy: none
+  sharedDevNum: 5
+  tolerations: []
