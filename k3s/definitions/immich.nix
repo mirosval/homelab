@@ -41,6 +41,10 @@
           };
         };
         server = {
+          controllers.main = {
+            replicas = 3;
+            containers.main.resources.limits."gpu.intel.com/i915" = "1000m";
+          };
           persistence = {
             photos = {
               type = "persistentVolumeClaim";

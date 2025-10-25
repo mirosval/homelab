@@ -11,7 +11,7 @@ metadata:
   name: immich-server
   namespace: immich
 spec:
-  replicas: 1
+  replicas: 3
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -65,6 +65,9 @@ spec:
             initialDelaySeconds: 0
             periodSeconds: 10
             timeoutSeconds: 1
+          resources:
+            limits:
+              gpu.intel.com/i915: 1000m
           startupProbe:
             failureThreshold: 30
             httpGet:
