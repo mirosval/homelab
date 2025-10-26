@@ -16,22 +16,14 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelParams = [ "i915.force_probe=46d1,i915.enable_guc=3" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Fix for immich
   boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = 1;
     "fs.inotify.max_user_instances" = 1024;
     "fs.inotify.max_user_watches" = 524288;
   };
-
-  # Fix audio
-  boot.extraModprobeConfig = ''
-    options snd-intel-dspcfg dsp_driver=1
-  '';
-
-  boot.kernelModules = [
-    # "snd_sof_pci_intel_tgl"
-  ];
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -53,11 +45,25 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      vpl-gpu-rt
+  hardware = {
+    enableAllFirmware = true;
+
+    intel-gpu-tools.enable = true;
+    firmware = [
+      pkgs.sof-firmware
+      pkgs.alsa-firmware
     ];
+    graphics = {
+      enable = true;
+      extraPackages = with pkgs; [
+        intel-media-driver
+        vaapiVdpau
+        intel-compute-runtime
+        intel-ocl
+        vpl-gpu-rt
+      ];
+    };
+    cpu.intel.updateMicrocode = true;
   };
 
   security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
@@ -66,11 +72,9 @@
   services.pipewire = {
     enable = true;
     alsa.enable = true;
-    alsa.support32Bit = true;
     pulse.enable = true;
     wireplumber.enable = true;
-    # Uncomment the following line if you want to use JACK applications
-    # jack.enable = true;
+    jack.enable = false;
   };
 
   #
@@ -81,9 +85,6 @@
     powerOnBoot = true;
   };
 
-  hardware.enableAllFirmware = true;
-  hardware.enableAllHardware = true;
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -92,7 +93,12 @@
     # Define a user account.
     users.miro = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [
+        "wheel"
+        "audio"
+        "video"
+        "input"
+      ];
       packages = with pkgs; [
         btop
       ];
@@ -117,11 +123,15 @@
   environment.systemPackages = with pkgs; [
     alsa-utils
     dig
+    lshw
     lsof
     neovim
     nettools
     pciutils
+    pulseaudioFull
     sof-firmware
+    alsa-firmware
+    alsa-utils
   ];
 
   programs.zsh.enable = true;
