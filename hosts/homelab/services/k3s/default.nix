@@ -17,7 +17,7 @@
     tokenFile = config.secrets.homelab.k3s_token;
     # This may be changed if the address is not reachable or whatever
     # serverAddr = if k3s_init then "" else "https://10.42.0.4:6443";
-    serverAddr = "https://10.42.0.5:6443";
+    # serverAddr = "https://10.42.0.6:6443";
     extraFlags = lib.mkAfter (
       [
         "--write-kubeconfig-mode=644"

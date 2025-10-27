@@ -150,14 +150,17 @@ in
               id = "enp1s0";
               type = "ethernet";
               uuid = "16864a5c-b065-38f7-9b70-263c0410fc25";
+              interface-name = "enp1s0";
               autoconnect = true;
+              mdns = 2;
             };
             ipv4 = {
               method = "manual";
-              addresses = "${current_host.ip}/24";
+              addresses = "${current_host.ip}/23";
               gateway = "10.42.0.1";
               dns = "127.0.0.1";
             };
+            ipv6.method = "disabled";
           };
           wifi = {
             connection = {
