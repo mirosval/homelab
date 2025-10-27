@@ -159,6 +159,19 @@ in
               addresses = "${current_host.ip}/23";
               gateway = "10.42.0.1";
               dns = "127.0.0.1";
+              # These routes are here so that the node can support having both:
+              # - an ethernet connection
+              # - and a wifi connection
+              # both on different vlans and still be reachable from both
+              route-data = ''
+                [ \
+                  { dest =  "10.42.0.0/23", table = 200 }, \
+                  { dest =  "0.0.0.0/0", next-hop = "10.42.0.1", table = 200 } \
+                ]'';
+              routing-rules = ''
+                [ \
+                  { priority = 1000, from = "${current_host.ip}/32", table = 200 } \
+                ]'';
             };
             ipv6.method = "disabled";
           };

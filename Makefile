@@ -2,7 +2,8 @@ ENSURE_FLAKES = --extra-experimental-features "nix-command flakes"
 
 HOMELAB_USER = miro
 HOMELAB_KEY = ~/.ssh/homelab-01_id_ed25519
-HOMELAB_01_IP = 10.42.0.4
+#HOMELAB_01_IP = 10.42.0.4
+HOMELAB_01_IP = 192.168.1.67
 HOMELAB_02_IP = 10.42.0.5
 HOMELAB_03_IP = 10.42.0.6
 TV_IP = 192.168.1.90
