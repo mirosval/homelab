@@ -167,7 +167,10 @@ in
               route1_options = "table=200";
               route2 = "0.0.0.0/0,10.42.0.1";
               route2_options = "table=200";
+              # Respond to queries to itself on the ethernet ip
               routing-rule1 = "priority 1000 from ${current_host.ip} table 200";
+              # Respond to queries to metallb services on the enthernet ip
+              routing-rule2 = "priority 1001 from 10.42.1.0/24 table 200";
             };
             ipv6.method = "disabled";
           };
