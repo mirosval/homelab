@@ -11,7 +11,7 @@ metadata:
     helm.sh/chart: kube-state-metrics-6.3.0
     release: grafana-k8s-monitoring
   name: grafana-k8s-monitoring-kube-state-metrics
-  namespace: grafana
+  namespace: grafana-k8s-monitoring
 spec:
   replicas: 1
   revisionHistoryLimit: 10

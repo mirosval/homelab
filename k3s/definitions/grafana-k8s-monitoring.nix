@@ -1,7 +1,7 @@
 { lib, ... }:
 {
   applications.grafana-k8s-monitoring = {
-    namespace = "grafana";
+    namespace = "grafana-k8s-monitoring";
     createNamespace = true;
     helm.releases.grafana-k8s-monitoring = {
       chart = lib.helm.downloadHelmChart {

@@ -5,7 +5,7 @@ metadata:
     helm.sh/hook: pre-delete
     helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
   name: grafana-k8s-monitoring-remove-alloy-and-finalizer
-  namespace: grafana
+  namespace: grafana-k8s-monitoring
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -13,4 +13,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: grafana-k8s-monitoring-remove-alloy-and-finalizer
-    namespace: grafana
+    namespace: grafana-k8s-monitoring

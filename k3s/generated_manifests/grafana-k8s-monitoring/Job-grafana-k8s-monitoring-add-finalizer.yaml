@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/name: grafana-k8s-monitoring-add-finalizer
     helm.sh/chart: k8s-monitoring-3.5.5
   name: grafana-k8s-monitoring-add-finalizer
-  namespace: grafana
+  namespace: grafana-k8s-monitoring
 spec:
   backoffLimit: 3
   template:
@@ -28,7 +28,7 @@ spec:
             - -ce
             - |
               kubectl patch \
-                --namespace=grafana \
+                --namespace=grafana-k8s-monitoring \
                 --patch='{"metadata":{"finalizers":["k8s.grafana.com/finalizer"]}}' \
                 deployment/grafana-k8s-monitoring-alloy-operator
           image: ghcr.io/grafana/helm-chart-toolbox-kubectl:0.1.1

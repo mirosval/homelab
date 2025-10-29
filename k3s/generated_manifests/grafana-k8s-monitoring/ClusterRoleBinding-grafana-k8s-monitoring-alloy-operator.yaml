@@ -15,4 +15,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: grafana-k8s-monitoring-alloy-operator
-    namespace: grafana
+    namespace: grafana-k8s-monitoring

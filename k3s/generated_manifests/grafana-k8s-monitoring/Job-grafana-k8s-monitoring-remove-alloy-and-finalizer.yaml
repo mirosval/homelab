@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: grafana-k8s-monitoring-remove-alloy-and-finalizer
     helm.sh/chart: k8s-monitoring-3.5.5
   name: grafana-k8s-monitoring-remove-alloy-and-finalizer
-  namespace: grafana
+  namespace: grafana-k8s-monitoring
 spec:
   backoffLimit: 3
   template:
@@ -31,7 +31,7 @@ spec:
               kubectl wait --for=delete alloy/grafana-k8s-monitoring-alloy-metrics --timeout=60s || echo "Timed out waiting for deletion of alloy/grafana-k8s-monitoring-alloy-metrics or it may not exist."
 
               kubectl patch \
-                --namespace=grafana \
+                --namespace=grafana-k8s-monitoring \
                 --type json \
                 --patch='[{"op": "remove", "path": "/metadata/finalizers"}]' \
                 deployment/grafana-k8s-monitoring-alloy-operator

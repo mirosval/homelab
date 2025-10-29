@@ -4,7 +4,7 @@ metadata:
   annotations:
     helm.sdk.operatorframework.io/uninstall-wait: "true"
   name: grafana-k8s-monitoring-alloy-metrics
-  namespace: grafana
+  namespace: grafana-k8s-monitoring
 spec:
   alloy:
     clustering:

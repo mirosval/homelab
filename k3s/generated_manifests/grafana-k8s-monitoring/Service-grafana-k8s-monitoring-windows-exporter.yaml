@@ -11,7 +11,7 @@ metadata:
     helm.sh/chart: windows-exporter-0.12.2
     release: grafana-k8s-monitoring
   name: grafana-k8s-monitoring-windows-exporter
-  namespace: grafana
+  namespace: grafana-k8s-monitoring
 spec:
   ports:
     - appProtocol: http
