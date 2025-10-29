@@ -18,6 +18,7 @@
     ./dazzle.nix
     ./externaldns.nix
     ./forgejo.nix
+    ./grafana.nix
     ./homeassistant.nix
     ./hyperdx.nix
     ./immich.nix
