@@ -26,7 +26,7 @@
           {
             match = "Host(`grafana.doma.lol`)";
             kind = "Rule";
-            services.grafana-web.port = 80;
+            services.grafana.port = 80;
           }
         ];
       };

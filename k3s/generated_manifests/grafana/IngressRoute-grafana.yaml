@@ -10,5 +10,5 @@ spec:
     - kind: Rule
       match: Host(`grafana.doma.lol`)
       services:
-        - name: grafana-web
+        - name: grafana
           port: 80
