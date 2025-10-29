@@ -1,0 +1,27 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  name: grafana-k8s-monitoring-remove-alloy-and-finalizer
+  namespace: grafana
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - get
+      - list
+      - watch
+      - patch
+  - apiGroups:
+      - collectors.grafana.com
+    resources:
+      - alloys
+    verbs:
+      - get
+      - list
+      - watch
+      - delete
