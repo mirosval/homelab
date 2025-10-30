@@ -23,7 +23,7 @@
           {
             name = "loki";
             type = "loki";
-            url = "http://loki-gateway.grafana-loki.svc.cluster.local/loki/api/v1/push";
+            url = "http://grafana-loki-gateway.grafana-loki.svc.cluster.local/loki/api/v1/push";
           }
         ];
 
