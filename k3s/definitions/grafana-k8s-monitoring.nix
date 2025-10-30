@@ -20,13 +20,18 @@
             type = "prometheus";
             url = "http://prometheus.monitoring.svc.cluster.local:9090";
           }
+          {
+            name = "loki";
+            type = "loki";
+            url = "http://loki-gateway.grafana-loki.svc.cluster.local/loki/api/v1/push";
+          }
         ];
 
         clusterMetrics.enabled = true;
-        # podLogs.enabled = true;
+        podLogs.enabled = true;
 
         alloy-metrics.enabled = true;
-        # alloy-logs.enabled = true;
+        alloy-logs.enabled = true;
       };
     };
   };

@@ -19,6 +19,7 @@
     ./externaldns.nix
     ./forgejo.nix
     ./grafana-k8s-monitoring.nix
+    ./grafana-loki.nix
     ./grafana.nix
     ./homeassistant.nix
     ./hyperdx.nix

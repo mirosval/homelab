@@ -13,6 +13,9 @@
 
       values = {
         server.persistentVolume.storageClass = "longhorn";
+        kube-state-metrics.enabled = false;
+        prometheus-node-exporter.enabled = false;
+        prometheus-pushgateway.enabled = false;
       };
     };
   };
