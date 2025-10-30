@@ -27,9 +27,6 @@ spec:
             - -addr=grafana-loki-gateway.grafana-loki.svc.cluster.local.:80
             - -labelname=pod
             - -labelvalue=$(POD_NAME)
-            - -user=self-monitoring
-            - -tenant-id=self-monitoring
-            - -pass=
             - -push=true
           env:
             - name: POD_NAME

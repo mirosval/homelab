@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
   config.yaml: |2
-    auth_enabled: true
+    auth_enabled: false
     bloom_build:
       builder:
         planner_address: ""
