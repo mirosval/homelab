@@ -18,7 +18,7 @@
           {
             name = "localPrometheus";
             type = "prometheus";
-            url = "http://prometheus.monitoring.svc.cluster.local:9090";
+            url = "http://prometheus-server.prometheus.svc.cluster.local";
           }
           {
             name = "loki";

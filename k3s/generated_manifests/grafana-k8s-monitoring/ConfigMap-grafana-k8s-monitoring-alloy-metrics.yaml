@@ -533,7 +533,7 @@ data:
 
     prometheus.remote_write "localprometheus" {
       endpoint {
-        url = "http://prometheus.monitoring.svc.cluster.local:9090"
+        url = "http://prometheus-server.prometheus.svc.cluster.local"
         headers = {
         }
         tls_config {

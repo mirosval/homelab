@@ -181,7 +181,10 @@ in
               uuid = "07b10837-7efd-3edd-959c-2d40bc971679";
               autoconnect = true;
             };
-            ipv4.method = "auto";
+            ipv4 = {
+              method = "auto";
+              never-default = true;
+            };
             wifi = {
               mode = "infrastructure";
               ssid = "$WIFI_NAME";
