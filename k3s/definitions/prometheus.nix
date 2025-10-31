@@ -12,7 +12,12 @@
       };
 
       values = {
-        server.persistentVolume.storageClass = "longhorn";
+        server = {
+          persistentVolume.storageClass = "longhorn";
+          extraArgs = {
+            "web.enable-remote-write-receiver" = "null";
+          };
+        };
         kube-state-metrics.enabled = false;
         prometheus-node-exporter.enabled = false;
         prometheus-pushgateway.enabled = false;
