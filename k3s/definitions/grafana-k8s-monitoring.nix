@@ -18,7 +18,7 @@
           {
             name = "localPrometheus";
             type = "prometheus";
-            url = "http://prometheus-server.prometheus.svc.cluster.local";
+            url = "http://prometheus-server.prometheus.svc.cluster.local/api/v1/write";
           }
           {
             name = "loki";
