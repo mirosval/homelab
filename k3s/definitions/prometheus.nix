@@ -15,7 +15,7 @@
         server = {
           persistentVolume.storageClass = "longhorn";
           extraArgs = {
-            "web.enable-remote-write-receiver" = "null";
+            "web.enable-remote-write-receiver" = null;
           };
         };
         kube-state-metrics.enabled = false;
