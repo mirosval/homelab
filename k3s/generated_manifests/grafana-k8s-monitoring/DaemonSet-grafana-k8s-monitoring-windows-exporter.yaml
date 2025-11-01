@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app.kubernetes.io/component: metrics
+    app.kubernetes.io/instance: grafana-k8s-monitoring
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: windows-exporter
+    app.kubernetes.io/part-of: windows-exporter
+    app.kubernetes.io/version: 0.31.3
+    helm.sh/chart: windows-exporter-0.12.2
+    release: grafana-k8s-monitoring
+  name: grafana-k8s-monitoring-windows-exporter
+  namespace: grafana-k8s-monitoring
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: grafana-k8s-monitoring
+      app.kubernetes.io/name: windows-exporter
+  template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+        k8s.grafana.com/logs.job: integrations/windows_exporter
+      labels:
+        app.kubernetes.io/component: metrics
+        app.kubernetes.io/instance: grafana-k8s-monitoring
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: windows-exporter
+        app.kubernetes.io/part-of: windows-exporter
+        app.kubernetes.io/version: 0.31.3
+        helm.sh/chart: windows-exporter-0.12.2
+        release: grafana-k8s-monitoring
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - args:
+            - --config.file=%CONTAINER_SANDBOX_MOUNT_POINT%/config.yml
+            - --collector.textfile.directories=%CONTAINER_SANDBOX_MOUNT_POINT%
+            - --web.listen-address=:9182
+          image: ghcr.io/prometheus-community/windows-exporter:0.31.3
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 9182
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: windows-exporter
+          ports:
+            - containerPort: 9182
+              name: metrics
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 9182
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          volumeMounts:
+            - mountPath: /config.yml
+              name: config
+              subPath: config.yml
+      hostNetwork: true
+      hostPID: true
+      initContainers:
+        - args:
+            - New-NetFirewallRule
+            - -DisplayName
+            - '''windows-exporter'''
+            - -Direction
+            - inbound
+            - -Profile
+            - Any
+            - -Action
+            - Allow
+            - -LocalPort
+            - "9182"
+            - -Protocol
+            - TCP
+          command:
+            - powershell
+          image: ghcr.io/prometheus-community/windows-exporter:0.31.3
+          name: configure-firewall
+      nodeSelector:
+        kubernetes.io/os: windows
+      securityContext:
+        windowsOptions:
+          hostProcess: true
+          runAsUserName: NT AUTHORITY\system
+      serviceAccountName: grafana-k8s-monitoring-windows-exporter
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+      volumes:
+        - configMap:
+            name: grafana-k8s-monitoring-windows-exporter
+          name: config
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
