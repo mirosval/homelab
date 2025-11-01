@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  labels:
+    app.kubernetes.io/instance: k8s-monitoring
+    app.kubernetes.io/name: k8s-monitoring-remove-alloy-and-finalizer
+    helm.sh/chart: k8s-monitoring-3.5.5
+  name: k8s-monitoring-remove-alloy-and-finalizer
+  namespace: monitoring
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: k8s-monitoring
+        app.kubernetes.io/name: k8s-monitoring
+        linkerd.io/inject: disabled
+        sidecar.istio.io/inject: "false"
+      name: k8s-monitoring-remove-alloy-and-finalizer
+    spec:
+      containers:
+        - command:
+            - /bin/bash
+            - -ce
+            - |
+              echo "Deleting Alloy instance: alloy/k8s-monitoring-alloy-logs..."
+              kubectl delete alloy/k8s-monitoring-alloy-logs --ignore-not-found=true --wait
+              kubectl wait --for=delete alloy/k8s-monitoring-alloy-logs --timeout=60s || echo "Timed out waiting for deletion of alloy/k8s-monitoring-alloy-logs or it may not exist."
+
+              kubectl patch \
+                --namespace=monitoring \
+                --type json \
+                --patch='[{"op": "remove", "path": "/metadata/finalizers"}]' \
+                deployment/k8s-monitoring-alloy-operator
+          image: ghcr.io/grafana/helm-chart-toolbox-kubectl:0.1.1
+          imagePullPolicy: IfNotPresent
+          name: remove-finalizers
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 4242
+            seccompProfile:
+              type: RuntimeDefault
+      nodeSelector:
+        kubernetes.io/os: linux
+      restartPolicy: Never
+      serviceAccountName: k8s-monitoring-remove-alloy-and-finalizer
+  ttlSecondsAfterFinished: 300
