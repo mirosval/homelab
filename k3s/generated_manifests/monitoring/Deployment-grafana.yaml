@@ -20,9 +20,9 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 0e9cbd0ea8e24e32f7dfca5bab17a2ba05652642f0a09a4882833ae88e4cc4a3
+        checksum/config: f8cd6cf4159b86bbedaf4ce686016d30ed699e0726051dec1d092a03d17c9ee8
         checksum/sc-dashboard-provider-config: e70bf6a851099d385178a76de9757bb0bef8299da6d8443602590e44f05fdf24
-        checksum/secret: f6211c35df0969b45befa463ace3513958a3821a11fac7a42e9e2f8d7ce891b4
+        checksum/secret: c414f44377e05e76ac66b114f7fde2923500daa7ccb78bdbeb7267afb1df045e
         kubectl.kubernetes.io/default-container: grafana
       labels:
         app.kubernetes.io/instance: grafana
@@ -95,6 +95,9 @@ spec:
               subPath: grafana.ini
             - mountPath: /var/lib/grafana
               name: storage
+            - mountPath: /etc/grafana/provisioning/datasources/datasources.yaml
+              name: config
+              subPath: datasources.yaml
       enableServiceLinks: true
       initContainers:
         - command:

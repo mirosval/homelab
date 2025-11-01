@@ -17,6 +17,22 @@
           enabled = true;
           storageClassName = "longhorn";
         };
+
+        datasources."datasources.yaml" = {
+          apiVersion = 1;
+          datasources = [
+            {
+              name = "Prometheus";
+              type = "prometheus";
+              url = "http://prometheus-server";
+            }
+            {
+              name = "Loki";
+              type = "loki";
+              url = "http://loki";
+            }
+          ];
+        };
       };
     };
 
