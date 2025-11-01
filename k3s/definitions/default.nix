@@ -18,9 +18,7 @@
     ./dazzle.nix
     ./externaldns.nix
     ./forgejo.nix
-    ./grafana-k8s-monitoring.nix
-    ./grafana-loki.nix
-    ./grafana.nix
+    ./monitoring.nix
     ./homeassistant.nix
     ./hyperdx.nix
     ./immich.nix
@@ -31,7 +29,6 @@
     ./metallb.nix
     ./otel.nix
     ./pihole.nix
-    ./prometheus.nix
     ./renovate.nix
     ./sealedsecrets.nix
     ./tailscale.nix
