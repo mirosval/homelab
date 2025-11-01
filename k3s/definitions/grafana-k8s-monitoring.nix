@@ -28,10 +28,14 @@
         ];
 
         clusterMetrics.enabled = true;
+        clusterEvents.enabled = true;
         podLogs.enabled = true;
-
-        alloy-metrics.enabled = true;
+        alloy-metrics = {
+          enabled = true;
+          liveDebugging.enabled = true;
+        };
         alloy-logs.enabled = true;
+        alloy-singleton.enabled = true;
       };
     };
   };

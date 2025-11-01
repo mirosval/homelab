@@ -30,6 +30,10 @@ spec:
               kubectl delete alloy/grafana-k8s-monitoring-alloy-metrics --ignore-not-found=true --wait
               kubectl wait --for=delete alloy/grafana-k8s-monitoring-alloy-metrics --timeout=60s || echo "Timed out waiting for deletion of alloy/grafana-k8s-monitoring-alloy-metrics or it may not exist."
 
+              echo "Deleting Alloy instance: alloy/grafana-k8s-monitoring-alloy-singleton..."
+              kubectl delete alloy/grafana-k8s-monitoring-alloy-singleton --ignore-not-found=true --wait
+              kubectl wait --for=delete alloy/grafana-k8s-monitoring-alloy-singleton --timeout=60s || echo "Timed out waiting for deletion of alloy/grafana-k8s-monitoring-alloy-singleton or it may not exist."
+
               echo "Deleting Alloy instance: alloy/grafana-k8s-monitoring-alloy-logs..."
               kubectl delete alloy/grafana-k8s-monitoring-alloy-logs --ignore-not-found=true --wait
               kubectl wait --for=delete alloy/grafana-k8s-monitoring-alloy-logs --timeout=60s || echo "Timed out waiting for deletion of alloy/grafana-k8s-monitoring-alloy-logs or it may not exist."
