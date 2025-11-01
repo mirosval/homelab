@@ -29,7 +29,7 @@
             {
               name = "Loki";
               type = "loki";
-              url = "http://loki";
+              url = "http://loki:3100";
             }
           ];
         };
