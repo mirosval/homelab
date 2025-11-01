@@ -1,9 +1,0 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: hyperdx
-  namespace: hyperdx
-spec:
-  ingressClassName: traefik
-  rules:
-    - host: hyperdx.doma.lol

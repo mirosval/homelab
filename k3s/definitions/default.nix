@@ -20,7 +20,6 @@
     ./forgejo.nix
     ./monitoring.nix
     ./homeassistant.nix
-    ./hyperdx.nix
     ./immich.nix
     ./intel-device-plugins-operator.nix
     ./intel-gpu-device-plugin.nix
