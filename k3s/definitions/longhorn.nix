@@ -16,6 +16,7 @@
           backupTarget = "cifs://10.42.0.3/longhorn_backups";
           backupTargetCredentialSecret = "smb-longhorn-backups-rw";
         };
+        metrics.serviceMonitor.enabled = true;
       };
     };
 

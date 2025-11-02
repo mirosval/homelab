@@ -8,7 +8,7 @@ data:
       url: http://prometheus-server
     - name: Loki
       type: loki
-      url: http://loki
+      url: http://loki:3100
   grafana.ini: |
     [analytics]
     check_for_updates = true
