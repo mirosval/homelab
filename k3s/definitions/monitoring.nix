@@ -24,7 +24,7 @@
             {
               name = "Prometheus";
               type = "prometheus";
-              url = "http://prometheus-server";
+              url = "http://prometheus-kube-prometheus-prometheus:9090";
             }
             {
               name = "Loki";
@@ -51,7 +51,7 @@
           {
             name = "localPrometheus";
             type = "prometheus";
-            url = "http://prometheus-server/api/v1/write";
+            url = "http://prometheus-kube-prometheus-prometheus:9090/api/v1/write";
           }
           {
             name = "loki";
