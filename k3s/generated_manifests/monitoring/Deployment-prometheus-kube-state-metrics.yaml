@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/part-of: kube-state-metrics
     app.kubernetes.io/version: 2.17.0
     helm.sh/chart: kube-state-metrics-6.3.0
+    release: prometheus
   name: prometheus-kube-state-metrics
   namespace: monitoring
 spec:
@@ -30,6 +31,7 @@ spec:
         app.kubernetes.io/part-of: kube-state-metrics
         app.kubernetes.io/version: 2.17.0
         helm.sh/chart: kube-state-metrics-6.3.0
+        release: prometheus
     spec:
       automountServiceAccountToken: true
       containers:

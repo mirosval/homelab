@@ -7,8 +7,9 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: prometheus-node-exporter
     app.kubernetes.io/part-of: prometheus-node-exporter
-    app.kubernetes.io/version: 1.10.0
-    helm.sh/chart: prometheus-node-exporter-4.49.0
+    app.kubernetes.io/version: 1.10.2
+    helm.sh/chart: prometheus-node-exporter-4.49.1
+    release: prometheus
   name: prometheus-prometheus-node-exporter
   namespace: monitoring
 spec:
@@ -27,8 +28,10 @@ spec:
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: prometheus-node-exporter
         app.kubernetes.io/part-of: prometheus-node-exporter
-        app.kubernetes.io/version: 1.10.0
-        helm.sh/chart: prometheus-node-exporter-4.49.0
+        app.kubernetes.io/version: 1.10.2
+        helm.sh/chart: prometheus-node-exporter-4.49.1
+        jobLabel: node-exporter
+        release: prometheus
     spec:
       affinity:
         nodeAffinity:
@@ -51,16 +54,18 @@ spec:
             - --path.rootfs=/host/root
             - --path.udev.data=/host/root/run/udev/data
             - --web.listen-address=[$(HOST_IP)]:9100
+            - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+            - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs|erofs)$
           env:
             - name: HOST_IP
               value: 0.0.0.0
-          image: quay.io/prometheus/node-exporter:v1.10.0
+          image: quay.io/prometheus/node-exporter:v1.10.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
             httpGet:
               path: /
-              port: metrics
+              port: http-metrics
               scheme: HTTP
             initialDelaySeconds: 0
             periodSeconds: 10
@@ -69,20 +74,19 @@ spec:
           name: node-exporter
           ports:
             - containerPort: 9100
-              name: metrics
+              name: http-metrics
               protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
               path: /
-              port: metrics
+              port: http-metrics
               scheme: HTTP
             initialDelaySeconds: 0
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
           securityContext:
-            allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
           volumeMounts:
             - mountPath: /host/proc

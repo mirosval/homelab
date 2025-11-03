@@ -129,9 +129,9 @@
     helm.releases.prometheus = {
       chart = lib.helm.downloadHelmChart {
         repo = "https://prometheus-community.github.io/helm-charts";
-        chart = "prometheus";
-        version = "27.42.0";
-        chartHash = "sha256-nZkJzqnY4ynAtmccQtn1gb1F41SItwDdh3ipHA4PnNU=";
+        chart = "kube-prometheus-stack";
+        version = "79.1.0";
+        chartHash = "sha256-8JK9+kw2ssYWz48MNCsm+G+wskEVwAqgaAnqZXeiCU0=";
       };
 
       values = {
@@ -139,6 +139,7 @@
         kube-state-metrics.enabled = true;
         prometheus-node-exporter.enabled = true;
         prometheus-pushgateway.enabled = true;
+        grafana.enabled = false;
       };
     };
 
