@@ -212,6 +212,7 @@ in
       2380 # k3s: etcd
       6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
       7946 # MetalLB
+      9100 # Node Exporter
       10250 # k3s: Kubelet metrics
     ];
 
