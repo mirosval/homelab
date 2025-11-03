@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prometheus-kube-prometheus-admission
+  namespace: monitoring
+spec:
+  dnsNames:
+    - prometheus-kube-prometheus-operator
+    - prometheus-kube-prometheus-operator.monitoring.svc
+  duration: 8760h0m0s
+  issuerRef:
+    name: prometheus-kube-prometheus-root-issuer
+  secretName: prometheus-kube-prometheus-admission

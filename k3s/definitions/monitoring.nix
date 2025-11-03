@@ -140,6 +140,7 @@
         prometheus-node-exporter.enabled = true;
         prometheus-pushgateway.enabled = true;
         grafana.enabled = false;
+        prometheusOperator.admissionWebhooks.certManager.enabled = true;
       };
     };
 

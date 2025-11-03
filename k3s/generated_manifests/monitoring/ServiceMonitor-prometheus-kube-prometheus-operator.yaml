@@ -22,7 +22,7 @@ spec:
       tlsConfig:
         ca:
           secret:
-            key: ca
+            key: ca.crt
             name: prometheus-kube-prometheus-admission
             optional: false
         serverName: prometheus-kube-prometheus-operator
