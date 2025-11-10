@@ -18,7 +18,7 @@ spec:
         - env:
             - name: DOCKER_TLS_CERTDIR
               value: /certs
-          image: docker.io/docker:28.3.0-dind
+          image: docker.io/docker:28.5.2-dind
           name: daemon
           securityContext:
             privileged: true
@@ -42,7 +42,7 @@ spec:
               value: /certs/client
             - name: DOCKER_TLS_VERIFY
               value: "1"
-          image: code.forgejo.org/forgejo/runner:6.4.0
+          image: code.forgejo.org/forgejo/runner:11.3.1
           name: runner
           securityContext:
             allowPrivilegeEscalation: false
@@ -88,7 +88,7 @@ spec:
                   name: forgejo-runner
             - name: FORGEJO_INSTANCE_URL
               value: http://forgejo-http.forgejo.svc.cluster.local:3000
-          image: code.forgejo.org/forgejo/runner:6.4.0
+          image: code.forgejo.org/forgejo/runner:11.3.1
           name: runner-register
           securityContext:
             allowPrivilegeEscalation: false

@@ -8,7 +8,7 @@
         repo = "https://jellyfin.github.io/jellyfin-helm";
         chart = "jellyfin";
         version = "2.5.0";
-        chartHash = "sha256-uqdSUZ034DXIGsEyJEh7XXmy+Ru6ovrhw8SOf4ZqKBQ=";
+        chartHash = "sha256-rdkEHSNDRv3zVeA9y6Mp41jJ1ZfdIEFe7MrJQjVKFQ8=";
       };
 
       values = {

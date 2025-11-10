@@ -8,7 +8,7 @@
         repo = "https://charts.longhorn.io";
         chart = "longhorn";
         version = "1.10.0";
-        chartHash = "sha256-jDI7vHl0QNAgFEgAdPf8HoG7OcnRED3QNMSN+tFoxaI=";
+        chartHash = "sha256-5uTooqwshCePn2K+Io6SXTVOkg8g0FctXumSoCGLlpo=";
       };
       values = {
         defaultSettings.defaultDataPath = "/mnt/data/longhorn";
