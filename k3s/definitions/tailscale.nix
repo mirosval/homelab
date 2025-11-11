@@ -7,7 +7,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://pkgs.tailscale.com/helmcharts";
         chart = "tailscale-operator";
-        version = "1.88.2";
+        version = "1.90.6";
         chartHash = "sha256-brC01veNdB36YY1OlDXuoM860or0SiP69uJv7BshuGQ=";
       };
     };
