@@ -8,7 +8,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://open-telemetry.github.io/opentelemetry-helm-charts";
         chart = "opentelemetry-collector";
-        version = "0.138.0";
+        version = "0.139.0";
         chartHash = "sha256-fAOaF22N7Skw2xD5s1XYqdOcF+7WmFImG1GJGoNcR6c=";
       };
       values = {
@@ -108,7 +108,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://open-telemetry.github.io/opentelemetry-helm-charts";
         chart = "opentelemetry-collector";
-        version = "0.138.0";
+        version = "0.139.0";
         chartHash = "sha256-fAOaF22N7Skw2xD5s1XYqdOcF+7WmFImG1GJGoNcR6c=";
       };
       values = {
