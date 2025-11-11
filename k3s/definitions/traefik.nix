@@ -7,7 +7,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://traefik.github.io/charts";
         chart = "traefik";
-        version = "37.2.0";
+        version = "37.3.0";
         chartHash = "sha256-rLrHBkvs2WGyiuIQDxjD1QEwlkS/QjetCdQdbA42P1E=";
       };
       values = {
