@@ -12,6 +12,7 @@
       };
 
       values = {
+        replicaCount = 1;
         persistence = {
           config = {
             storageClass = "longhorn";
