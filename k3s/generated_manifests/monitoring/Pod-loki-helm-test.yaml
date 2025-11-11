@@ -7,8 +7,8 @@ metadata:
     app.kubernetes.io/component: helm-test
     app.kubernetes.io/instance: loki
     app.kubernetes.io/name: loki
-    app.kubernetes.io/version: 3.5.5
-    helm.sh/chart: loki-6.44.0
+    app.kubernetes.io/version: 3.5.7
+    helm.sh/chart: loki-6.46.0
   name: loki-helm-test
   namespace: monitoring
 spec:
@@ -17,7 +17,7 @@ spec:
         - -test.v
       env:
         - name: CANARY_SERVICE_ADDRESS
-          value: http://loki-canary:3500/metrics
+          value: http://loki-canary.monitoring.svc.cluster.local:3500/metrics
         - name: CANARY_PROMETHEUS_ADDRESS
           value: ""
         - name: CANARY_TEST_TIMEOUT

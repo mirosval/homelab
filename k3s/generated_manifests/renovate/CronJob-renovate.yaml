@@ -16,7 +16,7 @@ spec:
               envFrom:
                 - secretRef:
                     name: forgejo-renovate
-              image: renovate/renovate:41.135.5
+              image: renovate/renovate:42.6.1
               name: renovate
               volumeMounts:
                 - mountPath: /opt/renovate

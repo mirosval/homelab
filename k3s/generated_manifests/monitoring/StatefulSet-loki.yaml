@@ -6,8 +6,8 @@ metadata:
     app.kubernetes.io/instance: loki
     app.kubernetes.io/name: loki
     app.kubernetes.io/part-of: memberlist
-    app.kubernetes.io/version: 3.5.5
-    helm.sh/chart: loki-6.44.0
+    app.kubernetes.io/version: 3.5.7
+    helm.sh/chart: loki-6.46.0
   name: loki
   namespace: monitoring
 spec:
@@ -26,7 +26,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: bf2156e6bddeb458806598a0ef49a42483150e69a8dac047fb3eee0d659a0eb6
+        checksum/config: d17fd9ad382b286424877073556caa8865357673414d709c7027f6c7105bb354
         kubectl.kubernetes.io/default-container: loki
         storage/size: 10Gi
       labels:
@@ -49,7 +49,7 @@ spec:
         - args:
             - -config.file=/etc/loki/config/config.yaml
             - -target=all
-          image: docker.io/grafana/loki:3.5.5
+          image: docker.io/grafana/loki:3.5.7
           imagePullPolicy: IfNotPresent
           name: loki
           ports:
@@ -63,10 +63,13 @@ spec:
               name: http-memberlist
               protocol: TCP
           readinessProbe:
+            failureThreshold: 3
             httpGet:
               path: /ready
               port: http-metrics
-            initialDelaySeconds: 30
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
             timeoutSeconds: 1
           resources: {}
           securityContext:

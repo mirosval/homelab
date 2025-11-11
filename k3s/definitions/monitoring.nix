@@ -73,7 +73,7 @@
         repo = "https://grafana.github.io/helm-charts";
         chart = "loki";
         version = "6.46.0";
-        chartHash = "sha256-NMn2+CUYWbYKixp1mBSEp4cbB8RCqrE657UOP8tXRFE=";
+        chartHash = "sha256-eMSFYKiopGaKHyjE32s7+Nb1bfO1LFNgjKy5MNSnuFY=";
       };
 
       values = {
@@ -102,6 +102,8 @@
           };
 
           ruler.enable_api = true;
+
+          storage.bucketNames.chunks = "chunks";
         };
 
         minio.enabled = true;
@@ -131,7 +133,7 @@
         repo = "https://prometheus-community.github.io/helm-charts";
         chart = "kube-prometheus-stack";
         version = "79.5.0";
-        chartHash = "sha256-8JK9+kw2ssYWz48MNCsm+G+wskEVwAqgaAnqZXeiCU0=";
+        chartHash = "sha256-608vlipmOcrMHCGLVDJY1cJnPLySKOLV9zM6CS7mdss=";
       };
 
       values = {

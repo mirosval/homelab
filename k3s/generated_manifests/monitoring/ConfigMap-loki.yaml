@@ -21,7 +21,7 @@ data:
           batch_size: 4
           parallelism: 5
         memcached_client:
-          addresses: dnssrvnoa+_memcached-client._tcp.loki-chunks-cache.monitoring.svc
+          addresses: dnssrvnoa+_memcached-client._tcp.loki-chunks-cache.monitoring.svc.cluster.local
           consistent_hash: true
           max_idle_conns: 72
           timeout: 2000ms
@@ -54,7 +54,7 @@ data:
       volume_enabled: true
     memberlist:
       join_members:
-      - loki-memberlist
+      - loki-memberlist.monitoring.svc.cluster.local
     pattern_ingester:
       enabled: true
     query_range:
@@ -68,7 +68,7 @@ data:
             writeback_size_limit: 500MB
           default_validity: 12h
           memcached_client:
-            addresses: dnssrvnoa+_memcached-client._tcp.loki-results-cache.monitoring.svc
+            addresses: dnssrvnoa+_memcached-client._tcp.loki-results-cache.monitoring.svc.cluster.local
             consistent_hash: true
             timeout: 500ms
             update_interval: 1m
@@ -116,7 +116,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: loki
     app.kubernetes.io/name: loki
-    app.kubernetes.io/version: 3.5.5
-    helm.sh/chart: loki-6.44.0
+    app.kubernetes.io/version: 3.5.7
+    helm.sh/chart: loki-6.46.0
   name: loki
   namespace: monitoring
