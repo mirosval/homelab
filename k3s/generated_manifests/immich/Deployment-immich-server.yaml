@@ -67,7 +67,9 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
+              cpu: "1"
               gpu.intel.com/i915: 1000m
+              memory: 2Gi
           startupProbe:
             failureThreshold: 30
             httpGet:

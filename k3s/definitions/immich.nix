@@ -43,7 +43,11 @@
         server = {
           controllers.main = {
             replicas = 3;
-            containers.main.resources.limits."gpu.intel.com/i915" = "1000m";
+            containers.main.resources.limits = {
+              "gpu.intel.com/i915" = "1000m";
+              cpu = "1";
+              memory = "2Gi";
+            };
           };
           persistence = {
             photos = {
@@ -71,7 +75,11 @@
         machine-learning = {
           controllers.main = {
             replicas = 3;
-            containers.main.resources.limits."gpu.intel.com/i915" = "1000m";
+            containers.main.resources.limits = {
+              "gpu.intel.com/i915" = "1000m";
+              cpu = "1";
+              memory = "2Gi";
+            };
           };
           persistence = {
             cache = {
