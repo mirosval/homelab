@@ -7,7 +7,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://intel.github.io/helm-charts";
         chart = "intel-device-plugins-gpu";
-        version = "0.34.0";
+        version = "0.35.0";
         chartHash = "sha256-gqvn0sZvbfc3i6t8fSBMblC4mPsW/KCCNnj/gnOVRYs=";
       };
 
