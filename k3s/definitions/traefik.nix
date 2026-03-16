@@ -8,7 +8,7 @@
         repo = "https://traefik.github.io/charts";
         chart = "traefik";
         version = "37.4.0";
-        chartHash = "sha256-7fasOUhztwP1QCs3GfHRDTiFI9Rtqcj8sedEwjNNkpY=";
+        chartHash = "sha256-Zgjktr2QrlIv2cSTmoHraEYi+txhiip64zC9GWTGFtI=";
       };
       values = {
         # redirect http -> https
