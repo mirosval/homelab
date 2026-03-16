@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: k8s-monitoring
     app.kubernetes.io/name: k8s-monitoring-add-finalizer
-    helm.sh/chart: k8s-monitoring-3.5.5
+    helm.sh/chart: k8s-monitoring-3.8.4
   name: k8s-monitoring-add-finalizer
   namespace: monitoring
 spec:
@@ -31,7 +31,7 @@ spec:
                 --namespace=monitoring \
                 --patch='{"metadata":{"finalizers":["k8s.grafana.com/finalizer"]}}' \
                 deployment/k8s-monitoring-alloy-operator
-          image: ghcr.io/grafana/helm-chart-toolbox-kubectl:0.1.1
+          image: ghcr.io/grafana/helm-chart-toolbox-kubectl:0.1.2
           imagePullPolicy: IfNotPresent
           name: add-finalizers
           securityContext:

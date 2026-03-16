@@ -9,7 +9,7 @@
         repo = "https://grafana.github.io/helm-charts";
         chart = "grafana";
         version = "10.5.15";
-        chartHash = "sha256-tDlAzBBj95svRRjTsLzyGDfvw4r1kakuHU7CzUg68QU=";
+        chartHash = "sha256-Mu0AEXTV5xU9zMrmFkHWJRQyOrmDSZeMwKMXEpS7Gy8=";
       };
 
       values = {
@@ -41,7 +41,7 @@
         repo = "https://grafana.github.io/helm-charts";
         chart = "k8s-monitoring";
         version = "3.8.4";
-        chartHash = "sha256-aSoFsFYWKS7WIfo7ltDVIsJq30DjtePZMpnwQTTIy5k=";
+        chartHash = "sha256-9nP1jMw18P35bD4cNX4xPX6M0nounCgNc3CkUyPgAWI=";
       };
 
       values = {
@@ -133,7 +133,7 @@
         repo = "https://prometheus-community.github.io/helm-charts";
         chart = "kube-prometheus-stack";
         version = "79.12.0";
-        chartHash = "sha256-608vlipmOcrMHCGLVDJY1cJnPLySKOLV9zM6CS7mdss=";
+        chartHash = "sha256-m0znG0nvpKQTzctpD6QETf/wrT2rZzKzPi1NjvWAO4w=";
       };
 
       values = {
