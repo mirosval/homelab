@@ -7,7 +7,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts";
         chart = "csi-driver-smb";
-        version = "1.19.1";
+        version = "1.20.1";
         chartHash = "sha256-3TWGwasCcimmMKE4yGvqvtqS/ag2ZqrhCJUVn0p9aq8=";
       };
 
