@@ -8,13 +8,13 @@
       chart = lib.helm.downloadHelmChart {
         repo = "oci://ghcr.io/immich-app/immich-charts";
         chart = "immich";
-        version = "0.10.1";
-        chartHash = "sha256-OtwfVn76iz2P7Mu95GaPLChkjT4OKiNBKllJx2QVTwo=";
+        version = "0.10.3";
+        chartHash = "sha256-+GGHO1w55A5/oe5gp/lweWXBMy7a/2VdoxlEdlsVnzk=";
       };
 
       values = {
         controllers.main.containers.main = {
-          image.tag = "v2.2.3";
+          image.tag = "v2.5.6";
           env = {
             DB_HOSTNAME_FILE = "/etc/secret/host";
             DB_DATABASE_NAME = "postgres";

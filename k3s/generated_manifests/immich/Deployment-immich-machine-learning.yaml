@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: machine-learning
     app.kubernetes.io/version: v2.0.0
-    helm.sh/chart: immich-0.10.1
+    helm.sh/chart: immich-0.10.3
   name: immich-machine-learning
   namespace: immich
 spec:
@@ -38,13 +38,17 @@ spec:
               value: /etc/secret/password
             - name: DB_USERNAME_FILE
               value: /etc/secret/user
+            - name: HF_XET_CACHE
+              value: /cache/huggingface-xet
             - name: IMMICH_MACHINE_LEARNING_URL
               value: http://immich-machine-learning:3003
+            - name: MPLCONFIGDIR
+              value: /cache/matplotlib-config
             - name: REDIS_HOSTNAME
               value: immich-valkey
             - name: TRANSFORMERS_CACHE
               value: /cache
-          image: ghcr.io/immich-app/immich-machine-learning:v2.2.3
+          image: ghcr.io/immich-app/immich-machine-learning:v2.5.6
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
