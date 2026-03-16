@@ -7,7 +7,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://charts.longhorn.io";
         chart = "longhorn";
-        version = "1.10.0";
+        version = "1.11.1";
         chartHash = "sha256-5uTooqwshCePn2K+Io6SXTVOkg8g0FctXumSoCGLlpo=";
       };
       values = {
