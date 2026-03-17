@@ -15,12 +15,6 @@
       values = {
         authentik.existingSecret.secretName = "authentik";
         postgresql.enabled = false;
-        server.ingress = {
-          enabled = true;
-          hosts = [
-            "authentik.doma.lol"
-          ];
-        };
       };
     };
 
@@ -39,7 +33,7 @@
           {
             match = "Host(`authentik.doma.lol`)";
             kind = "Rule";
-            services.authentik-server.port = 9000;
+            services.authentik-server.port = 80;
           }
         ];
       };

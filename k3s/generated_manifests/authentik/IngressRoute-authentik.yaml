@@ -11,4 +11,4 @@ spec:
       match: Host(`authentik.doma.lol`)
       services:
         - name: authentik-server
-          port: 9000
+          port: 80
