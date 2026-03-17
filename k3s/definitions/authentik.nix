@@ -15,6 +15,12 @@
       values = {
         authentik.existingSecret.secretName = "authentik";
         postgresql.enabled = false;
+        server.ingress = {
+          enabled = true;
+          hosts = [
+            "authentik.doma.lol"
+          ];
+        };
       };
     };
 
