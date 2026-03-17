@@ -10,6 +10,7 @@
   ];
   imports = [
     ./argocd.nix
+    ./authentik.nix
     ./cert-manager.nix
     ./cloudnativepg.nix
     ./coredns-config.nix

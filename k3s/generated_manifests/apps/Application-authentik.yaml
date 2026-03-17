@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authentik
+  namespace: argocd
+spec:
+  destination:
+    namespace: authentik
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k3s/generated_manifests/authentik
+    repoURL: https://github.com/mirosval/homelab.git
+    targetRevision: main
+  syncPolicy: {}
