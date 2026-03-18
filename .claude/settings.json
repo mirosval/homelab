@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(jj status)",
+      "Bash(jj git fetch *)",
+      "Bash(jj new *)",
+      "Bash(jj diff *)",
+      "Bash(jj commit *)",
+      "Bash(jj bookmark *)",
+      "Bash(jj b set *)",
+      "Bash(jj git push *)",
+      "Bash(make print-*)",
+      "Bash(make check-manifests)",
+      "Bash(make generate-manifests)",
+      "Bash(curl -s * https://forgejo.doma.lol/*)"
+    ],
+    "ask": [
+      "Bash(curl -s -X POST * https://forgejo.doma.lol/*)"
+    ],
+    "deny": [
+      "Bash(make nixos-anywhere*)",
+      "Bash(make *)"
+    ]
+  }
+}
