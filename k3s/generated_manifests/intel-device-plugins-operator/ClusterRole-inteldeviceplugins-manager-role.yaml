@@ -84,6 +84,7 @@ rules:
       - iaadeviceplugins/finalizers
       - qatdeviceplugins/finalizers
       - sgxdeviceplugins/finalizers
+      - npudeviceplugins/finalizers
     verbs:
       - update
   - apiGroups:
@@ -96,6 +97,7 @@ rules:
       - iaadeviceplugins/status
       - qatdeviceplugins/status
       - sgxdeviceplugins/status
+      - npudeviceplugins/status
     verbs:
       - get
       - patch

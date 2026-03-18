@@ -18,8 +18,7 @@
       "Bash(curl -s -X POST * https://forgejo.doma.lol/*)"
     ],
     "deny": [
-      "Bash(make nixos-anywhere*)",
-      "Bash(make *)"
+      "Bash(make nixos-anywhere*)"
     ]
   }
 }

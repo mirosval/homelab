@@ -8,7 +8,7 @@
         repo = "https://argoproj.github.io/argo-helm/";
         chart = "argo-cd";
         version = "9.4.14";
-        chartHash = "sha256-OOI2DW8sL8ynEQviVs6bKjpfsmQd/x99Q++vfj7k2cw=";
+        chartHash = "sha256-aiM6P2ucd2wL/ELpQc+ZEx2noh+m2vtxhxnlotQzzKw=";
       };
       values = {
         configs.params."server.insecure" = true; # TLS terminated at traefik

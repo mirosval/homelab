@@ -8,7 +8,7 @@
         repo = "https://intel.github.io/helm-charts";
         chart = "intel-device-plugins-operator";
         version = "0.35.0";
-        chartHash = "sha256-5K3Gzzg+V7CFPCck3eh6E80Lnn3F3PwIWog5B+eNHgI=";
+        chartHash = "sha256-yMTzhYE5mojPOHb6292885yuiRGMqEycjVkOuSzRjFI=";
       };
     };
   };
