@@ -15,13 +15,14 @@ data:
     - ^kube-ipvs.*
     - ^cni.*
     - ^nodelocaldns.*
+    - ^lxc.*
 kind: ConfigMap
 metadata:
   labels:
     app.kubernetes.io/instance: metallb
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: metallb
-    app.kubernetes.io/version: v0.15.2
-    helm.sh/chart: metallb-0.15.2
+    app.kubernetes.io/version: v0.15.3
+    helm.sh/chart: metallb-0.15.3
   name: metallb-excludel2
   namespace: metallb
