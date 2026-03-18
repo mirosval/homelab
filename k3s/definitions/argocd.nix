@@ -7,7 +7,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://argoproj.github.io/argo-helm/";
         chart = "argo-cd";
-        version = "9.4.11";
+        version = "9.4.14";
         chartHash = "sha256-OOI2DW8sL8ynEQviVs6bKjpfsmQd/x99Q++vfj7k2cw=";
       };
       values = {
