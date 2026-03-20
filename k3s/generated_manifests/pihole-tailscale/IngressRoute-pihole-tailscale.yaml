@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`pihole.doma.lol`)
+      match: Host(`pihole-tailscale.doma.lol`)
       services:
         - name: pihole-tailscale-web
           port: 80

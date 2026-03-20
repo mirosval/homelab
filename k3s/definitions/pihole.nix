@@ -98,7 +98,7 @@ in
         entryPoints = [ "websecure" ];
         routes = [
           {
-            match = "Host(`pihole.doma.lol`)";
+            match = "Host(`pihole-tailscale.doma.lol`)";
             kind = "Rule";
             services.pihole-tailscale-web.port = 80;
           }
