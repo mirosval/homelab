@@ -46,6 +46,17 @@
           }
         ];
       };
+
+      services.dazzle-tailscale = {
+        metadata.annotations = {
+          "external-dns.alpha.kubernetes.io/hostname" = "dazzle.doma.lol";
+          "external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";
+        };
+        spec = {
+          type = "ClusterIP";
+          clusterIP = "None";
+        };
+      };
     };
   };
 }

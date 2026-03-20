@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: tinyauth.doma.lol
+    external-dns.alpha.kubernetes.io/target: homelab-1.boreal-scala.ts.net
+  name: tinyauth-tailscale
+  namespace: tinyauth
+spec:
+  clusterIP: None
+  type: ClusterIP
