@@ -239,15 +239,14 @@
         ];
       };
 
-      ingresses.immich-ts = {
-        metadata.annotations."external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";
+      services.immich-ts = {
+        metadata.annotations = {
+          "external-dns.alpha.kubernetes.io/hostname" = "immich.doma.lol";
+          "external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";
+        };
         spec = {
-          ingressClassName = "external-dns-ts";
-          rules = [
-            {
-              host = "immich.doma.lol";
-            }
-          ];
+          type = "ClusterIP";
+          clusterIP = "None";
         };
       };
     };

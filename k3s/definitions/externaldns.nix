@@ -17,6 +17,7 @@ in
       values = {
         provider = "pihole";
         txtOwnerId = "homelab";
+        sources = [ "ingress" ];
         extraArgs = [ "--ingress-class=traefik" ];
         env = [
           {
@@ -48,7 +49,8 @@ in
       values = {
         provider = "pihole";
         txtOwnerId = "homelab-ts";
-        extraArgs = [ "--ingress-class=external-dns-ts" ];
+        sources = [ "service" ];
+        annotationFilter = "external-dns.alpha.kubernetes.io/target";
         env = [
           {
             name = "EXTERNAL_DNS_PIHOLE_API_VERSION";
