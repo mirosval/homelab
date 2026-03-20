@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pihole-ts
+  namespace: argocd
+spec:
+  destination:
+    namespace: pihole-ts
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k3s/generated_manifests/pihole-ts
+    repoURL: https://github.com/mirosval/homelab.git
+    targetRevision: main
+  syncPolicy: {}

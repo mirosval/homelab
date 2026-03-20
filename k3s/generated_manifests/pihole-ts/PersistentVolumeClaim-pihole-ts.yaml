@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: pihole
+    chart: pihole-2.35.0
+    component: ""
+    heritage: Helm
+    release: pihole-ts
+  name: pihole-ts
+  namespace: pihole-ts
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+  storageClassName: longhorn

@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pihole-ts
+  namespace: pihole-ts
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: pihole.doma.lol
