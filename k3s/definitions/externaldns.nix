@@ -49,6 +49,7 @@ in
       values = {
         provider = "pihole";
         txtOwnerId = "homelab-tailscale";
+        policy = "sync";
         sources = [ "service" ];
         annotationFilter = "external-dns.alpha.kubernetes.io/target";
         env = [
