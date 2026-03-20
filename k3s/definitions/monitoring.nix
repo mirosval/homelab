@@ -171,7 +171,7 @@
       services.grafana-tailscale = {
         metadata.annotations = {
           "external-dns.alpha.kubernetes.io/hostname" = "grafana.doma.lol";
-          "external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";
+          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
         };
         spec = {
           type = "ClusterIP";

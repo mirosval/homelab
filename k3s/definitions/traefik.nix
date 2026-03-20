@@ -75,13 +75,24 @@
         };
       };
 
-      ingresses.tailscale.spec = {
-        defaultBackend.service = {
-          name = "traefik";
-          port.name = "websecure";
+      services.traefik-tailscale-lb = {
+        metadata.annotations."tailscale.com/hostname" = "homelab";
+        spec = {
+          type = "LoadBalancer";
+          loadBalancerClass = "tailscale";
+          selector = {
+            "app.kubernetes.io/instance" = "traefik-traefik";
+            "app.kubernetes.io/name" = "traefik";
+          };
+          ports = [
+            {
+              name = "websecure";
+              port = 443;
+              targetPort = "websecure";
+              protocol = "TCP";
+            }
+          ];
         };
-        ingressClassName = "tailscale";
-        tls = [ { hosts = [ "homelab" ]; } ];
       };
 
       middlewares.traefik-auth.spec.basicAuth.secret = "traefik-auth";
@@ -101,7 +112,7 @@
       services.traefik-tailscale = {
         metadata.annotations = {
           "external-dns.alpha.kubernetes.io/hostname" = "traefik.doma.lol";
-          "external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";
+          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
         };
         spec = {
           type = "ClusterIP";
