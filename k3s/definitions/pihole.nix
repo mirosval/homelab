@@ -1,15 +1,18 @@
 { lib, ... }:
+let
+  piholeChart = lib.helm.downloadHelmChart {
+    repo = "https://mojo2600.github.io/pihole-kubernetes/";
+    chart = "pihole";
+    version = "2.35.0";
+    chartHash = "sha256-wWFj3/2BsiQMXcAoG8buJRWUXkcKS6Ies1veUtMcHYc=";
+  };
+in
 {
   applications.pihole = {
     namespace = "pihole";
     createNamespace = true;
     helm.releases.pihole = {
-      chart = lib.helm.downloadHelmChart {
-        repo = "https://mojo2600.github.io/pihole-kubernetes/";
-        chart = "pihole";
-        version = "2.35.0";
-        chartHash = "sha256-wWFj3/2BsiQMXcAoG8buJRWUXkcKS6Ies1veUtMcHYc=";
-      };
+      chart = piholeChart;
 
       values = {
         replicaCount = 1;
@@ -51,6 +54,58 @@
       };
 
       ingresses.pihole.spec = {
+        ingressClassName = "traefik";
+        rules = [
+          {
+            host = "pihole.doma.lol";
+          }
+        ];
+      };
+    };
+  };
+
+  applications.pihole-ts = {
+    namespace = "pihole-ts";
+    createNamespace = true;
+    helm.releases.pihole-ts = {
+      chart = piholeChart;
+
+      values = {
+        replicaCount = 1;
+
+        DNS1 = "10.42.0.1";
+
+        persistentVolumeClaim = {
+          enabled = true;
+          storageClass = "longhorn";
+        };
+
+        serviceWeb = {
+          type = "ClusterIP";
+        };
+
+        serviceDns = {
+          loadBalancerClass = "tailscale";
+          type = "LoadBalancer";
+        };
+
+        admin.existingSecret = "pihole-ts-password";
+      };
+    };
+
+    resources = {
+      ingressRoutes.pihole-ts.spec = {
+        entryPoints = [ "websecure" ];
+        routes = [
+          {
+            match = "Host(`pihole.doma.lol`)";
+            kind = "Rule";
+            services.pihole-ts-web.port = 80;
+          }
+        ];
+      };
+
+      ingresses.pihole-ts.spec = {
         ingressClassName = "traefik";
         rules = [
           {

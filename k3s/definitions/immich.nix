@@ -238,6 +238,18 @@
           }
         ];
       };
+
+      ingresses.immich-ts = {
+        metadata.annotations."external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";
+        spec = {
+          ingressClassName = "tailscale";
+          rules = [
+            {
+              host = "immich.doma.lol";
+            }
+          ];
+        };
+      };
     };
   };
 }
