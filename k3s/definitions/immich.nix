@@ -242,7 +242,7 @@
       ingresses.immich-ts = {
         metadata.annotations."external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";
         spec = {
-          ingressClassName = "tailscale";
+          ingressClassName = "external-dns-ts";
           rules = [
             {
               host = "immich.doma.lol";

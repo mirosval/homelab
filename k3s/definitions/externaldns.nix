@@ -48,7 +48,7 @@ in
       values = {
         provider = "pihole";
         txtOwnerId = "homelab-ts";
-        extraArgs = [ "--ingress-class=tailscale" ];
+        extraArgs = [ "--ingress-class=external-dns-ts" ];
         env = [
           {
             name = "EXTERNAL_DNS_PIHOLE_API_VERSION";

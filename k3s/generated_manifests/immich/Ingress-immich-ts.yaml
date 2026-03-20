@@ -6,6 +6,6 @@ metadata:
   name: immich-ts
   namespace: immich
 spec:
-  ingressClassName: tailscale
+  ingressClassName: external-dns-ts
   rules:
     - host: immich.doma.lol
