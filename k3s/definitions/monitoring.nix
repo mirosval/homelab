@@ -153,6 +153,7 @@
           {
             match = "Host(`grafana.doma.lol`)";
             kind = "Rule";
+            middlewares = [ { name = "tinyauth-auth"; namespace = "traefik"; } ];
             services.grafana.port = 80;
           }
         ];

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tinyauth
+  namespace: tinyauth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tinyauth
+  template:
+    metadata:
+      labels:
+        app: tinyauth
+    spec:
+      containers:
+        - env:
+            - name: TINYAUTH_APP_URL
+              value: https://tinyauth.doma.lol
+            - name: TINYAUTH_AUTH_USERS_FILE
+              value: /run/tinyauth/users
+            - name: TINYAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: secret
+                  name: tinyauth-secret
+          image: ghcr.io/steveiliop56/tinyauth:v5
+          name: tinyauth
+          ports:
+            - containerPort: 3000
+              name: http
+          volumeMounts:
+            - mountPath: /run/tinyauth
+              name: users
+              readOnly: true
+      volumes:
+        - name: users
+          secret:
+            items:
+              - key: users
+                path: users
+            secretName: tinyauth-secret

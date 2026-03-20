@@ -44,6 +44,7 @@ spec:
             - --metrics.prometheus=true
             - --metrics.prometheus.entrypoint=metrics
             - --providers.kubernetescrd
+            - --providers.kubernetescrd.allowCrossNamespace=true
             - --providers.kubernetescrd.allowEmptyServices=true
             - --providers.kubernetesingress
             - --providers.kubernetesingress.allowEmptyServices=true

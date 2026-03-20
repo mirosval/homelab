@@ -28,6 +28,8 @@
           writeTimeout = 0;
           idleTimeout = 0;
         };
+        # allow middleware cross-namespace references
+        providers.kubernetesCRD.allowCrossNamespace = true;
         # logging
         logs.access.enabled = true;
         # tls
@@ -83,6 +85,9 @@
       };
 
       middlewares.traefik-auth.spec.basicAuth.secret = "traefik-auth";
+
+      middlewares.tinyauth-auth.spec.forwardAuth.address =
+        "http://tinyauth.tinyauth.svc.cluster.local/api/auth/traefik";
 
       ingresses.traefik-dash.spec = {
         ingressClassName = "traefik";

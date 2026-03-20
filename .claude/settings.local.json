@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(make generate-manifests:*)",
-      "Bash(jj diff:*)"
+      "Bash(jj diff:*)",
+      "WebFetch(domain:tinyauth.app)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }

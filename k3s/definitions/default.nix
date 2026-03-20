@@ -31,6 +31,7 @@
     ./renovate.nix
     ./sealedsecrets.nix
     ./tailscale.nix
+    ./tinyauth.nix
     ./traefik.nix
   ];
 

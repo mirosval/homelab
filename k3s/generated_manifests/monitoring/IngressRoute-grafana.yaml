@@ -9,6 +9,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`grafana.doma.lol`)
+      middlewares:
+        - name: tinyauth-auth
+          namespace: traefik
       services:
         - name: grafana
           port: 80
