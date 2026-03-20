@@ -64,10 +64,10 @@ in
     };
   };
 
-  applications.pihole-ts = {
-    namespace = "pihole-ts";
+  applications.pihole-tailscale = {
+    namespace = "pihole-tailscale";
     createNamespace = true;
-    helm.releases.pihole-ts = {
+    helm.releases.pihole-tailscale = {
       chart = piholeChart;
 
       values = {
@@ -89,23 +89,23 @@ in
           type = "LoadBalancer";
         };
 
-        admin.existingSecret = "pihole-ts-password";
+        admin.existingSecret = "pihole-tailscale-password";
       };
     };
 
     resources = {
-      ingressRoutes.pihole-ts.spec = {
+      ingressRoutes.pihole-tailscale.spec = {
         entryPoints = [ "websecure" ];
         routes = [
           {
             match = "Host(`pihole.doma.lol`)";
             kind = "Rule";
-            services.pihole-ts-web.port = 80;
+            services.pihole-tailscale-web.port = 80;
           }
         ];
       };
 
-      ingresses.pihole-ts.spec = {
+      ingresses.pihole-tailscale.spec = {
         ingressClassName = "traefik";
         rules = [
           {

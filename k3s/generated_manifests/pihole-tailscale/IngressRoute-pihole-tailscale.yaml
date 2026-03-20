@@ -1,8 +1,8 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: pihole-ts
-  namespace: pihole-ts
+  name: pihole-tailscale
+  namespace: pihole-tailscale
 spec:
   entryPoints:
     - websecure
@@ -10,5 +10,5 @@ spec:
     - kind: Rule
       match: Host(`pihole.doma.lol`)
       services:
-        - name: pihole-ts-web
+        - name: pihole-tailscale-web
           port: 80

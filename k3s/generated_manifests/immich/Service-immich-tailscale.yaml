@@ -4,7 +4,7 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/hostname: immich.doma.lol
     external-dns.alpha.kubernetes.io/target: homelab-1.boreal-scala.ts.net
-  name: immich-ts
+  name: immich-tailscale
   namespace: immich
 spec:
   clusterIP: None

@@ -239,7 +239,7 @@
         ];
       };
 
-      services.immich-ts = {
+      services.immich-tailscale = {
         metadata.annotations = {
           "external-dns.alpha.kubernetes.io/hostname" = "immich.doma.lol";
           "external-dns.alpha.kubernetes.io/target" = "homelab-1.boreal-scala.ts.net";

@@ -6,9 +6,9 @@ metadata:
     chart: pihole-2.35.0
     component: ""
     heritage: Helm
-    release: pihole-ts
-  name: pihole-ts
-  namespace: pihole-ts
+    release: pihole-tailscale
+  name: pihole-tailscale
+  namespace: pihole-tailscale
 spec:
   accessModes:
     - ReadWriteOnce

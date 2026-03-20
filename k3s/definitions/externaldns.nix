@@ -40,15 +40,15 @@ in
     };
   };
 
-  applications.external-dns-ts = {
-    namespace = "external-dns-ts";
+  applications.external-dns-tailscale = {
+    namespace = "external-dns-tailscale";
     createNamespace = true;
-    helm.releases.external-dns-ts = {
+    helm.releases.external-dns-tailscale = {
       chart = externalDnsChart;
 
       values = {
         provider = "pihole";
-        txtOwnerId = "homelab-ts";
+        txtOwnerId = "homelab-tailscale";
         sources = [ "service" ];
         annotationFilter = "external-dns.alpha.kubernetes.io/target";
         env = [
@@ -58,12 +58,12 @@ in
           }
           {
             name = "EXTERNAL_DNS_PIHOLE_SERVER";
-            value = "http://pihole-ts-web.pihole-ts.svc.cluster.local";
+            value = "http://pihole-tailscale-web.pihole-tailscale.svc.cluster.local";
           }
           {
             name = "EXTERNAL_DNS_PIHOLE_PASSWORD";
             valueFrom.secretKeyRef = {
-              name = "pihole-ts-password";
+              name = "pihole-tailscale-password";
               key = "password";
             };
           }

@@ -10,6 +10,6 @@ metadata:
     app: pihole
     chart: pihole-2.35.0
     heritage: Helm
-    release: pihole-ts
-  name: pihole-ts-custom-dnsmasq
-  namespace: pihole-ts
+    release: pihole-tailscale
+  name: pihole-tailscale-custom-dnsmasq
+  namespace: pihole-tailscale
