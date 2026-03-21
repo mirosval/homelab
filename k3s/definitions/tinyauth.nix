@@ -18,7 +18,7 @@
               ports.http.containerPort = 3000;
               env = {
                 TINYAUTH_APPURL.value = "https://tinyauth.doma.lol";
-                TINYAUTH_AUTH_USERS_FILE.value = "/run/tinyauth/users";
+                TINYAUTH_AUTH_USERSFILE.value = "/run/tinyauth/users";
               };
               volumeMounts = [
                 {
