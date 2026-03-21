@@ -7,7 +7,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://bitnami-labs.github.io/sealed-secrets";
         chart = "sealed-secrets";
-        version = "2.17.9";
+        version = "2.18.4";
         chartHash = "sha256-cENs2SDbTNq48RgvzUUE2X4Yu+I0HYzvxlBwlPkggXA=";
       };
     };
