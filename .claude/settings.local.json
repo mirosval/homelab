@@ -6,8 +6,7 @@
       "WebFetch(domain:tinyauth.app)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:github.com)",
-      "Bash(curl:*)",
-      "Bash(do:*)"
+      "Bash(jj log:*)"
     ]
   }
 }

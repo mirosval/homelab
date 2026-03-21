@@ -73,16 +73,23 @@ jj commit -m "<descriptive message, e.g. 'update pihole to v2.35.0'>"
 
 The repo has two remotes (`forgejo` and `origin`/GitHub) that must stay in sync.
 
-Check the current state with `jj bookmark list main`. If main@forgejo and main@origin have diverged, create a merge commit combining both:
+After `jj commit`, the working copy `@` is an empty commit on top of our new commit (`@-`).
+
+Check the current state with `jj bookmark list main`.
+
+**If main@origin is behind (diverged):** rebase the current empty `@` to become the merge commit — this avoids leaving orphaned commits:
 
 ```
-jj new <forgejo-tip> <other-tip> -m "<message>"
+jj rebase -r @ --destination @- --destination main@origin
+jj b set main -r @
+jj b set forgejo -r @
 ```
 
-Then set both bookmarks to the new commit:
+**If not diverged (fast-forward):** just move the bookmarks to our commit:
+
 ```
-jj b set main -r@
-jj b set forgejo -r@
+jj b set main -r @-
+jj b set forgejo -r @-
 ```
 
 Push to both remotes:
