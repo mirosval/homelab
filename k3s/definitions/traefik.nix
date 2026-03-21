@@ -8,11 +8,11 @@
         repo = "https://traefik.github.io/charts";
         chart = "traefik";
         version = "39.0.6";
-        chartHash = "sha256-Zgjktr2QrlIv2cSTmoHraEYi+txhiip64zC9GWTGFtI=";
+        chartHash = "sha256-drSIM1FsWRTHm2rLO8ceexg8HisKtyzwrIj+LZ+Gbo8=";
       };
       values = {
         # redirect http -> https
-        ports.web.redirections.entryPoint = {
+        ports.web.http.redirections.entryPoint = {
           to = "websecure";
           scheme = "https";
           permanent = true;
