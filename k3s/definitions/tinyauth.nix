@@ -18,10 +18,6 @@
               ports.http.containerPort = 3000;
               env = {
                 TINYAUTH_APP_URL.value = "https://tinyauth.doma.lol";
-                TINYAUTH_SECRET.valueFrom.secretKeyRef = {
-                  name = "tinyauth-secret";
-                  key = "secret";
-                };
                 TINYAUTH_AUTH_USERS_FILE.value = "/run/tinyauth/users";
               };
               volumeMounts = [
@@ -33,7 +29,7 @@
               ];
             };
             volumes.users.secret = {
-              secretName = "tinyauth-secret";
+              secretName = "tinyauth-users";
               items = [
                 {
                   key = "users";
