@@ -17,7 +17,7 @@
               image = "ghcr.io/steveiliop56/tinyauth:v5";
               ports.http.containerPort = 3000;
               env = {
-                TINYAUTH_APP_URL.value = "https://tinyauth.doma.lol";
+                TINYAUTH_APPURL.value = "https://tinyauth.doma.lol";
                 TINYAUTH_AUTH_USERS_FILE.value = "/run/tinyauth/users";
               };
               volumeMounts = [
