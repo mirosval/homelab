@@ -10,13 +10,18 @@ jobs:
   fix-chart-hashes:
     # Only run on Renovate PRs
     if: startsWith(github.head_ref, 'renovate/')
-    runs-on: nix
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
           token: ${{ github.token }}
+
+      - name: Install Nix
+        run: |
+          curl -fsSL https://install.determinate.systems/nix | sh -s -- install linux --init none --no-confirm
+      - uses: https://github.com/spotdemo4/nix-simple-cache-action@v1.4.8
 
       - name: Configure git
         run: |
