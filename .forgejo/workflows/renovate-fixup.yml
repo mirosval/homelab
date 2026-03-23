@@ -21,7 +21,7 @@ jobs:
       - name: Install Nix
         run: |
           curl -fsSL https://install.determinate.systems/nix | sh -s -- install linux --init none --no-confirm
-      - uses: https://github.com/spotdemo4/nix-simple-cache-action@v1.4.8
+      - uses: https://github.com/spotdemo4/nix-simple-cache-action@v1.5.3
 
       - name: Configure git
         run: |
