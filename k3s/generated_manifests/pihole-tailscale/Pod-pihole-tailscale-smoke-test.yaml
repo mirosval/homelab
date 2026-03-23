@@ -3,14 +3,14 @@ kind: Pod
 metadata:
   annotations:
     helm.sh/hook: test
-  name: pihole-ts-smoke-test
-  namespace: pihole-ts
+  name: pihole-tailscale-smoke-test
+  namespace: pihole-tailscale
 spec:
   containers:
     - command:
         - sh
         - -c
-        - curl http://pihole-ts-web:80/
+        - curl http://pihole-tailscale-web:80/
       image: curlimages/curl
       imagePullPolicy: IfNotPresent
       name: hook1-container

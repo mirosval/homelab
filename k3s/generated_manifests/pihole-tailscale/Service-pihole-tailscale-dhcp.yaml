@@ -6,9 +6,9 @@ metadata:
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
     heritage: Helm
-    release: pihole-ts
-  name: pihole-ts-dhcp
-  namespace: pihole-ts
+    release: pihole-tailscale
+  name: pihole-tailscale-dhcp
+  namespace: pihole-tailscale
 spec:
   externalTrafficPolicy: Local
   ports:
@@ -18,5 +18,5 @@ spec:
       targetPort: client-udp
   selector:
     app: pihole
-    release: pihole-ts
+    release: pihole-tailscale
   type: NodePort

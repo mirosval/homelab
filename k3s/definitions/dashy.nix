@@ -13,7 +13,7 @@
 
           spec = {
             containers.dashy = {
-              image = "lissy93/dashy@sha256:c994b83a2e7d8058ed5cdc5f746367f7023aae278c9a545b2053235bb61396ec";
+              image = "lissy93/dashy@sha256:f656ea52c16801a5e9a80353616b76a8537e4d1a73900cb0ecfae786ce7ddf66";
               ports.http.containerPort = 8080;
               env = {
                 NODE_ENV.value = "production";
@@ -146,6 +146,17 @@
             host = "dashy.doma.lol";
           }
         ];
+      };
+
+      services.dashy-tailscale = {
+        metadata.annotations = {
+          "external-dns.alpha.kubernetes.io/hostname" = "dashy.doma.lol";
+          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
+        };
+        spec = {
+          type = "ClusterIP";
+          clusterIP = "None";
+        };
       };
     };
   };

@@ -6,9 +6,9 @@ metadata:
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
     heritage: Helm
-    release: pihole-ts
-  name: pihole-ts-web
-  namespace: pihole-ts
+    release: pihole-tailscale
+  name: pihole-tailscale-web
+  namespace: pihole-tailscale
 spec:
   ports:
     - name: http
@@ -21,5 +21,5 @@ spec:
       targetPort: https
   selector:
     app: pihole
-    release: pihole-ts
+    release: pihole-tailscale
   type: ClusterIP

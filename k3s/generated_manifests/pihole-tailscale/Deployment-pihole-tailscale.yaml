@@ -6,16 +6,16 @@ metadata:
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
     heritage: Helm
-    release: pihole-ts
-  name: pihole-ts
-  namespace: pihole-ts
+    release: pihole-tailscale
+  name: pihole-tailscale
+  namespace: pihole-tailscale
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: pihole
-      release: pihole-ts
+      release: pihole-tailscale
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -26,14 +26,14 @@ spec:
       annotations:
         checksum.config.adlists: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
         checksum.config.blacklist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
-        checksum.config.dnsmasqConfig: 6ee12a31a1c65fde8bcc515bad77a6918c991e6b85a5dafb0b8624136be3a48
+        checksum.config.dnsmasqConfig: ad8bbf42a7a106af9b57cfeeab2c3277d61dea7fdd8230b459d5f7d887cdf6d
         checksum.config.regex: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
         checksum.config.staticDhcpConfig: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
         checksum.config.whitelist: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546
       labels:
         app: pihole
         app.kubernetes.io/name: pihole
-        release: pihole-ts
+        release: pihole-tailscale
     spec:
       containers:
         - env:
@@ -47,7 +47,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: pihole-ts-password
+                  name: pihole-tailscale-password
             - name: FTLCONF_dns_listeningMode
               value: all
             - name: FTLCONF_dns_upstreams
@@ -110,8 +110,8 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: pihole-ts
+            claimName: pihole-tailscale
         - configMap:
             defaultMode: 420
-            name: pihole-ts-custom-dnsmasq
+            name: pihole-tailscale-custom-dnsmasq
           name: custom-dnsmasq

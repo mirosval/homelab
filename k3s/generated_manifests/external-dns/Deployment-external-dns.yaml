@@ -29,7 +29,6 @@ spec:
             - --log-level=info
             - --log-format=text
             - --interval=1m
-            - --source=service
             - --source=ingress
             - --policy=upsert-only
             - --registry=txt

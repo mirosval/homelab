@@ -4,7 +4,9 @@
       "Bash(make generate-manifests:*)",
       "Bash(jj diff:*)",
       "WebFetch(domain:tinyauth.app)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(jj log:*)"
     ]
   }
 }

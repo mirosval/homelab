@@ -17,12 +17,8 @@
               image = "ghcr.io/steveiliop56/tinyauth:v5";
               ports.http.containerPort = 3000;
               env = {
-                TINYAUTH_APP_URL.value = "https://tinyauth.doma.lol";
-                TINYAUTH_SECRET.valueFrom.secretKeyRef = {
-                  name = "tinyauth-secret";
-                  key = "secret";
-                };
-                TINYAUTH_AUTH_USERS_FILE.value = "/run/tinyauth/users";
+                TINYAUTH_APPURL.value = "https://tinyauth.doma.lol";
+                TINYAUTH_AUTH_USERSFILE.value = "/run/tinyauth/users";
               };
               volumeMounts = [
                 {
@@ -33,7 +29,7 @@
               ];
             };
             volumes.users.secret = {
-              secretName = "tinyauth-secret";
+              secretName = "tinyauth-users";
               items = [
                 {
                   key = "users";
@@ -72,6 +68,17 @@
             host = "tinyauth.doma.lol";
           }
         ];
+      };
+
+      services.tinyauth-tailscale = {
+        metadata.annotations = {
+          "external-dns.alpha.kubernetes.io/hostname" = "tinyauth.doma.lol";
+          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
+        };
+        spec = {
+          type = "ClusterIP";
+          clusterIP = "None";
+        };
       };
     };
   };

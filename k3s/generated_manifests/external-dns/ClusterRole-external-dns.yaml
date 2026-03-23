@@ -10,37 +10,6 @@ metadata:
   name: external-dns
 rules:
   - apiGroups:
-      - ""
-    resources:
-      - nodes
-    verbs:
-      - list
-      - watch
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs:
-      - get
-      - watch
-      - list
-  - apiGroups:
-      - ""
-    resources:
-      - services
-    verbs:
-      - get
-      - watch
-      - list
-  - apiGroups:
-      - discovery.k8s.io
-    resources:
-      - endpointslices
-    verbs:
-      - get
-      - watch
-      - list
-  - apiGroups:
       - extensions
       - networking.k8s.io
     resources:

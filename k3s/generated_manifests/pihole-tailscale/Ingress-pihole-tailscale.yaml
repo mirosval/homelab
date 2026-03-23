@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: pihole-ts
-  namespace: pihole-ts
+  name: pihole-tailscale
+  namespace: pihole-tailscale
 spec:
   ingressClassName: traefik
   rules:

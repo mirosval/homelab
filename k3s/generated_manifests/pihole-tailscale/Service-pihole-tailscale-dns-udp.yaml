@@ -6,9 +6,9 @@ metadata:
     app.kubernetes.io/name: pihole
     chart: pihole-2.35.0
     heritage: Helm
-    release: pihole-ts
-  name: pihole-ts-dns-udp
-  namespace: pihole-ts
+    release: pihole-tailscale
+  name: pihole-tailscale-dns-udp
+  namespace: pihole-tailscale
 spec:
   externalTrafficPolicy: Local
   loadBalancerClass: tailscale
@@ -19,5 +19,5 @@ spec:
       targetPort: dns-udp
   selector:
     app: pihole
-    release: pihole-ts
+    release: pihole-tailscale
   type: LoadBalancer

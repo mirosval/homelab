@@ -7,12 +7,12 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://traefik.github.io/charts";
         chart = "traefik";
-        version = "37.4.0";
-        chartHash = "sha256-Zgjktr2QrlIv2cSTmoHraEYi+txhiip64zC9GWTGFtI=";
+        version = "39.0.6";
+        chartHash = "sha256-drSIM1FsWRTHm2rLO8ceexg8HisKtyzwrIj+LZ+Gbo8=";
       };
       values = {
         # redirect http -> https
-        ports.web.redirections.entryPoint = {
+        ports.web.http.redirections.entryPoint = {
           to = "websecure";
           scheme = "https";
           permanent = true;
@@ -75,13 +75,24 @@
         };
       };
 
-      ingresses.tailscale.spec = {
-        defaultBackend.service = {
-          name = "traefik";
-          port.name = "websecure";
+      services.traefik-tailscale-lb = {
+        metadata.annotations."tailscale.com/hostname" = "homelab";
+        spec = {
+          type = "LoadBalancer";
+          loadBalancerClass = "tailscale";
+          selector = {
+            "app.kubernetes.io/instance" = "traefik-traefik";
+            "app.kubernetes.io/name" = "traefik";
+          };
+          ports = [
+            {
+              name = "websecure";
+              port = 443;
+              targetPort = "websecure";
+              protocol = "TCP";
+            }
+          ];
         };
-        ingressClassName = "tailscale";
-        tls = [ { hosts = [ "homelab" ]; } ];
       };
 
       middlewares.traefik-auth.spec.basicAuth.secret = "traefik-auth";
@@ -96,6 +107,17 @@
             host = "traefik.doma.lol";
           }
         ];
+      };
+
+      services.traefik-tailscale = {
+        metadata.annotations = {
+          "external-dns.alpha.kubernetes.io/hostname" = "traefik.doma.lol";
+          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
+        };
+        spec = {
+          type = "ClusterIP";
+          clusterIP = "None";
+        };
       };
     };
   };
