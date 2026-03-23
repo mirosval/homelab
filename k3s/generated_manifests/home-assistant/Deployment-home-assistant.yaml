@@ -17,7 +17,7 @@ spec:
         - env:
             - name: TZ
               value: Europe/Berlin
-          image: ghcr.io/home-assistant/home-assistant:2026.3.2
+          image: ghcr.io/home-assistant/home-assistant:2026.3.3
           name: home-assistant
           ports:
             - containerPort: 8123
