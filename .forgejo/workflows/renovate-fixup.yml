@@ -10,7 +10,7 @@ jobs:
   fix-chart-hashes:
     # Only run on Renovate PRs
     if: startsWith(github.head_ref, 'renovate/')
-    runs-on: ubuntu-latest
+    runs-on: docker
 
     steps:
       - uses: actions/checkout@v4
