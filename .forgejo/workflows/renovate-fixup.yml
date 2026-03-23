@@ -1,0 +1,81 @@
+name: Renovate Hash Fixup
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize]
+
+jobs:
+  fix-chart-hashes:
+    # Only run on Renovate PRs
+    if: startsWith(github.head_ref, 'renovate/')
+    runs-on: nix
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ github.token }}
+
+      - name: Configure git
+        run: |
+          git config user.name "renovate-fixup[bot]"
+          git config user.email "renovate-fixup@doma.lol"
+
+      - name: Fix chart hashes and regenerate manifests
+        run: |
+          set +e
+          MAX_ATTEMPTS=10
+          attempt=0
+
+          while [ $attempt -lt $MAX_ATTEMPTS ]; do
+            attempt=$((attempt + 1))
+            echo "=== Attempt $attempt: running make generate-manifests ==="
+
+            output=$(make generate-manifests 2>&1)
+            exit_code=$?
+
+            if [ $exit_code -eq 0 ]; then
+              echo "Build succeeded."
+              break
+            fi
+
+            echo "$output"
+
+            # Extract old (specified) and new (got) hashes from Nix hash mismatch error:
+            #   specified: sha256-AAAA...
+            #      got:    sha256-BBBB...
+            specified=$(echo "$output" | grep 'specified:' | awk '{print $NF}')
+            got=$(echo "$output" | grep 'got:' | awk '{print $NF}')
+
+            if [ -z "$specified" ] || [ -z "$got" ]; then
+              echo "Build failed without a hash mismatch — cannot auto-fix."
+              exit 1
+            fi
+
+            echo "Hash mismatch: $specified -> $got"
+
+            # Find the .nix file containing the old chartHash
+            file=$(grep -rl "chartHash = \"${specified}\"" k3s/definitions/)
+            if [ -z "$file" ]; then
+              echo "Could not find chartHash = \"${specified}\" in any k3s/definitions/*.nix"
+              exit 1
+            fi
+
+            echo "Updating $file"
+            sed -i "s|chartHash = \"${specified}\"|chartHash = \"${got}\"|g" "$file"
+          done
+
+          if [ $attempt -ge $MAX_ATTEMPTS ]; then
+            echo "Exceeded $MAX_ATTEMPTS attempts — giving up."
+            exit 1
+          fi
+
+      - name: Commit and push if changed
+        run: |
+          git diff --quiet k3s/ && echo "No changes." && exit 0
+
+          git add k3s/definitions/ k3s/generated_manifests/
+          git commit -m "fix(renovate): update chart hashes and regenerate manifests"
+          git push origin "HEAD:${{ github.head_ref }}"

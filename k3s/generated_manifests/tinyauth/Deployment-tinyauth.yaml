@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         - env:
-            - name: TINYAUTH_APP_URL
+            - name: TINYAUTH_APPURL
               value: https://tinyauth.doma.lol
-            - name: TINYAUTH_AUTH_USERS_FILE
+            - name: TINYAUTH_AUTH_USERSFILE
               value: /run/tinyauth/users
           image: ghcr.io/steveiliop56/tinyauth:v5
           name: tinyauth
