@@ -74,8 +74,8 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://grafana.github.io/helm-charts";
         chart = "loki";
-        version = "6.46.0";
-        chartHash = "sha256-eMSFYKiopGaKHyjE32s7+Nb1bfO1LFNgjKy5MNSnuFY=";
+        version = "6.55.0";
+        chartHash = "sha256-5IgdiiPetXqJy4+sycIeauTEWq8TOg0XkQ1vGDhSXrY=";
       };
 
       values = {
