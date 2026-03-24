@@ -13,6 +13,8 @@
       };
 
       values = {
+        admin.existingSecret = "grafana";
+
         persistence = {
           enabled = true;
           storageClassName = "longhorn";

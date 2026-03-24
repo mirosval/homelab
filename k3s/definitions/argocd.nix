@@ -13,6 +13,7 @@
       values = {
         configs.params."server.insecure" = true; # TLS terminated at traefik
         configs.secret.argocdServerAdminPassword = "$2y$10$afCoYAVuSdaC4k3P4lhUcezO4HCLVzCLBaYu03tGi.9WP7Lt47gcC";
+        configs.secret.argocdServerAdminPasswordMtime = "2024-01-01T00:00:00Z";
       };
     };
 
