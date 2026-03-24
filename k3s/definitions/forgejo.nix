@@ -40,7 +40,7 @@
               {
                 name = "runner-register";
 
-                image = "code.forgejo.org/forgejo/runner:11.3.1";
+                image = "code.forgejo.org/forgejo/runner:12.7.3";
                 command = [
                   "/bin/bash"
                   "-c"
@@ -93,7 +93,7 @@
             ];
             containers = {
               runner = {
-                image = "code.forgejo.org/forgejo/runner:11.3.1";
+                image = "code.forgejo.org/forgejo/runner:12.7.3";
                 command = [
                   "/bin/bash"
                   "-c"
