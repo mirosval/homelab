@@ -8,7 +8,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: k8s-monitoring
     app.kubernetes.io/name: k8s-monitoring-add-finalizer
-    helm.sh/chart: k8s-monitoring-3.8.4
+    helm.sh/chart: k8s-monitoring-3.8.5
   name: k8s-monitoring-add-finalizer
   namespace: monitoring
 spec:
