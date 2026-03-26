@@ -42,7 +42,7 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://grafana.github.io/helm-charts";
         chart = "k8s-monitoring";
-        version = "3.8.4";
+        version = "3.8.5";
         chartHash = "sha256-9nP1jMw18P35bD4cNX4xPX6M0nounCgNc3CkUyPgAWI=";
       };
 
