@@ -5,12 +5,13 @@ metadata:
     app.kubernetes.io/instance: jellyfin
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: jellyfin
-    app.kubernetes.io/version: 10.11.5
-    helm.sh/chart: jellyfin-2.7.0
+    app.kubernetes.io/version: 10.11.7
+    helm.sh/chart: jellyfin-3.0.0
   name: jellyfin
   namespace: jellyfin
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/instance: jellyfin
@@ -23,34 +24,45 @@ spec:
         app.kubernetes.io/instance: jellyfin
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: jellyfin
-        app.kubernetes.io/version: 10.11.5
-        helm.sh/chart: jellyfin-2.7.0
+        app.kubernetes.io/version: 10.11.7
+        helm.sh/chart: jellyfin-3.0.0
     spec:
       containers:
-        - image: docker.io/jellyfin/jellyfin:10.11.5
+        - image: docker.io/jellyfin/jellyfin:10.11.7
           imagePullPolicy: IfNotPresent
           livenessProbe:
-            initialDelaySeconds: 10
-            tcpSocket:
+            httpGet:
+              path: /health
               port: http
+            initialDelaySeconds: 10
           name: jellyfin
           ports:
             - containerPort: 8096
               name: http
               protocol: TCP
           readinessProbe:
-            initialDelaySeconds: 10
-            tcpSocket:
+            httpGet:
+              path: /health
               port: http
+            initialDelaySeconds: 10
           resources:
             limits:
               gpu.intel.com/i915: 1000m
           securityContext: {}
+          startupProbe:
+            failureThreshold: 30
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            tcpSocket:
+              port: http
           volumeMounts:
             - mountPath: /config
               name: config
             - mountPath: /media
               name: media
+              readOnly: false
+            - mountPath: /cache
+              name: cache
       securityContext: {}
       serviceAccountName: jellyfin
       volumes:
@@ -60,3 +72,5 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: pvc-movies-ro
+        - emptyDir: {}
+          name: cache
