@@ -25,7 +25,7 @@ spec:
                 secretKeyRef:
                   key: uri
                   name: vaultwarden-database-app
-          image: vaultwarden/server:1.33.2
+          image: vaultwarden/server:1.35.6
           name: vaultwarden
           ports:
             - containerPort: 80

@@ -26,7 +26,7 @@
           metadata.labels.app = "vaultwarden";
           spec = {
             containers.vaultwarden = {
-              image = "vaultwarden/server:1.33.2";
+              image = "vaultwarden/server:1.35.6";
               ports.http.containerPort = 80;
               env = {
                 DATABASE_URL.valueFrom.secretKeyRef = {
