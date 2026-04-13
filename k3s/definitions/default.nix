@@ -33,6 +33,7 @@
     ./tailscale.nix
     ./tinyauth.nix
     ./traefik.nix
+    ./vaultwarden.nix
   ];
 
 }

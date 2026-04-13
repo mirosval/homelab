@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+        - env:
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: ADMIN_TOKEN
+                  name: vaultwarden
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: uri
+                  name: vaultwarden-database-app
+          image: vaultwarden/server:1.33.2
+          name: vaultwarden
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: vaultwarden-data
