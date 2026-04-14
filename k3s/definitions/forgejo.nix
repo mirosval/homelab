@@ -16,6 +16,7 @@
           storageClass = "longhorn";
           hostnames = [ "forgejo.doma.lol" ];
         };
+        persistence.size = "30Gi";
         gitea = {
           admin.existingSecret = "forgejo";
           config.server = {
