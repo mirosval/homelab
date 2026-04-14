@@ -63,14 +63,6 @@
                   description: View and manage photos
                   url: https://immich.doma.lol
                   icon: hl-immich
-                - title: Linkding
-                  description: Link Aggregator
-                  url: https://linkding.doma.lol
-                  icon: hl-linkding
-                - title: Mealie
-                  description: Meal Planner
-                  url: https://mealie.doma.lol
-                  icon: hl-mealie
                 - title: Jellyfin
                   description: Watch Movies and TV Shows
                   url: https://jellyfin.doma.lol
@@ -86,7 +78,11 @@
                 - title: Dazzle
                   description: Weather Display Bathroom
                   url: https://dazzle.doma.lol/dashboard
-                  icon: fa-umbrella
+                  icon: fas fa-umbrella
+                - title: Vaultwarden
+                  description: Password Manager
+                  url: https://vaultwarden.doma.lol
+                  icon: hl-vaultwarden
             - name: Network
               items:
                 - title: ISP
@@ -99,7 +95,7 @@
                   icon: hl-unifi
                 - title: Traefik
                   description: Reverse Proxy
-                  url: http://butters.doma.lol:8080
+                  url: https://traefik.doma.lol
                   icon: hl-traefik
                 - title: Pihole
                   description: DNS Blocking
@@ -109,21 +105,21 @@
               items:
                 - title: Longhorn
                   description: Volume Management
-                  url: http://longhorn.doma.lol
+                  url: https://longhorn.doma.lol
                   icon: hl-longhorn
                 - title: Argo
                   description: GitOps
-                  url: http://argo.doma.lol
+                  url: https://argo.doma.lol
                   icon: hl-argocd
                 - title: Forgejo
                   description: Git Hosting
-                  url: http://forgejo.doma.lol
+                  url: https://forgejo.doma.lol
                   icon: hl-forgejo
             - name: Monitoring
               items:
                 - title: Grafana
                   description: Fancy Graphs
-                  url: http://grafana.doma.lol
+                  url: https://grafana.doma.lol
                   icon: hl-grafana
         '';
       };
