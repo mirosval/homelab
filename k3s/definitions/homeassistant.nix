@@ -86,7 +86,7 @@
 
       persistentVolumeClaims.home-assistant-pvc.spec = {
         accessModes = [ "ReadWriteOnce" ];
-        resources.requests.storage = "5Gi";
+        resources.requests.storage = "10Gi";
         storageClassName = "longhorn";
       };
 
