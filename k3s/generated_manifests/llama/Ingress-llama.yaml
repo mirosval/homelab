@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: llama
+  namespace: llama
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: llama.doma.lol

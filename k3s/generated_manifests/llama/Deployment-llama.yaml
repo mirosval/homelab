@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llama
+  namespace: llama
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llama
+  template:
+    metadata:
+      labels:
+        app: llama
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: jellyfin
+                    app.kubernetes.io/name: jellyfin
+                namespaces:
+                  - jellyfin
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: immich
+                    app.kubernetes.io/name: machine-learning
+                namespaces:
+                  - immich
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      containers:
+        - args:
+            - -m
+            - /models/gemma-4-E2B-it-IQ4_XS.gguf
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8080"
+            - --n-gpu-layers
+            - "99"
+          image: ghcr.io/ggml-org/llama.cpp:server-intel
+          name: llama
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            limits:
+              gpu.intel.com/i915: 1000m
+          volumeMounts:
+            - mountPath: /models
+              name: models
+      initContainers:
+        - command:
+            - sh
+            - -c
+            - |
+              test -f /models/gemma-4-E2B-it-IQ4_XS.gguf || \
+                wget -O /models/gemma-4-E2B-it-IQ4_XS.gguf \
+                  "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/main/gemma-4-E2B-it-IQ4_XS.gguf"
+          image: busybox:1.37.0
+          name: download-model
+          volumeMounts:
+            - mountPath: /models
+              name: models
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: llama-models

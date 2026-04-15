@@ -25,6 +25,7 @@
     ./intel-device-plugins-operator.nix
     ./intel-gpu-device-plugin.nix
     ./jellyfin.nix
+    ./llama.nix
     ./longhorn.nix
     ./metallb.nix
     ./pihole.nix
