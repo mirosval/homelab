@@ -96,6 +96,14 @@ spec:
       hostNetwork: false
       hostPID: false
       serviceAccountName: default
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/instance: immich
+              app.kubernetes.io/name: machine-learning
+          maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
       volumes:
         - emptyDir: {}
           name: cache

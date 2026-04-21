@@ -120,10 +120,32 @@
       deployments = {
         immich-server.spec.template.spec = {
           volumes.dburl.secret.secretName = lib.mkForce "immich-database-superuser";
+          topologySpreadConstraints = [
+            {
+              maxSkew = 1;
+              topologyKey = "kubernetes.io/hostname";
+              whenUnsatisfiable = "DoNotSchedule";
+              labelSelector.matchLabels = {
+                "app.kubernetes.io/name" = "server";
+                "app.kubernetes.io/instance" = "immich";
+              };
+            }
+          ];
         };
         immich-machine-learning.spec = {
           template.spec = {
             volumes.dburl.secret.secretName = lib.mkForce "immich-database-superuser";
+            topologySpreadConstraints = [
+              {
+                maxSkew = 1;
+                topologyKey = "kubernetes.io/hostname";
+                whenUnsatisfiable = "DoNotSchedule";
+                labelSelector.matchLabels = {
+                  "app.kubernetes.io/name" = "machine-learning";
+                  "app.kubernetes.io/instance" = "immich";
+                };
+              }
+            ];
           };
         };
       };
