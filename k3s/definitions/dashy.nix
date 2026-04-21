@@ -83,6 +83,10 @@
                   description: Password Manager
                   url: https://vaultwarden.doma.lol
                   icon: hl-vaultwarden
+                - title: Llama
+                  description: Local LLM
+                  url: https://llama.doma.lol
+                  icon: hl-ollama
             - name: Network
               items:
                 - title: ISP
