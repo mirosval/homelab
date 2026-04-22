@@ -111,6 +111,16 @@
         ];
       };
 
+      # Registers doma.lol with pihole via external-dns so /.well-known/matrix requests resolve
+      ingresses.doma-lol.spec = {
+        ingressClassName = "traefik";
+        rules = [
+          {
+            host = "doma.lol";
+          }
+        ];
+      };
+
       services.matrix-tailscale = {
         metadata.annotations = {
           "external-dns.alpha.kubernetes.io/hostname" = "matrix.doma.lol";

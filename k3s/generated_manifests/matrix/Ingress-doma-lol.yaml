@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: doma-lol
+  namespace: matrix
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: doma.lol
