@@ -33,6 +33,7 @@
             containers.matrix = {
               image = "ghcr.io/continuwuity/continuwuity:v0.5.5";
               ports.http.containerPort = 6167;
+              command = [ "/sbin/conduwuit" ];
               args = [
                 "--config"
                 "/etc/conduwuity/conduwuity.toml"
