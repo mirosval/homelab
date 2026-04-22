@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  conduwuity.toml: |
+    [global]
+    server_name = "doma.lol"
+    database_path = "/data/rocksdb"
+    address = "0.0.0.0"
+    port = 6167
+    allow_registration = false
+    log = "warn,state_res=warn"
+    trusted_servers = ["matrix.org"]
+kind: ConfigMap
+metadata:
+  name: matrix-config
+  namespace: matrix

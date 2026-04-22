@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix
+  namespace: matrix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matrix
+  template:
+    metadata:
+      labels:
+        app: matrix
+    spec:
+      containers:
+        - env:
+            - name: CONDUWUITY_CONFIG
+              value: /etc/conduwuity/conduwuity.toml
+          image: ghcr.io/continuwuity/continuwuity:v0.5.5
+          name: matrix
+          ports:
+            - containerPort: 6167
+              name: http
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /etc/conduwuity
+              name: config
+              readOnly: true
+      volumes:
+        - configMap:
+            name: matrix-config
+          name: config
+        - name: data
+          persistentVolumeClaim:
+            claimName: matrix-data

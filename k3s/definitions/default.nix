@@ -27,6 +27,7 @@
     ./jellyfin.nix
     ./llama.nix
     ./longhorn.nix
+    ./matrix.nix
     ./metallb.nix
     ./pihole.nix
     ./renovate.nix
