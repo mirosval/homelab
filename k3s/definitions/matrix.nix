@@ -31,7 +31,7 @@
           metadata.labels.app = "matrix";
           spec = {
             containers.matrix = {
-              image = "ghcr.io/continuwuity/continuwuity:v0.5.5";
+              image = "ghcr.io/continuwuity/continuwuity:v0.5.7";
               ports.http.containerPort = 6167;
               command = [ "/sbin/conduwuit" ];
               args = [
