@@ -14,9 +14,9 @@ spec:
         app: matrix
     spec:
       containers:
-        - env:
-            - name: CONDUWUITY_CONFIG
-              value: /etc/conduwuity/conduwuity.toml
+        - args:
+            - --config
+            - /etc/conduwuity/conduwuity.toml
           image: ghcr.io/continuwuity/continuwuity:v0.5.5
           name: matrix
           ports:

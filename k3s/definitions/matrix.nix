@@ -33,11 +33,9 @@
             containers.matrix = {
               image = "ghcr.io/continuwuity/continuwuity:v0.5.5";
               ports.http.containerPort = 6167;
-              env = [
-                {
-                  name = "CONDUWUITY_CONFIG";
-                  value = "/etc/conduwuity/conduwuity.toml";
-                }
+              args = [
+                "--config"
+                "/etc/conduwuity/conduwuity.toml"
               ];
               volumeMounts = [
                 {
