@@ -27,7 +27,7 @@ spec:
               value: loki-minio
             - name: MINIO_PORT
               value: "9000"
-          image: quay.io/minio/mc:RELEASE.2024-11-21T17-21-54Z
+          image: docker.io/pgsty/mc:RELEASE.2026-03-13T08-57-32Z
           imagePullPolicy: IfNotPresent
           name: minio-make-bucket
           resources:
@@ -48,7 +48,7 @@ spec:
               value: loki-minio
             - name: MINIO_PORT
               value: "9000"
-          image: quay.io/minio/mc:RELEASE.2024-11-21T17-21-54Z
+          image: docker.io/pgsty/mc:RELEASE.2026-03-13T08-57-32Z
           imagePullPolicy: IfNotPresent
           name: minio-make-user
           resources:

@@ -44,7 +44,7 @@ spec:
                   name: loki-minio
             - name: MINIO_PROMETHEUS_AUTH_TYPE
               value: public
-          image: quay.io/minio/minio:RELEASE.2024-12-18T13-15-44Z
+          image: docker.io/pgsty/minio:RELEASE.2026-03-14T12-00-00Z
           imagePullPolicy: IfNotPresent
           name: minio
           ports:
