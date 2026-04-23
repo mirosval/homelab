@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: element
+  namespace: element
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: element.doma.lol

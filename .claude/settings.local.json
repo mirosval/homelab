@@ -6,7 +6,8 @@
       "WebFetch(domain:tinyauth.app)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:github.com)",
-      "Bash(jj log:*)"
+      "Bash(jj log:*)",
+      "Bash(curl -s \"https://api.github.com/repos/element-hq/element-web/releases/latest\")"
     ]
   }
 }

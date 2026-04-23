@@ -17,6 +17,7 @@
     ./csi-driver-smb.nix
     ./dashy.nix
     ./dazzle.nix
+    ./element.nix
     ./externaldns.nix
     ./forgejo.nix
     ./monitoring.nix

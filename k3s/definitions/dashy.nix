@@ -87,6 +87,10 @@
                   description: Local LLM
                   url: https://llama.doma.lol
                   icon: hl-ollama
+                - title: Element
+                  description: Matrix Chat
+                  url: https://element.doma.lol
+                  icon: hl-element
             - name: Network
               items:
                 - title: ISP

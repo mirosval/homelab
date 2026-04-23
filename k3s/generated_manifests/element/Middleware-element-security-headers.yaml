@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: element-security-headers
+  namespace: element
+spec:
+  headers:
+    customResponseHeaders:
+      Content-Security-Policy: frame-ancestors 'self'
+      X-Content-Type-Options: nosniff
+      X-Frame-Options: SAMEORIGIN
+      X-XSS-Protection: 1; mode=block

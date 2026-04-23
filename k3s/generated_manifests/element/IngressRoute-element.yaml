@@ -1,0 +1,16 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: element
+  namespace: element
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`element.doma.lol`)
+      middlewares:
+        - name: element-security-headers
+      services:
+        - name: element
+          port: 80
