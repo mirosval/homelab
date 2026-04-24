@@ -112,6 +112,17 @@
           }
         ];
       };
+
+      services.llama-tailscale = {
+        metadata.annotations = {
+          "external-dns.alpha.kubernetes.io/hostname" = "llama.doma.lol";
+          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
+        };
+        spec = {
+          type = "ClusterIP";
+          clusterIP = "None";
+        };
+      };
     };
   };
 }

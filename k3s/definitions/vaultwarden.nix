@@ -78,6 +78,17 @@
           }
         ];
       };
+
+      services.vaultwarden-tailscale = {
+        metadata.annotations = {
+          "external-dns.alpha.kubernetes.io/hostname" = "vaultwarden.doma.lol";
+          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
+        };
+        spec = {
+          type = "ClusterIP";
+          clusterIP = "None";
+        };
+      };
     };
   };
 }
