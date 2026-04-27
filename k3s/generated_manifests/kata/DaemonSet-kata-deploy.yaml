@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kata-deploy
+  namespace: kata-containers
+spec:
+  selector:
+    matchLabels:
+      name: kata-deploy
+  template:
+    metadata:
+      labels:
+        name: kata-deploy
+    spec:
+      containers:
+        - command:
+            - /usr/bin/kata-deploy
+            - install
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: DAEMONSET_NAME
+              value: kata-deploy
+            - name: DEBUG
+              value: "false"
+            - name: SHIMS_X86_64
+              value: clh
+            - name: INSTALLATION_PREFIX
+              value: ""
+            - name: MULTI_INSTALL_SUFFIX
+              value: ""
+            - name: EXPERIMENTAL_SETUP_SNAPSHOTTER
+              value: nydus
+          image: quay.io/kata-containers/kata-deploy:3.29.0
+          imagePullPolicy: Always
+          name: kube-kata
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /etc/crio/
+              name: crio-conf
+            - mountPath: /etc/containerd/
+              name: containerd-conf
+            - mountPath: /host/
+              name: host
+      hostPID: true
+      serviceAccountName: kata-deploy-sa
+      terminationGracePeriodSeconds: 600
+      volumes:
+        - hostPath:
+            path: /etc/crio/
+          name: crio-conf
+        - hostPath:
+            path: /var/lib/rancher/k3s/agent/etc/containerd/
+          name: containerd-conf
+        - hostPath:
+            path: /
+          name: host
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate

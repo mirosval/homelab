@@ -1,0 +1,79 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: post-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    helm.sh/hook-weight: "0"
+  name: kata-deploy-rb-cleanup
+  namespace: kata-containers
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      containers:
+        - command:
+            - bash
+            - -c
+            - |
+              set -e
+              echo "Helm reports 'These resources were kept due to the resource policy' during uninstall — this is normal."
+              echo "Waiting for DaemonSet pods to finish terminating (SIGTERM cleanup) before removing RBAC..."
+              wait_timeout=300
+              waited=0
+              while [ "$waited" -lt "$wait_timeout" ]; do
+                count=$(kubectl get pod -n "${NAMESPACE}" -l "${DAEMONSET_POD_LABEL}" --no-headers 2>/dev/null | wc -l)
+                if [ "$count" -eq 0 ]; then
+                  echo "No DaemonSet pods remaining, proceeding to remove RBAC."
+                  break
+                fi
+                echo "  ${count} pod(s) still terminating, waiting... (${waited}s/${wait_timeout}s)"
+                sleep 5
+                waited=$((waited + 5))
+              done
+              if [ "$waited" -ge "$wait_timeout" ]; then
+                echo "Timeout waiting for pods; removing RBAC anyway (slow nodes may have incomplete cleanup)." >&2
+              fi
+              echo "This Job removes those resources:"
+              echo "  [ClusterRoleBinding] ${CLUSTER_ROLE_BINDING_NAME}"
+              echo "  [ClusterRole] ${CLUSTER_ROLE_NAME}"
+              echo "  [ServiceAccount] ${SERVICE_ACCOUNT_NAME} (namespace: ${NAMESPACE})"
+              echo "Removing them now..."
+              retries=3
+              retry_delay=2
+              delete_one() {
+                local kind="$1" name="$2" ns="$3"
+                local attempt=1
+                while [ "$attempt" -le "$retries" ]; do
+                  if [ -n "$ns" ]; then
+                    kubectl delete "$kind" "$name" -n "$ns" --ignore-not-found --wait=false && return 0
+                  else
+                    kubectl delete "$kind" "$name" --ignore-not-found --wait=false && return 0
+                  fi
+                  echo "Attempt $attempt/$retries failed, retrying in ${retry_delay}s..."
+                  sleep "$retry_delay"
+                  attempt=$((attempt + 1))
+                done
+                echo "Failed after $retries attempts" >&2
+                return 1
+              }
+              delete_one clusterrolebinding "${CLUSTER_ROLE_BINDING_NAME}" ""
+              delete_one clusterrole "${CLUSTER_ROLE_NAME}" ""
+              delete_one serviceaccount "${SERVICE_ACCOUNT_NAME}" "${NAMESPACE}"
+              echo "Kata-deploy RBAC cleanup completed."
+          env:
+            - name: NAMESPACE
+              value: kata-containers
+            - name: DAEMONSET_POD_LABEL
+              value: name=kata-deploy
+            - name: CLUSTER_ROLE_BINDING_NAME
+              value: kata-deploy-rb
+            - name: CLUSTER_ROLE_NAME
+              value: kata-deploy-role
+            - name: SERVICE_ACCOUNT_NAME
+              value: kata-deploy-sa
+          image: quay.io/kata-containers/kubectl:latest
+          name: rb-cleanup
+      restartPolicy: OnFailure
+      serviceAccountName: kata-deploy-sa-cleanup
+  ttlSecondsAfterFinished: 300

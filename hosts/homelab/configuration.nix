@@ -41,6 +41,7 @@ in
 
   boot.kernelParams = [ "i915.force_probe=46d1,i915.enable_guc=3" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelModules = [ "kvm-intel" ];
 
   # Fix for immich
   boot.kernel.sysctl = {

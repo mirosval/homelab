@@ -7,6 +7,16 @@
 
 { lib, config, ... }:
 {
+  # Allow k3s's containerd to access KVM and virtio devices for Kata Containers
+  systemd.services.k3s.serviceConfig.DeviceAllow = [
+    "/dev/kvm rwm"
+    "/dev/mshv rwm"
+    "/dev/kmsg rwm"
+    "/dev/vhost-vsock rwm"
+    "/dev/vhost-net rwm"
+    "/dev/net/tun rwm"
+  ];
+
   services.k3s = {
     enable = true;
     role = nodeRole;
