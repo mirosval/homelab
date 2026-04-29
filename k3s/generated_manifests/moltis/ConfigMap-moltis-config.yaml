@@ -1,0 +1,25 @@
+apiVersion: v1
+data:
+  moltis.toml: |
+    [tls]
+    enabled = false
+
+    [server]
+    port = 13131
+    bind = "0.0.0.0"
+
+    [channels]
+    offered = ["matrix"]
+
+    [channels.matrix.homelab]
+    homeserver = "http://matrix.matrix.svc.cluster.local"
+
+    [providers.openai]
+    enabled = true
+    base_url = "http://llama.llama.svc.cluster.local/v1"
+    api_key = "not-needed"
+    fetch_models = true
+kind: ConfigMap
+metadata:
+  name: moltis-config
+  namespace: moltis

@@ -31,6 +31,7 @@
     ./longhorn.nix
     ./matrix.nix
     ./metallb.nix
+    ./moltis.nix
     ./pihole.nix
     ./renovate.nix
     ./sealedsecrets.nix

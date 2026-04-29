@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moltis
+  namespace: moltis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moltis
+  template:
+    metadata:
+      labels:
+        app: moltis
+    spec:
+      containers:
+        - env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+          image: docker:27-dind
+          name: dind
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /var/lib/docker
+              name: docker-graph
+        - env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2375
+          envFrom:
+            - secretRef:
+                name: moltis
+          image: ghcr.io/moltis-org/moltis:latest
+          name: moltis
+          ports:
+            - containerPort: 13131
+              name: gateway
+          resources:
+            limits:
+              cpu: "2"
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /home/moltis/.config/moltis/moltis.toml
+              name: config
+              readOnly: true
+              subPath: moltis.toml
+            - mountPath: /home/moltis/.moltis
+              name: data
+      initContainers:
+        - command:
+            - sh
+            - -c
+            - until docker info > /dev/null 2>&1; do sleep 1; done
+          env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2375
+          image: docker:27-cli
+          name: wait-for-docker
+      runtimeClassName: kata-clh
+      volumes:
+        - configMap:
+            name: moltis-config
+          name: config
+        - name: data
+          persistentVolumeClaim:
+            claimName: moltis-data
+        - emptyDir: {}
+          name: docker-graph

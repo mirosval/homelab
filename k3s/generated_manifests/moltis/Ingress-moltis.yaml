@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: moltis
+  namespace: moltis
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: moltis.doma.lol
