@@ -21,6 +21,8 @@
           clh.enabled = true;
         };
 
+        defaultShim.amd64 = "clh";
+
         # Create a single RuntimeClass named kata-clh
         runtimeClasses = {
           enabled = true;

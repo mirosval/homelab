@@ -27,6 +27,8 @@ spec:
               value: "false"
             - name: SHIMS_X86_64
               value: clh
+            - name: DEFAULT_SHIM_X86_64
+              value: clh
             - name: INSTALLATION_PREFIX
               value: ""
             - name: MULTI_INSTALL_SUFFIX
