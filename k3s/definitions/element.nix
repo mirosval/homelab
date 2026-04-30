@@ -28,7 +28,7 @@
           metadata.labels.app = "element";
           spec = {
             containers.element = {
-              image = "vectorim/element-web:v1.12.15";
+              image = "vectorim/element-web:v1.12.17";
               ports.http.containerPort = 80;
               volumeMounts = [
                 {
