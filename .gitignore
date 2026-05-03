@@ -4,3 +4,5 @@ result
 
 *.sql
 *.gz
+
+.claude/settings.local.json
