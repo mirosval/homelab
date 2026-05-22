@@ -20,7 +20,7 @@
             initContainers = [
               {
                 name = "download-model";
-                image = "busybox:1.37.0";
+                image = "busybox:1.38.0";
                 command = [
                   "sh"
                   "-c"
