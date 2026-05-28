@@ -8,7 +8,7 @@
         repo = "https://metallb.github.io/metallb";
         chart = "metallb";
         version = "0.16.1";
-        chartHash = "sha256-KWdVaF6CjFjeHQ6HT1WvkI9JnSurt9emLVCpkxma0fg=";
+        chartHash = "sha256-Z1qB6M5XxM3VXkYBzgDOjGLaoR7ICzffXT4OaDruP8k=";
       };
       values = { };
     };
