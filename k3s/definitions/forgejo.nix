@@ -153,7 +153,7 @@
                 };
               };
               daemon = {
-                image = "docker.io/docker:29.3.1-dind";
+                image = "docker.io/docker:29.4.0-dind";
                 env = [
                   {
                     name = "DOCKER_TLS_CERTDIR";
