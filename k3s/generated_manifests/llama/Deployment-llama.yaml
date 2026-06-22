@@ -63,7 +63,7 @@ spec:
               test -f /models/gemma-4-E2B-it-IQ4_XS.gguf || \
                 wget -O /models/gemma-4-E2B-it-IQ4_XS.gguf \
                   "https://huggingface.co/unsloth/gemma-4-E2B-it-GGUF/resolve/main/gemma-4-E2B-it-IQ4_XS.gguf"
-          image: busybox:1.37.0
+          image: busybox:1.38.0
           name: download-model
           volumeMounts:
             - mountPath: /models
