@@ -44,7 +44,7 @@
             initContainers = [
               {
                 name = "wait-for-docker";
-                image = "docker:27-cli";
+                image = "docker:29-cli";
                 command = [
                   "sh"
                   "-c"
@@ -63,7 +63,7 @@
               # Docker-in-Docker: runs dockerd inside the Kata microVM
               # Privileged here means privileged within the VM, not on the host
               dind = {
-                image = "docker:27-dind";
+                image = "docker:29-dind";
                 securityContext.privileged = true;
                 env = [
                   {
