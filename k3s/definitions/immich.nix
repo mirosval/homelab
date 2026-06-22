@@ -14,7 +14,7 @@
 
       values = {
         controllers.main.containers.main = {
-          image.tag = "v2.6.3";
+          image.tag = "v2.7.5";
           env = {
             DB_HOSTNAME_FILE = "/etc/secret/host";
             DB_DATABASE_NAME = "postgres";
