@@ -6,3 +6,4 @@ result
 *.gz
 
 .claude/settings.local.json
+.rtk/filters.toml
