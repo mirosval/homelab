@@ -13,7 +13,7 @@
           spec = {
             containers.home-assistant = {
               name = "home-assistant";
-              image = "ghcr.io/home-assistant/home-assistant:2026.3.4";
+              image = "ghcr.io/home-assistant/home-assistant:2026.4.2";
               securityContext = {
                 privileged = true;
                 capabilities.add = [
