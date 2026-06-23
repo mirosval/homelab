@@ -57,7 +57,7 @@
       enable = true;
       extraPackages = with pkgs; [
         intel-media-driver
-        vaapiVdpau
+        libva-vdpau-driver
         intel-compute-runtime
         intel-ocl
         vpl-gpu-rt

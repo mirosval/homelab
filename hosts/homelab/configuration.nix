@@ -56,7 +56,7 @@ in
       enable = true;
       extraPackages = with pkgs; [
         intel-media-driver
-        vaapiVdpau
+        libva-vdpau-driver
         intel-compute-runtime
         intel-ocl
         vpl-gpu-rt
@@ -198,7 +198,7 @@ in
             };
           };
         };
-        environmentFiles = [ config.secrets.homelab.wifi ];
+        environmentFiles = [ config.secrets.homelab-shared.wifi ];
       };
     };
 

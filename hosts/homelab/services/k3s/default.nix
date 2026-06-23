@@ -24,7 +24,7 @@
     # clusterInit = k3s_init;
     clusterInit = false;
     # This can not be changed, otherwise the whole cluster is fucked
-    tokenFile = config.secrets.homelab.k3s_token;
+    tokenFile = config.secrets.homelab-shared.k3s_token;
     # This may be changed if the address is not reachable or whatever
     # serverAddr = if k3s_init then "" else "https://10.42.0.4:6443";
     # serverAddr = "https://10.42.0.6:6443";
