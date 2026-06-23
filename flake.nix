@@ -20,7 +20,6 @@
     };
     nixidy.url = "github:arnarg/nixidy";
     flake-utils.url = "github:numtide/flake-utils";
-    mirosval.url = "github:mirosval/dotfiles";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,7 +35,6 @@
       secrets,
       nixidy,
       flake-utils,
-      mirosval,
       disko,
       ...
     }:
