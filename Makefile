@@ -33,6 +33,16 @@ nixos-switch-homelab-01:
 	--target-host $(HOMELAB_USER)@$(HOMELAB_01_IP) \
 	switch
 
+.PHONY: nixos-dry-run-homelab-01
+nixos-dry-run-homelab-01:
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+	--flake .#homelab-01 \
+	--fast \
+	--use-remote-sudo \
+	--build-host $(HOMELAB_USER)@$(HOMELAB_01_IP) \
+	--target-host $(HOMELAB_USER)@$(HOMELAB_01_IP) \
+	dry-activate
+
 .PHONY: nixos-switch-homelab-02
 nixos-switch-homelab-02:
 	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
@@ -43,6 +53,16 @@ nixos-switch-homelab-02:
 	--target-host $(HOMELAB_USER)@$(HOMELAB_02_IP) \
 	switch
 
+.PHONY: nixos-dry-run-homelab-02
+nixos-dry-run-homelab-02:
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+	--flake .#homelab-02 \
+	--fast \
+	--use-remote-sudo \
+	--build-host $(HOMELAB_USER)@$(HOMELAB_02_IP) \
+	--target-host $(HOMELAB_USER)@$(HOMELAB_02_IP) \
+	dry-activate
+
 .PHONY: nixos-switch-homelab-03
 nixos-switch-homelab-03:
 	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
@@ -52,6 +72,16 @@ nixos-switch-homelab-03:
 	--build-host $(HOMELAB_USER)@$(HOMELAB_03_IP) \
 	--target-host $(HOMELAB_USER)@$(HOMELAB_03_IP) \
 	switch
+
+.PHONY: nixos-dry-run-homelab-03
+nixos-dry-run-homelab-03:
+	NIX_SSHOPTS="-i $(HOMELAB_KEY)" nixos-rebuild \
+	--flake .#homelab-03 \
+	--fast \
+	--use-remote-sudo \
+	--build-host $(HOMELAB_USER)@$(HOMELAB_03_IP) \
+	--target-host $(HOMELAB_USER)@$(HOMELAB_03_IP) \
+	dry-activate
 
 .PHONY: check
 check:
