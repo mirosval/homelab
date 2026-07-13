@@ -30,8 +30,10 @@
     ./llama.nix
     ./longhorn.nix
     ./matrix.nix
+    ./matter-server.nix
     ./metallb.nix
     ./moltis.nix
+    ./otbr.nix
     ./pihole.nix
     ./renovate.nix
     ./sealedsecrets.nix

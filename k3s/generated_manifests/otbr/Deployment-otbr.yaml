@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otbr
+  namespace: otbr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otbr
+  template:
+    metadata:
+      labels:
+        app: otbr
+    spec:
+      containers:
+        - env:
+            - name: OT_RCP_DEVICE
+              value: spinel+hdlc+uart:///dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_343cb516c0a3ef11977344bd61ce3355-if00-port0?uart-baudrate=460800
+            - name: OT_INFRA_IF
+              value: eth0
+            - name: OT_THREAD_IF
+              value: wpan0
+            - name: OT_REST_LISTEN_ADDR
+              value: 0.0.0.0
+            - name: OT_REST_LISTEN_PORT
+              value: "8081"
+          image: openthread/border-router:v2026.07.0
+          name: otbr
+          ports:
+            - containerPort: 8081
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+            privileged: false
+          volumeMounts:
+            - mountPath: /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_343cb516c0a3ef11977344bd61ce3355-if00-port0
+              name: thread-dongle
+            - mountPath: /dev/net/tun
+              name: tun
+            - mountPath: /data
+              name: otbr-data
+      nodeSelector:
+        environment: zigbee
+      volumes:
+        - hostPath:
+            path: /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_343cb516c0a3ef11977344bd61ce3355-if00-port0
+          name: thread-dongle
+        - hostPath:
+            path: /dev/net/tun
+          name: tun
+        - hostPath:
+            path: /var/lib/otbr
+            type: DirectoryOrCreate
+          name: otbr-data

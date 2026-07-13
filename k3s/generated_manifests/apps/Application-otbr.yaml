@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: otbr
+  namespace: argocd
+spec:
+  destination:
+    namespace: otbr
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k3s/generated_manifests/otbr
+    repoURL: https://github.com/mirosval/homelab.git
+    targetRevision: main
+  syncPolicy: {}

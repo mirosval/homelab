@@ -40,10 +40,6 @@
                   mountPath = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_cc5121307674ef11af55c48c8fcc3fa0-if00-port0";
                   name = "zigbee";
                 }
-                {
-                  mountPath = "/dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_343cb516c0a3ef11977344bd61ce3355-if00-port0";
-                  name = "thread";
-                }
               ];
               ports = [ { containerPort = 8123; } ];
             };
@@ -60,19 +56,7 @@
               }
               {
                 name = "zigbee";
-                hostPath.path = "/dev/ttyUSB0";
-              }
-              {
-                name = "zigbee";
                 hostPath.path = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_cc5121307674ef11af55c48c8fcc3fa0-if00-port0";
-              }
-              {
-                name = "thread";
-                hostPath.path = "/dev/ttyUSB1";
-              }
-              {
-                name = "thread";
-                hostPath.path = "/dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_343cb516c0a3ef11977344bd61ce3355-if00-port0";
               }
             ];
           };

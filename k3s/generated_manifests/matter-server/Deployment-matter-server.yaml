@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matter-server
+  namespace: matter-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matter-server
+  template:
+    metadata:
+      labels:
+        app: matter-server
+    spec:
+      containers:
+        - args:
+            - --storage-path
+            - /data
+            - --port
+            - "5580"
+          image: ghcr.io/home-assistant-libs/python-matter-server:8.1.2
+          name: matter-server
+          ports:
+            - containerPort: 5580
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      nodeSelector:
+        environment: zigbee
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: matter-server-data

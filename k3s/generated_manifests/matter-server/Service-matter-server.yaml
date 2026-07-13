@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: matter-server
+  namespace: matter-server
+spec:
+  ports:
+    - name: ws
+      port: 5580
+      targetPort: 5580
+  selector:
+    app: matter-server
+  type: ClusterIP
