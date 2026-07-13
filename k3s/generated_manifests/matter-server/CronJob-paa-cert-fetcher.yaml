@@ -33,7 +33,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-              image: alpine:3.20
+              image: alpine:3.24
               name: paa-cert-fetcher
               volumeMounts:
                 - mountPath: /paa-root-certs
