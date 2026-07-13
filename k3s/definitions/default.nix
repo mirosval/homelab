@@ -2,6 +2,11 @@
   nixidy.target.repository = "https://github.com/mirosval/homelab.git";
   nixidy.target.branch = "main";
   nixidy.target.rootPath = "./k3s/generated_manifests";
+  nixidy.defaults.syncPolicy.autoSync = {
+    enable = true;
+    prune = true;
+    selfHeal = true;
+  };
   nixidy.applicationImports = [
     ../../lib/generated/metallb.nix
     ../../lib/generated/traefik.nix
