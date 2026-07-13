@@ -21,15 +21,25 @@ spec:
             - "5580"
             - --paa-root-cert-dir
             - /paa-root-certs
+            - --bluetooth-adapter
+            - "0"
           image: ghcr.io/home-assistant-libs/python-matter-server:8.1.0
           name: matter-server
           ports:
             - containerPort: 5580
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+                - NET_RAW
+            privileged: true
           volumeMounts:
             - mountPath: /data
               name: data
             - mountPath: /paa-root-certs
               name: paa-certs
+            - mountPath: /run/dbus
+              name: d-bus
       nodeSelector:
         environment: zigbee
       volumes:
@@ -39,3 +49,6 @@ spec:
         - name: paa-certs
           persistentVolumeClaim:
             claimName: matter-server-paa-certs-data
+        - hostPath:
+            path: /run/dbus
+          name: d-bus

@@ -85,6 +85,14 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
+  # Bluetooth (only relevant on the zigbee/thread node - passed through to
+  # matter-server for direct Matter/Thread device commissioning, avoiding
+  # Apple's iOS Thread-credential-sharing mechanism entirely).
+  hardware.bluetooth = lib.mkIf zigbeeNode {
+    enable = true;
+    powerOnBoot = true;
+  };
+
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 

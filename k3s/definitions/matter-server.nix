@@ -31,6 +31,10 @@
             containers.matter-server = {
               name = "matter-server";
               image = "ghcr.io/home-assistant-libs/python-matter-server:8.1.0";
+              securityContext = {
+                privileged = true;
+                capabilities.add = [ "NET_ADMIN" "NET_RAW" ];
+              };
               args = [
                 "--storage-path"
                 "/data"
@@ -38,6 +42,8 @@
                 "5580"
                 "--paa-root-cert-dir"
                 "/paa-root-certs"
+                "--bluetooth-adapter"
+                "0"
               ];
               volumeMounts = [
                 {
@@ -47,6 +53,10 @@
                 {
                   name = "paa-certs";
                   mountPath = "/paa-root-certs";
+                }
+                {
+                  name = "d-bus";
+                  mountPath = "/run/dbus";
                 }
               ];
               ports = [ { containerPort = 5580; } ];
@@ -59,6 +69,10 @@
               {
                 name = "paa-certs";
                 persistentVolumeClaim.claimName = "matter-server-paa-certs-data";
+              }
+              {
+                name = "d-bus";
+                hostPath.path = "/run/dbus";
               }
             ];
           };
