@@ -12,7 +12,4 @@ spec:
     path: ./k3s/generated_manifests/intel-gpu-device-plugin
     repoURL: https://github.com/mirosval/homelab.git
     targetRevision: main
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  syncPolicy: {}
