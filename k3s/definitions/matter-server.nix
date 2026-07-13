@@ -20,7 +20,7 @@
             nodeSelector.environment = "zigbee";
             containers.matter-server = {
               name = "matter-server";
-              image = "ghcr.io/home-assistant-libs/python-matter-server:8.1.2";
+              image = "ghcr.io/home-assistant-libs/python-matter-server:8.1.0";
               args = [
                 "--storage-path"
                 "/data"

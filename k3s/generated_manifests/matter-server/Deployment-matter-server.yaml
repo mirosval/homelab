@@ -19,7 +19,7 @@ spec:
             - /data
             - --port
             - "5580"
-          image: ghcr.io/home-assistant-libs/python-matter-server:8.1.2
+          image: ghcr.io/home-assistant-libs/python-matter-server:8.1.0
           name: matter-server
           ports:
             - containerPort: 5580

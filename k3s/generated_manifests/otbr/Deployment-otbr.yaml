@@ -33,7 +33,7 @@ spec:
             capabilities:
               add:
                 - NET_ADMIN
-            privileged: false
+            privileged: true
           volumeMounts:
             - mountPath: /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Plus_MG24_343cb516c0a3ef11977344bd61ce3355-if00-port0
               name: thread-dongle

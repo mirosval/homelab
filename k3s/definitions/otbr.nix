@@ -16,7 +16,7 @@
               name = "otbr";
               image = "openthread/border-router:v2026.07.0";
               securityContext = {
-                privileged = false;
+                privileged = true;
                 capabilities.add = [ "NET_ADMIN" ];
               };
               env = [
