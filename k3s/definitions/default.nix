@@ -49,12 +49,14 @@
     ./moltis.nix
     ./otbr.nix
     ./pihole.nix
+    ./piper.nix
     ./renovate.nix
     ./sealedsecrets.nix
     ./tailscale.nix
     ./tinyauth.nix
     ./traefik.nix
     ./vaultwarden.nix
+    ./whisper.nix
   ];
 
 }

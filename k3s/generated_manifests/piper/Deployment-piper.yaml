@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piper
+  namespace: piper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: piper
+  template:
+    metadata:
+      labels:
+        app: piper
+    spec:
+      containers:
+        - args:
+            - --voice
+            - en_US-lessac-medium
+          image: rhasspy/wyoming-piper:2.2.2
+          name: piper
+          ports:
+            - containerPort: 10200
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      nodeSelector:
+        kubernetes.io/hostname: homelab-03
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: piper-data

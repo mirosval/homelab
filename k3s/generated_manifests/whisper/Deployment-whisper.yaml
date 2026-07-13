@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whisper
+  namespace: whisper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: whisper
+  template:
+    metadata:
+      labels:
+        app: whisper
+    spec:
+      containers:
+        - args:
+            - --model
+            - small-int8
+            - --language
+            - en
+          image: rhasspy/wyoming-whisper:3.3.0
+          name: whisper
+          ports:
+            - containerPort: 10300
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      nodeSelector:
+        kubernetes.io/hostname: homelab-02
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: whisper-data
