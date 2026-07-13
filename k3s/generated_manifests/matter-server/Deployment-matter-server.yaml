@@ -19,6 +19,8 @@ spec:
             - /data
             - --port
             - "5580"
+            - --paa-root-cert-dir
+            - /paa-root-certs
           image: ghcr.io/home-assistant-libs/python-matter-server:8.1.0
           name: matter-server
           ports:
@@ -26,9 +28,14 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
+            - mountPath: /paa-root-certs
+              name: paa-certs
       nodeSelector:
         environment: zigbee
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: matter-server-data
+        - name: paa-certs
+          persistentVolumeClaim:
+            claimName: matter-server-paa-certs-data

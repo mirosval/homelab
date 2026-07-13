@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: paa-cert-fetcher
+  namespace: matter-server
+spec:
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: paa-cert-fetcher
+        spec:
+          containers:
+            - args:
+                - |
+                  set -eu
+                  apk add --no-cache curl jq >/dev/null
+                  dest=/paa-root-certs
+                  base="https://raw.githubusercontent.com/project-chip/connectedhomeip/master/credentials/development/paa-root-certs"
+                  tmp="$(mktemp -d)"
+                  curl -sf "https://api.github.com/repos/project-chip/connectedhomeip/contents/credentials/development/paa-root-certs" \
+                    | jq -r '.[].name' > "$tmp/files.txt"
+                  while IFS= read -r name; do
+                    curl -sf "$base/$name" -o "$tmp/$name"
+                  done < "$tmp/files.txt"
+                  touch "$tmp/.version"
+                  rm -f "$dest"/*.pem "$dest"/*.der 2>/dev/null || true
+                  cp "$tmp"/* "$dest"/
+                  cp "$tmp/.version" "$dest/.version"
+                  echo "Fetched $(wc -l < "$tmp/files.txt") PAA certificate files."
+              command:
+                - /bin/sh
+                - -c
+              image: alpine:3.20
+              name: paa-cert-fetcher
+              volumeMounts:
+                - mountPath: /paa-root-certs
+                  name: paa-certs
+          nodeSelector:
+            environment: zigbee
+          restartPolicy: OnFailure
+          volumes:
+            - name: paa-certs
+              persistentVolumeClaim:
+                claimName: matter-server-paa-certs-data
+  schedule: 0 3 * * *
