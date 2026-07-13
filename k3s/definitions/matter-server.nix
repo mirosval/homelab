@@ -118,7 +118,7 @@
             nodeSelector.environment = "zigbee";
             containers.paa-cert-fetcher = {
               name = "paa-cert-fetcher";
-              image = "alpine:3.20";
+              image = "alpine:3.24";
               command = [ "/bin/sh" "-c" ];
               args = [
                 ''
