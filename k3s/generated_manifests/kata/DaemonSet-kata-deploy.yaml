@@ -33,8 +33,6 @@ spec:
               value: ""
             - name: MULTI_INSTALL_SUFFIX
               value: ""
-            - name: EXPERIMENTAL_SETUP_SNAPSHOTTER
-              value: nydus
           image: quay.io/kata-containers/kata-deploy:3.29.0
           imagePullPolicy: Always
           name: kube-kata

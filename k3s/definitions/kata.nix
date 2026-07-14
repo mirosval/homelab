@@ -23,6 +23,12 @@
 
         defaultShim.amd64 = "clh";
 
+        # Chart defaults to ["nydus"], which is only needed for confidential-computing
+        # shims (qemu-snp/tdx). We only use clh, and the nydus setup step fails on our
+        # nodes ("Deploying nydus-for-kata-tee" -> No such file or directory), crash-looping
+        # kata-deploy before it ever registers the RuntimeClass.
+        snapshotter.setup = [ ];
+
         # Create a single RuntimeClass named kata-clh
         runtimeClasses = {
           enabled = true;
