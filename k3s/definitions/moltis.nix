@@ -49,6 +49,35 @@
             securityContext.fsGroup = 1000;
 
             initContainers = [
+              # moltis.toml starts out as a ConfigMap subPath mount, but the
+              # onboarding wizard needs to rewrite it (and provider_keys.json
+              # next to it) at runtime. A ConfigMap subPath is a per-file bind
+              # mount, so an atomic write (temp file + rename over the
+              # target) hits EBUSY — can't rename onto an active mountpoint.
+              # Seed it once onto the writable data PVC instead, so the app
+              # owns a real file it can rewrite freely, and changes persist
+              # across restarts.
+              {
+                name = "seed-config";
+                image = "busybox:1.38.0";
+                command = [
+                  "sh"
+                  "-c"
+                  "test -f /home/moltis/.config/moltis/moltis.toml || cp /config-src/moltis.toml /home/moltis/.config/moltis/moltis.toml"
+                ];
+                volumeMounts = [
+                  {
+                    name = "config";
+                    mountPath = "/config-src";
+                    readOnly = true;
+                  }
+                  {
+                    name = "data";
+                    mountPath = "/home/moltis/.config/moltis";
+                    subPath = "config";
+                  }
+                ];
+              }
               # Native sidecar (restartPolicy Always): starts immediately and
               # keeps running, without blocking the rest of the init sequence
               # the way a regular container would. Must come before
@@ -107,10 +136,9 @@
                 ];
                 volumeMounts = [
                   {
-                    name = "config";
-                    mountPath = "/home/moltis/.config/moltis/moltis.toml";
-                    subPath = "moltis.toml";
-                    readOnly = true;
+                    name = "data";
+                    mountPath = "/home/moltis/.config/moltis";
+                    subPath = "config";
                   }
                   {
                     name = "data";
