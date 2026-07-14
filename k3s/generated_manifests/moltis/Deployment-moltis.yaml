@@ -15,16 +15,6 @@ spec:
     spec:
       containers:
         - env:
-            - name: DOCKER_TLS_CERTDIR
-              value: ""
-          image: docker:29-dind
-          name: dind
-          securityContext:
-            privileged: true
-          volumeMounts:
-            - mountPath: /var/lib/docker
-              name: docker-graph
-        - env:
             - name: DOCKER_HOST
               value: tcp://localhost:2375
           envFrom:
@@ -50,6 +40,17 @@ spec:
             - mountPath: /home/moltis/.moltis
               name: data
       initContainers:
+        - env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+          image: docker:29-dind
+          name: dind
+          restartPolicy: Always
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - mountPath: /var/lib/docker
+              name: docker-graph
         - command:
             - sh
             - -c

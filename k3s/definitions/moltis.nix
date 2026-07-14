@@ -42,6 +42,28 @@
             runtimeClassName = "kata-qemu";
 
             initContainers = [
+              # Native sidecar (restartPolicy Always): starts immediately and
+              # keeps running, without blocking the rest of the init sequence
+              # the way a regular container would. Must come before
+              # wait-for-docker, which needs dockerd already listening.
+              {
+                name = "dind";
+                image = "docker:29-dind";
+                restartPolicy = "Always";
+                securityContext.privileged = true;
+                env = [
+                  {
+                    name = "DOCKER_TLS_CERTDIR";
+                    value = "";
+                  }
+                ];
+                volumeMounts = [
+                  {
+                    name = "docker-graph";
+                    mountPath = "/var/lib/docker";
+                  }
+                ];
+              }
               {
                 name = "wait-for-docker";
                 image = "docker:29-cli";
@@ -60,25 +82,6 @@
             ];
 
             containers = {
-              # Docker-in-Docker: runs dockerd inside the Kata microVM
-              # Privileged here means privileged within the VM, not on the host
-              dind = {
-                image = "docker:29-dind";
-                securityContext.privileged = true;
-                env = [
-                  {
-                    name = "DOCKER_TLS_CERTDIR";
-                    value = "";
-                  }
-                ];
-                volumeMounts = [
-                  {
-                    name = "docker-graph";
-                    mountPath = "/var/lib/docker";
-                  }
-                ];
-              };
-
               moltis = {
                 image = "ghcr.io/moltis-org/moltis:latest";
                 ports.gateway.containerPort = 13131;
