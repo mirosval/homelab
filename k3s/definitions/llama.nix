@@ -45,6 +45,10 @@
                 "--host" "0.0.0.0"
                 "--port" "8080"
                 "--n-gpu-layers" "99"
+                # Enables /v1/embeddings; otherwise llama-server returns 501.
+                # Gemma is a chat model, not an embedding model, so quality
+                # will be mediocre — fine for moltis's current needs.
+                "--embeddings"
               ];
               ports.http.containerPort = 8080;
               resources.limits."gpu.intel.com/i915" = "1000m";
