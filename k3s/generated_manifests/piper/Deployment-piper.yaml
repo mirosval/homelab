@@ -17,7 +17,7 @@ spec:
         - args:
             - --voice
             - en_US-lessac-medium
-          image: rhasspy/wyoming-piper:2.2.2
+          image: rhasspy/wyoming-piper:2.3.1
           name: piper
           ports:
             - containerPort: 10200
