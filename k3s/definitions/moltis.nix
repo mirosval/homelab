@@ -41,6 +41,13 @@
           spec = {
             runtimeClassName = "kata-qemu";
 
+            # Fresh Longhorn volumes mount root:root 0755; moltis runs as a
+            # non-root user, so without this it can't create moltis.db under
+            # /home/moltis/.moltis (SQLITE_CANTOPEN). fsGroup makes the mount
+            # group-writable and adds that GID as a supplementary group to
+            # every container in the pod.
+            securityContext.fsGroup = 1000;
+
             initContainers = [
               # Native sidecar (restartPolicy Always): starts immediately and
               # keeps running, without blocking the rest of the init sequence

@@ -61,6 +61,8 @@ spec:
           image: docker:29-cli
           name: wait-for-docker
       runtimeClassName: kata-qemu
+      securityContext:
+        fsGroup: 1000
       volumes:
         - configMap:
             name: moltis-config
