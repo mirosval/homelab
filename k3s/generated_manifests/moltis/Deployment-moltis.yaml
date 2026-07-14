@@ -59,7 +59,7 @@ spec:
               value: tcp://localhost:2375
           image: docker:29-cli
           name: wait-for-docker
-      runtimeClassName: kata-clh
+      runtimeClassName: kata-qemu
       volumes:
         - configMap:
             name: moltis-config
