@@ -33,13 +33,25 @@ spec:
               cpu: 100m
               memory: 256Mi
           volumeMounts:
-            - mountPath: /home/moltis/.config/moltis/moltis.toml
-              name: config
-              readOnly: true
-              subPath: moltis.toml
+            - mountPath: /home/moltis/.config/moltis
+              name: data
+              subPath: config
             - mountPath: /home/moltis/.moltis
               name: data
       initContainers:
+        - command:
+            - sh
+            - -c
+            - test -f /home/moltis/.config/moltis/moltis.toml || cp /config-src/moltis.toml /home/moltis/.config/moltis/moltis.toml
+          image: busybox:1.38.0
+          name: seed-config
+          volumeMounts:
+            - mountPath: /config-src
+              name: config
+              readOnly: true
+            - mountPath: /home/moltis/.config/moltis
+              name: data
+              subPath: config
         - env:
             - name: DOCKER_TLS_CERTDIR
               value: ""
