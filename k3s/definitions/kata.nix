@@ -1,43 +1,19 @@
-{ lib, ... }:
+{ ... }:
 {
+  # The kata-deploy Helm chart installs upstream release-tarball binaries
+  # (containerd-shim-kata-v2, cloud-hypervisor, ...) which are built for a
+  # standard FHS distro and fail to exec on NixOS (missing dynamic loader
+  # at /lib64/ld-linux-x86-64.so.2). Instead, the actual binaries come from
+  # nixpkgs' own kata-runtime + qemu_kvm packages (proper Nix store paths,
+  # no FHS assumptions) — installed and wired into containerd declaratively
+  # via hosts/homelab/services/k3s/default.nix. This app only defines the
+  # RuntimeClass so Kubernetes knows the "kata-qemu" handler exists.
   applications.kata = {
-    namespace = "kata-containers";
-    createNamespace = true;
-
-    helm.releases.kata = {
-      chart = lib.helm.downloadHelmChart {
-        repo = "oci://ghcr.io/kata-containers/kata-deploy-charts";
-        chart = "kata-deploy";
-        version = "3.29.0";
-        chartHash = "sha256-E0qhF7beMGmxjrNu4Zx/KDKoDR93Wpmi/0gx8yj8acs=";
-      };
-
-      values = {
-        k8sDistribution = "k3s";
-
-        # Only enable cloud-hypervisor; disable all other hypervisors
-        shims = {
-          disableAll = true;
-          clh.enabled = true;
-        };
-
-        defaultShim.amd64 = "clh";
-
-        # Chart defaults to ["nydus"], which is only needed for confidential-computing
-        # shims (qemu-snp/tdx). We only use clh, and the nydus setup step fails on our
-        # nodes ("Deploying nydus-for-kata-tee" -> No such file or directory), crash-looping
-        # kata-deploy before it ever registers the RuntimeClass.
-        snapshotter.setup = [ ];
-
-        # Create a single RuntimeClass named kata-clh
-        runtimeClasses = {
-          enabled = true;
-          createDefault = true;
-          defaultName = "kata-clh";
-        };
-
-        # Skip NFD — nodes already have kvm-intel loaded
-        node-feature-discovery.enabled = false;
+    resources.runtimeClasses.kata-qemu = {
+      handler = "kata-qemu";
+      overhead.podFixed = {
+        cpu = "250m";
+        memory = "160Mi";
       };
     };
   };

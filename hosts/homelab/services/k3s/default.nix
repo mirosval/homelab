@@ -5,7 +5,26 @@
   hostName,
 }:
 
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
+let
+  # containerd config-v3 drop-in registering the kata-qemu RuntimeClass
+  # handler. Points at nixpkgs' kata-runtime (proper Nix store paths, not
+  # the FHS binaries kata-deploy would otherwise download) — see kata.nix.
+  kataContainerdConfig = pkgs.writeText "kata-containerd.toml" ''
+    [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.kata-qemu]
+    runtime_type = "io.containerd.kata.v2"
+    runtime_path = "${pkgs.kata-runtime}/bin/containerd-shim-kata-v2"
+    # Don't bind-mount host /dev nodes into privileged pods (containerd's
+    # default for runc) — moltis's dind container is privileged, but Kata
+    # pods run in their own microVM kernel, so host devices don't apply.
+    privileged_without_host_devices = true
+    pod_annotations = ["io.katacontainers.*"]
+    container_annotations = ["io.kubernetes.container.terminationMessage*"]
+
+    [plugins."io.containerd.cri.v1.runtime".containerd.runtimes.kata-qemu.options]
+    ConfigPath = "${pkgs.kata-runtime}/share/defaults/kata-containers/configuration-qemu.toml"
+  '';
+in
 {
   # Allow k3s's containerd to access KVM and virtio devices for Kata Containers
   systemd.services.k3s.serviceConfig.DeviceAllow = [
@@ -16,6 +35,11 @@
     "/dev/vhost-net rwm"
     "/dev/net/tun rwm"
   ];
+
+  systemd.services.k3s.preStart = ''
+    mkdir -p /var/lib/rancher/k3s/agent/etc/containerd/config-v3.toml.d
+    ln -sf ${kataContainerdConfig} /var/lib/rancher/k3s/agent/etc/containerd/config-v3.toml.d/kata.toml
+  '';
 
   services.k3s = {
     enable = true;

@@ -39,7 +39,7 @@
         template = {
           metadata.labels.app = "moltis";
           spec = {
-            runtimeClassName = "kata-clh";
+            runtimeClassName = "kata-qemu";
 
             initContainers = [
               {
