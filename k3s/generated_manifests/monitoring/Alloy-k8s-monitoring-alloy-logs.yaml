@@ -11,6 +11,7 @@ spec:
       enabled: false
       name: ""
       portName: http
+    command: []
     configMap:
       content: ""
       create: false
@@ -65,9 +66,10 @@ spec:
     enabled: true
     image:
       digest: ""
+      pullPolicy: IfNotPresent
       registry: quay.io
       repository: prometheus-operator/prometheus-config-reloader
-      tag: v0.81.0
+      tag: v0.91.0@sha256:7d9e4eea5f1139e602508871f422b0116c60e87c662f3dcd234d5ab60cd0d8c1
     resources:
       requests:
         cpu: 10m
@@ -79,6 +81,7 @@ spec:
       enabled: false
       horizontal:
         enabled: false
+        externalHPA: false
         maxReplicas: 5
         minReplicas: 1
         scaleDown:
@@ -137,6 +140,7 @@ spec:
     podLabels: {}
     priorityClassName: ""
     replicas: 1
+    revisionHistoryLimit: 10
     terminationGracePeriodSeconds: null
     tolerations:
       - effect: NoSchedule
@@ -152,6 +156,7 @@ spec:
   extraObjects: []
   global:
     image:
+      pullPolicy: ""
       pullSecrets: []
       registry: ""
     podSecurityContext: {}
@@ -306,6 +311,7 @@ spec:
     annotations: {}
     clusterIP: ""
     enabled: true
+    externalTrafficPolicy: Cluster
     internalTrafficPolicy: Cluster
     nodePort: 31128
     type: ClusterIP

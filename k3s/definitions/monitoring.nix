@@ -43,7 +43,7 @@
         repo = "https://grafana.github.io/helm-charts";
         chart = "k8s-monitoring";
         version = "3.8.11";
-        chartHash = "sha256-KZ01OjbpLkmiDMBnsLDMbUPvgBi1/tGzvdoXNZxPpHA=";
+        chartHash = "sha256-Ltbyqt+wx2xEskYkcGugC0TIiGixbWMakB1uoqt28ns=";
       };
 
       values = {
