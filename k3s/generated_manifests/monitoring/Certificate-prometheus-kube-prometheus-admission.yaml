@@ -4,6 +4,7 @@ metadata:
   name: prometheus-kube-prometheus-admission
   namespace: monitoring
 spec:
+  commonName: prometheus-kube-prometheus-operator
   dnsNames:
     - prometheus-kube-prometheus-operator
     - prometheus-kube-prometheus-operator.monitoring.svc
