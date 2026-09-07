@@ -18,7 +18,7 @@
         };
         persistence.size = "30Gi";
         gitea = {
-          admin.existingSecret = "forgejo";
+          admin.existingSecret = "forgejo-admin";
           config.server = {
             DOMAIN = "forgejo.doma.lol";
             ROOT_URL = "https://forgejo.doma.lol";
