@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wled-gradients
+  namespace: wled-gradients
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`wled-gradients.doma.lol`)
+      services:
+        - name: wled-gradients
+          port: 80

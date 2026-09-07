@@ -57,6 +57,7 @@
     ./traefik.nix
     ./vaultwarden.nix
     ./whisper.nix
+    ./wled-gradients.nix
   ];
 
 }

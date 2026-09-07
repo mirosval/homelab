@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wled-gradients
+  namespace: wled-gradients
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wled-gradients
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: wled-gradients
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: wled-gradients-config
+          image: forgejo.doma.lol/miro/wled-gradients:latest
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          name: wled-gradients
+          ports:
+            - containerPort: 3000
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 10
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: wled-gradients-data

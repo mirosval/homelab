@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wled-gradients
+  namespace: wled-gradients
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: wled-gradients.doma.lol

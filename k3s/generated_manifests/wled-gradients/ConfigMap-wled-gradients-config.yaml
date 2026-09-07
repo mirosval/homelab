@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  DATABASE_URL: sqlite:///data/wled-sunrise.db
+  HOST: 0.0.0.0
+  PORT: "3000"
+  RUST_LOG: info
+kind: ConfigMap
+metadata:
+  name: wled-gradients-config
+  namespace: wled-gradients
