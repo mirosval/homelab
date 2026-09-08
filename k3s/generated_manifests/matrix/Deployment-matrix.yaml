@@ -19,7 +19,7 @@ spec:
             - /etc/conduwuity/conduwuity.toml
           command:
             - /sbin/conduwuit
-          image: ghcr.io/continuwuity/continuwuity:v0.5.8
+          image: ghcr.io/continuwuity/continuwuity:v0.5.10
           name: matrix
           ports:
             - containerPort: 6167
