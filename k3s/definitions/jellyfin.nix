@@ -7,8 +7,8 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://jellyfin.github.io/jellyfin-helm";
         chart = "jellyfin";
-        version = "3.0.0";
-        chartHash = "sha256-dKa2c95lfvuX/4yx1YtsR6dP9Nz3FcPU1EaoyYe1YrQ=";
+        version = "3.2.0";
+        chartHash = "sha256-d19vMsz+y8V0OGxL4BxK/Twh8JEUIWtypJ/vRF/Flu8=";
       };
 
       values = {
