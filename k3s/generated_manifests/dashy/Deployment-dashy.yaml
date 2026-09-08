@@ -17,7 +17,7 @@ spec:
         - env:
             - name: NODE_ENV
               value: production
-          image: lissy93/dashy@sha256:c663b870e60b967906830623ab76b09d1bd48801f50c53e95da1bc0c27e5bd96
+          image: lissy93/dashy@sha256:7c79a07e6d204c6522d66d86144eccf8cf9e9366f75fea3551d86c7401c66da3
           name: dashy
           ports:
             - containerPort: 8080
