@@ -7,7 +7,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: k8s-monitoring
     app.kubernetes.io/name: k8s-monitoring-remove-alloy-and-finalizer
-    helm.sh/chart: k8s-monitoring-3.8.5
+    helm.sh/chart: k8s-monitoring-3.8.11
   name: k8s-monitoring-remove-alloy-and-finalizer
   namespace: monitoring
 spec:
@@ -32,8 +32,8 @@ spec:
 
               kubectl patch \
                 --namespace=monitoring \
-                --type json \
-                --patch='[{"op": "remove", "path": "/metadata/finalizers"}]' \
+                --type merge \
+                --patch='{"metadata":{"finalizers":null}}' \
                 deployment/k8s-monitoring-alloy-operator
           image: ghcr.io/grafana/helm-chart-toolbox-kubectl:0.1.2
           imagePullPolicy: IfNotPresent
