@@ -13,7 +13,7 @@
 
           spec = {
             containers.dashy = {
-              image = "lissy93/dashy@sha256:7c79a07e6d204c6522d66d86144eccf8cf9e9366f75fea3551d86c7401c66da3";
+              image = "lissy93/dashy@sha256:ad98ba5fd5b1407a3ddb65438037781e45526696dcb37ee49014ceaf4f64694d";
               ports.http.containerPort = 8080;
               env = {
                 NODE_ENV.value = "production";
