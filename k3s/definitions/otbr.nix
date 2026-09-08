@@ -14,7 +14,7 @@
             nodeSelector.environment = "zigbee";
             containers.otbr = {
               name = "otbr";
-              image = "openthread/border-router:v2026.07.0";
+              image = "openthread/border-router:v2026.09.0";
               securityContext = {
                 privileged = true;
                 capabilities.add = [ "NET_ADMIN" ];
