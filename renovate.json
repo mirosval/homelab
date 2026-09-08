@@ -17,10 +17,28 @@
       "customType": "regex",
       "fileMatch": ["\\.nix$"],
       "matchStrings": [
+        "chart = lib\\.helm\\.downloadHelmChart \\{\\s*repo = \"oci://(?<ociRepo>[^\"]+)\";\\s*chart = \"(?<depName>[^\"]+)\";\\s*version = \"(?<currentValue>[^\"]+)\";(?:\\s*chartHash = \"[^\"]*\";)?"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "{{ociRepo}}/{{depName}}"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.nix$"],
+      "matchStrings": [
         "image = \"(?<depName>[^:@\\s\"]+)(?::(?<currentValue>[^@\\s\"]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"",
         "image\\s*=\\s*lib\\.mkForce \"(?<depName>[^:@\\s\"]+)(?::(?<currentValue>[^@\\s\"]+))?(?:@(?<currentDigest>sha256:[a-f0-9]+))?\""
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["^k3s/definitions/immich\\.nix$"],
+      "matchStrings": [
+        "image\\.tag = \"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "ghcr.io/immich-app/immich-server"
     }
   ]
 }

@@ -75,11 +75,13 @@ make generate-nixidy-resources
 
 ### Renovate
 
-`renovate.json` has two custom regex managers:
-1. **Helm charts** — matches `lib.helm.downloadHelmChart` blocks with `https://` repos, auto-updates `version`
-2. **Container images** — matches `image = "..."` strings in `.nix` files
+`renovate.json` has four custom regex managers:
+1. **Helm charts (HTTP)** — matches `lib.helm.downloadHelmChart` blocks with `https://` repos, auto-updates `version` via the `helm` datasource
+2. **Helm charts (OCI)** — matches `lib.helm.downloadHelmChart` blocks with `oci://` repos, auto-updates `version` via the `docker` datasource (packageName is `<registry+path>/<chart>`)
+3. **Container images** — matches `image = "..."` strings in `.nix` files
+4. **immich image tag** — immich's chart values set only `image.tag` (repository comes from the chart default), so it needs its own regex scoped to `k3s/definitions/immich.nix` with a hardcoded `packageNameTemplate` of `ghcr.io/immich-app/immich-server`
 
-OCI-based helm charts (`oci://`) are not picked up by Renovate's custom manager and must be updated manually.
+If a new app sets `image.tag`/`image.repository` separately instead of a single `image = "repo:tag"` string, it needs a manager like #4 added for it, or Renovate won't see the dependency at all.
 
 ### Domain
 
