@@ -14,7 +14,7 @@ spec:
         app: element
     spec:
       containers:
-        - image: vectorim/element-web:v1.12.17
+        - image: vectorim/element-web:v1.12.22
           name: element
           ports:
             - containerPort: 80
