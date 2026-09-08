@@ -6,8 +6,8 @@ metadata:
     app.kubernetes.io/instance: prometheus
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kube-prometheus-stack
-    app.kubernetes.io/version: 82.15.0
-    chart: kube-prometheus-stack-82.15.0
+    app.kubernetes.io/version: 90.0.0
+    chart: kube-prometheus-stack-90.0.0
     heritage: Helm
     release: prometheus
   name: prometheus-kube-prometheus-kubernetes-system-kube-proxy
@@ -25,3 +25,12 @@ spec:
           for: 15m
           labels:
             severity: critical
+        - alert: KubeProxyInstanceUnreachable
+          annotations:
+            description: A KubeProxy instance has been unreachable for more than 15 minutes.
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeproxyinstanceunreachable
+            summary: KubeProxy instance is unreachable.
+          expr: up{job="kube-proxy"} == 0
+          for: 15m
+          labels:
+            severity: warning
