@@ -10,7 +10,7 @@
         jobTemplate.spec.template.spec = {
           restartPolicy = "Never";
           containers.renovate = {
-            image = "renovate/renovate:43.91.5";
+            image = "renovate/renovate:44.0.0";
             env = [
               {
                 name = "RENOVATE_CONFIG_FILE";
