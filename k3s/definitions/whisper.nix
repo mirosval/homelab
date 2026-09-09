@@ -22,7 +22,7 @@
             nodeSelector."kubernetes.io/hostname" = "homelab-02";
             containers.whisper = {
               name = "whisper";
-              image = "rhasspy/wyoming-whisper:3.5.0";
+              image = "rhasspy/wyoming-whisper:3.7.0";
               args = [
                 "--model"
                 "small-int8"

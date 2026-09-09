@@ -19,7 +19,7 @@ spec:
             - small-int8
             - --language
             - en
-          image: rhasspy/wyoming-whisper:3.5.0
+          image: rhasspy/wyoming-whisper:3.7.0
           name: whisper
           ports:
             - containerPort: 10300
