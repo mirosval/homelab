@@ -230,6 +230,9 @@ spec:
                                       - none
                                       - lax
                                       - strict
+                                      - None
+                                      - Lax
+                                      - Strict
                                     type: string
                                   secure:
                                     description: Secure defines whether the cookie can only be transmitted over an encrypted connection (i.e. HTTPS).
@@ -532,6 +535,9 @@ spec:
                                       - none
                                       - lax
                                       - strict
+                                      - None
+                                      - Lax
+                                      - Strict
                                     type: string
                                   secure:
                                     description: Secure defines whether the cookie can only be transmitted over an encrypted connection (i.e. HTTPS).
@@ -670,6 +676,9 @@ spec:
                                 - none
                                 - lax
                                 - strict
+                                - None
+                                - Lax
+                                - Strict
                               type: string
                             secure:
                               description: Secure defines whether the cookie can only be transmitted over an encrypted connection (i.e. HTTPS).
@@ -884,6 +893,9 @@ spec:
                                       - none
                                       - lax
                                       - strict
+                                      - None
+                                      - Lax
+                                      - Strict
                                     type: string
                                   secure:
                                     description: Secure defines whether the cookie can only be transmitted over an encrypted connection (i.e. HTTPS).
@@ -951,6 +963,9 @@ spec:
                                 - none
                                 - lax
                                 - strict
+                                - None
+                                - Lax
+                                - Strict
                               type: string
                             secure:
                               description: Secure defines whether the cookie can only be transmitted over an encrypted connection (i.e. HTTPS).

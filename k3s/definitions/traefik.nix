@@ -7,8 +7,8 @@
       chart = lib.helm.downloadHelmChart {
         repo = "https://traefik.github.io/charts";
         chart = "traefik";
-        version = "v39.0.7";
-        chartHash = "sha256-mWlRDqUaJbSR5TIk+3ekeNmqe1br7enMQm9ZAOv2GNI=";
+        version = "39.0.9";
+        chartHash = "sha256-6m1Bj02BEozrJ8ARUxLOsn/SWpXySvN+7IRIH2zobTA=";
       };
       values = {
         # redirect http -> https
