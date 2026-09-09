@@ -22,7 +22,7 @@
             nodeSelector."kubernetes.io/hostname" = "homelab-03";
             containers.piper = {
               name = "piper";
-              image = "rhasspy/wyoming-piper:2.3.1";
+              image = "rhasspy/wyoming-piper:2.4.3";
               args = [
                 "--voice"
                 "en_US-lessac-medium"
