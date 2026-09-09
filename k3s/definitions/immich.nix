@@ -8,13 +8,13 @@
       chart = lib.helm.downloadHelmChart {
         repo = "oci://ghcr.io/immich-app/immich-charts";
         chart = "immich";
-        version = "0.11.0";
-        chartHash = "sha256-DIJEe6Q1V/NCCQtkTKz1RyijnxHJvntXHA7z3lsCYW0=";
+        version = "0.13.1";
+        chartHash = "sha256-Ekk7MBUJYc+IOMdUzE2H0LPPrKoLbcwEilZIU/YO/kg=";
       };
 
       values = {
         controllers.main.containers.main = {
-          image.tag = "v2.7.5";
+          image.tag = "v3.1.0";
           env = {
             DB_HOSTNAME_FILE = "/etc/secret/host";
             DB_DATABASE_NAME = "postgres";
@@ -27,9 +27,7 @@
         immich = {
           persistence = {
             library = {
-              type = "persistentVolumeClaim";
               existingClaim = "pvc-immich-rw";
-              accessMode = "ReadWriteOnce";
             };
           };
         };
@@ -37,6 +35,8 @@
           enabled = true;
           persistence.data = {
             type = "persistentVolumeClaim";
+            accessMode = "ReadWriteOnce";
+            size = "1Gi";
             storageClass = "longhorn";
           };
         };
@@ -51,8 +51,6 @@
           };
           persistence = {
             photos = {
-              type = "persistentVolumeClaim";
-              accessMode = "ReadOnly";
               existingClaim = "pvc-photos-ro";
               advancedMounts.main.main = [
                 {
@@ -63,6 +61,7 @@
             };
             dburl = {
               type = "secret";
+              name = "immich-database-superuser";
               advancedMounts.main.main = [
                 {
                   readOnly = true;
@@ -84,10 +83,10 @@
           persistence = {
             cache = {
               type = "emptyDir";
-              accessMode = "ReadWriteMany";
             };
             dburl = {
               type = "secret";
+              name = "immich-database-superuser";
               advancedMounts.main.main = [
                 {
                   readOnly = true;
