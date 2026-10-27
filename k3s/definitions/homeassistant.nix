@@ -129,7 +129,7 @@
               }
               {
                 name = "tessera-ha-token";
-                secret.secretName = "tessera-ha-token";
+                secret.secretName = "tessera";
               }
             ];
           };

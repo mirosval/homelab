@@ -89,4 +89,4 @@ spec:
             claimName: tessera-data-pvc
         - name: tessera-ha-token
           secret:
-            secretName: tessera-ha-token
+            secretName: tessera
