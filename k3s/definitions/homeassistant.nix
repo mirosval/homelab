@@ -94,15 +94,24 @@
                 { containerPort = 8099; }
                 { containerPort = 8098; }
               ];
-              readinessProbe.httpGet = {
-                path = "/health";
-                port = 8099;
-              };
+              # Tessera's UI listens on 127.0.0.1 only, so the kubelet can't probe the pod IP.
+              readinessProbe.exec.command = [
+                "curl"
+                "--fail"
+                "--silent"
+                "--output"
+                "/dev/null"
+                "http://127.0.0.1:8099/health"
+              ];
               livenessProbe = {
-                httpGet = {
-                  path = "/health";
-                  port = 8099;
-                };
+                exec.command = [
+                  "curl"
+                  "--fail"
+                  "--silent"
+                  "--output"
+                  "/dev/null"
+                  "http://127.0.0.1:8099/health"
+                ];
                 initialDelaySeconds = 30;
               };
             };
@@ -173,12 +182,6 @@
         storageClassName = "longhorn";
       };
 
-      services.tessera-web.spec = {
-        ports.tessera-web.port = 8099;
-        selector.app = "home-assistant";
-        type = "ClusterIP";
-      };
-
       # Port 8098, used by the ESP screens (on a separate VLAN), so it needs a stable LAN IP.
       services.tessera-screens-lb = {
         metadata.annotations."metallb.universe.tf/address-pool" = "pool";
@@ -192,46 +195,6 @@
               targetPort = 8098;
             }
           ];
-        };
-      };
-
-      ingressRoutes.tessera.spec = {
-        entryPoints = [ "websecure" ];
-        routes = [
-          {
-            match = "Host(`tessera.doma.lol`)";
-            kind = "Rule";
-            services.tessera-web.port = 8099;
-          }
-        ];
-        tls = {
-          certResolver = "letsencrypt";
-          domains = [
-            {
-              main = "doma.lol";
-              sans = [ "*.doma.lol" ];
-            }
-          ];
-        };
-      };
-
-      ingresses.tessera.spec = {
-        ingressClassName = "traefik";
-        rules = [
-          {
-            host = "tessera.doma.lol";
-          }
-        ];
-      };
-
-      services.tessera-tailscale = {
-        metadata.annotations = {
-          "external-dns.alpha.kubernetes.io/hostname" = "tessera.doma.lol";
-          "external-dns.alpha.kubernetes.io/target" = "homelab.boreal-scala.ts.net";
-        };
-        spec = {
-          type = "ClusterIP";
-          clusterIP = "None";
         };
       };
 
