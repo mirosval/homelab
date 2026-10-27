@@ -7,6 +7,8 @@
 
       deployments.home-assistant.spec = {
         replicas = 1;
+        # HA refuses to start while another instance holds the same /config
+        strategy.type = "Recreate";
         selector.matchLabels.app = "home-assistant";
         template = {
           metadata.labels.app = "home-assistant";
@@ -62,7 +64,7 @@
                 }
                 {
                   name = "HA_TOKEN_FILE";
-                  value = "/run/secrets/ha_token";
+                  value = "/tessera-secrets/ha_token";
                 }
                 {
                   name = "ESPHOME_CONFIG";
@@ -83,7 +85,7 @@
                   name = "tessera-data";
                 }
                 {
-                  mountPath = "/run/secrets";
+                  mountPath = "/tessera-secrets";
                   name = "tessera-ha-token";
                   readOnly = true;
                 }

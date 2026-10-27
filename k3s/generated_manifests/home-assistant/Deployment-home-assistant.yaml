@@ -8,6 +8,8 @@ spec:
   selector:
     matchLabels:
       app: home-assistant
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -42,7 +44,7 @@ spec:
             - name: HA_API
               value: http://127.0.0.1:8123/api
             - name: HA_TOKEN_FILE
-              value: /run/secrets/ha_token
+              value: /tessera-secrets/ha_token
             - name: ESPHOME_CONFIG
               value: /config
             - name: SCREEN_DATA
@@ -66,7 +68,7 @@ spec:
               name: tessera-esphome
             - mountPath: /data
               name: tessera-data
-            - mountPath: /run/secrets
+            - mountPath: /tessera-secrets
               name: tessera-ha-token
               readOnly: true
       nodeSelector:
