@@ -115,6 +115,49 @@
                 initialDelaySeconds = 30;
               };
             };
+            # Installs the hass_ingress custom integration (sidebar proxy for Tessera's loopback-only UI)
+            # into /config/custom_components. Pinned release, checksum verified. Skips when that version
+            # is already installed, and never fails: a bad download must not keep Home Assistant from starting.
+            initContainers.install-hass-ingress = {
+              name = "install-hass-ingress";
+              image = "alpine:3.22";
+              command = [
+                "sh"
+                "-c"
+                ''
+                  VERSION=1.4.0
+                  SHA256=7b2255fa3f25b97d465c17336cae8188bcc4dfefd52677682f084c1e39a54cac
+                  DIR=/config/custom_components/ingress
+                  TMP=/config/custom_components/.ingress-new
+
+                  if grep -q "\"version\": \"$VERSION\"" "$DIR/manifest.json" 2>/dev/null; then
+                    echo "hass_ingress $VERSION already installed, nothing to do"
+                    exit 0
+                  fi
+
+                  rm -rf "$TMP" /tmp/ingress.zip
+                  if timeout 120 wget -q -T 30 -O /tmp/ingress.zip "https://github.com/lovelylain/hass_ingress/releases/download/$VERSION/ingress.zip" \
+                    && echo "$SHA256  /tmp/ingress.zip" | sha256sum -c - \
+                    && mkdir -p "$TMP" \
+                    && unzip -q /tmp/ingress.zip -d "$TMP" \
+                    && grep -q "\"version\": \"$VERSION\"" "$TMP/manifest.json" \
+                    && rm -rf "$DIR" \
+                    && mv "$TMP" "$DIR"; then
+                    echo "installed hass_ingress $VERSION"
+                  else
+                    echo "WARNING: could not install hass_ingress $VERSION, continuing without changes"
+                    rm -rf "$TMP"
+                  fi
+                  exit 0
+                ''
+              ];
+              volumeMounts = [
+                {
+                  mountPath = "/config";
+                  name = "home-assistant-config-volume";
+                }
+              ];
+            };
             # hostNetwork = true;
             nodeSelector.environment = "zigbee";
             volumes = [
