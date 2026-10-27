@@ -221,7 +221,7 @@
 
       persistentVolumeClaims.tessera-data-pvc.spec = {
         accessModes = [ "ReadWriteOnce" ];
-        resources.requests.storage = "1Gi";
+        resources.requests.storage = "10Gi";
         storageClassName = "longhorn";
       };
 
