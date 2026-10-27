@@ -34,6 +34,41 @@ spec:
               name: d-bus
             - mountPath: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_cc5121307674ef11af55c48c8fcc3fa0-if00-port0
               name: zigbee
+        - env:
+            - name: TZ
+              value: Europe/Berlin
+            - name: SCREEN_DEV
+              value: "1"
+            - name: HA_API
+              value: http://127.0.0.1:8123/api
+            - name: HA_TOKEN_FILE
+              value: /run/secrets/ha_token
+            - name: ESPHOME_CONFIG
+              value: /config
+            - name: SCREEN_DATA
+              value: /data
+          image: ghcr.io/maxgramser/homeassistant_espscreen:0.4.90
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8099
+            initialDelaySeconds: 30
+          name: tessera
+          ports:
+            - containerPort: 8099
+            - containerPort: 8098
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8099
+          volumeMounts:
+            - mountPath: /config
+              name: tessera-esphome
+            - mountPath: /data
+              name: tessera-data
+            - mountPath: /run/secrets
+              name: tessera-ha-token
+              readOnly: true
       nodeSelector:
         environment: zigbee
       volumes:
@@ -46,3 +81,12 @@ spec:
         - hostPath:
             path: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_cc5121307674ef11af55c48c8fcc3fa0-if00-port0
           name: zigbee
+        - name: tessera-esphome
+          persistentVolumeClaim:
+            claimName: tessera-esphome-pvc
+        - name: tessera-data
+          persistentVolumeClaim:
+            claimName: tessera-data-pvc
+        - name: tessera-ha-token
+          secret:
+            secretName: tessera-ha-token
